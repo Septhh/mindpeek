@@ -1,0 +1,436 @@
+<!DOCTYPE html><html lang="id"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>SerenityPath - Authentication</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Quicksand:wght@600;700&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-on-surface": "#ebf2f4",
+                      "error-container": "#ffdad6",
+                      "on-surface": "#161d1f",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed": "#bee9ff",
+                      "secondary-fixed-dim": "#8ad0f1",
+                      "on-primary": "#ffffff",
+                      "inverse-primary": "#76d6d5",
+                      "secondary": "#0d6683",
+                      "surface-bright": "#f4fafd",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-container": "#056380",
+                      "on-primary-fixed": "#002020",
+                      "surface-dim": "#d4dbdd",
+                      "tertiary-container": "#657675",
+                      "on-background": "#161d1f",
+                      "on-surface-variant": "#3e4949",
+                      "on-tertiary-container": "#ebfdfc",
+                      "tertiary-fixed": "#d4e6e5",
+                      "on-primary-fixed-variant": "#004f4f",
+                      "on-tertiary-fixed": "#0e1e1e",
+                      "primary": "#006565",
+                      "error": "#ba1a1a",
+                      "on-tertiary": "#ffffff",
+                      "surface-variant": "#dde4e6",
+                      "primary-fixed": "#93f2f2",
+                      "surface-container": "#e8eff1",
+                      "inverse-surface": "#2b3234",
+                      "outline": "#6e7979",
+                      "secondary-container": "#98deff",
+                      "tertiary-fixed-dim": "#b8cac9",
+                      "on-secondary-fixed": "#001f2a",
+                      "on-primary-container": "#e3fffe",
+                      "tertiary": "#4d5d5d",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-fixed-dim": "#76d6d5",
+                      "surface-tint": "#006a6a",
+                      "background": "#f4fafd",
+                      "primary-container": "#008080",
+                      "on-error": "#ffffff",
+                      "surface-container-high": "#e2e9ec",
+                      "surface": "#f4fafd",
+                      "surface-container-highest": "#dde4e6",
+                      "surface-container-low": "#eef5f7",
+                      "on-secondary-fixed-variant": "#004d65",
+                      "outline-variant": "#bdc9c8",
+                      "on-tertiary-fixed-variant": "#3a4a49"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "2xl": "1rem",
+                      "3xl": "1.5rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "section-gap": "80px",
+                      "gutter": "24px",
+                      "margin-desktop": "48px",
+                      "margin-mobile": "16px",
+                      "container-max": "1200px",
+                      "unit": "8px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": ["Quicksand"],
+                      "label-md": ["Inter"],
+                      "headline-lg": ["Quicksand"],
+                      "headline-xl": ["Quicksand"],
+                      "headline-md": ["Quicksand"],
+                      "body-lg": ["Inter"],
+                      "body-md": ["Inter"],
+                      "label-sm": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                      "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                      "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                      "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                      "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                      "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                      "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                      "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+        /* --- shared with main page, keeps the two screens feeling like one product --- */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .soft-shadow {
+            box-shadow: 0 10px 30px rgba(0, 101, 101, 0.08);
+        }
+        .is-floating {
+            width: 92% !important;
+            top: 16px !important;
+            border-radius: 16px !important;
+            box-shadow: 0 10px 30px rgba(0, 101, 101, 0.15) !important;
+            background-color: rgba(244, 250, 253, 0.95) !important;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        .form-transition {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .form-hidden {
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+            position: absolute;
+            visibility: hidden;
+            width: 100%;
+        }
+        .form-active {
+            opacity: 1;
+            transform: translateY(0);
+            position: relative;
+            visibility: visible;
+            width: 100%;
+        }
+        .loader {
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-right: 2px solid currentColor;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased flex flex-col min-h-screen">
+<!-- TopNavBar (same floating behaviour as the main page) -->
+<nav class="bg-surface/80 backdrop-blur-xl w-full mx-auto top-0 sticky z-50 transition-all duration-300 ease-in-out border-transparent is-floating" id="top-nav">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="flex items-center gap-4">
+<a class="font-headline-md text-headline-md font-bold text-primary" href="main_revisi_uy.html">SerenityPath</a>
+</div><button class="md:hidden text-primary"><span class="material-symbols-outlined text-3xl">menu</span></button>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md hover:bg-primary/5 transition-all duration-300" href="main_revisi_uy.html">Home</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md hover:bg-primary/5 transition-all duration-300" href="main_revisi_uy.html#stress-test">Stress Test</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md hover:bg-primary/5 transition-all duration-300" href="#">Contact Us</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-6 py-2 rounded-full font-label-md text-label-md transition-all duration-300 active:scale-95 border border-primary text-primary hover:bg-primary/5" id="nav-register-btn" type="button">Sign Up</button>
+<button class="px-6 py-2 rounded-full font-label-md text-label-md transition-all duration-300 active:scale-95 shadow-sm soft-shadow bg-primary text-on-primary hover:bg-primary/90" id="nav-login-btn" type="button">Sign In</button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow flex items-center justify-center py-12 px-margin-mobile relative z-20 w-full">
+<div class="glass-panel soft-shadow rounded-3xl relative overflow-hidden px-8 py-10 w-full max-w-md animate-fade-in-up">
+<div class="text-center mb-8 relative z-10">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight transition-colors duration-300" id="modal-title">Masuk ke SerenityPath</h1>
+<p class="text-on-surface-variant mt-2 text-sm font-body-md">Masuk untuk melanjutkan.</p>
+</div>
+<div class="hidden mb-4 p-3 rounded-xl text-center font-label-md transition-all duration-300" id="form-feedback"></div>
+<div class="relative min-h-[300px]">
+<!-- Login Form -->
+<form class="flex flex-col gap-5 relative z-10 form-transition form-active" id="login-form">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-3.5 text-outline-variant">mail</span>
+<input class="w-full p-3 pl-12 rounded-xl bg-surface-container-low border border-transparent focus:border-primary focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary font-body-md transition-all shadow-sm" id="login-email" placeholder="Email" required="" type="email">
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-3.5 text-outline-variant">lock</span>
+<input class="w-full p-3 pl-12 rounded-xl bg-surface-container-low border border-transparent focus:border-primary focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary font-body-md transition-all shadow-sm" id="login-password" placeholder="Password" required="" type="password">
+</div>
+<button class="mt-4 w-full py-3.5 bg-primary text-on-primary rounded-xl font-label-md hover:bg-primary/90 hover:shadow-md transition-all active:scale-[0.98] flex items-center justify-center" id="login-submit" type="submit">
+<span>Sign In</span>
+</button>
+<p class="text-center text-label-md text-on-surface-variant mt-2">Belum punya akun? <button class="text-secondary font-bold hover:text-secondary/80 hover:underline underline-offset-4 decoration-2 transition-all" id="show-register" type="button">Daftar</button></p>
+</form>
+<!-- Register Form -->
+<form class="flex flex-col gap-4 relative z-10 form-transition form-hidden" id="register-form">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-3.5 text-outline-variant">person</span>
+<input class="w-full p-3 pl-12 rounded-xl bg-surface-container-low border border-transparent focus:border-primary focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary font-body-md transition-all shadow-sm" id="register-name" placeholder="Nama Lengkap" required="" type="text">
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-3.5 text-outline-variant">mail</span>
+<input class="w-full p-3 pl-12 rounded-xl bg-surface-container-low border border-transparent focus:border-primary focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary font-body-md transition-all shadow-sm" id="register-email" placeholder="Email" required="" type="email">
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-3.5 text-outline-variant">calendar_today</span>
+<input class="w-full p-3 pl-12 rounded-xl bg-surface-container-low border border-transparent focus:border-primary focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary font-body-md text-on-surface-variant transition-all shadow-sm" id="register-dob" required="" title="Tanggal Lahir" type="date">
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-3.5 text-outline-variant">school</span>
+<select class="w-full p-3 pl-12 rounded-xl bg-surface-container-low border border-transparent focus:border-primary focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary font-body-md text-on-surface-variant transition-all shadow-sm appearance-none" id="register-education" required="">
+<option value="">Pilih Jenjang Pendidikan</option>
+<option value="smp">SMP / Sederajat</option>
+<option value="sma">SMA / Sederajat</option>
+<option value="kuliah">Perguruan Tinggi</option>
+</select>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-3.5 text-outline-variant">lock</span>
+<input class="w-full p-3 pl-12 rounded-xl bg-surface-container-low border border-transparent focus:border-primary focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary font-body-md transition-all shadow-sm" id="register-password" placeholder="Buat Password" required="" type="password">
+</div>
+<button class="mt-4 w-full py-3.5 bg-secondary text-on-secondary rounded-xl font-label-md hover:bg-secondary/90 hover:shadow-md transition-all active:scale-[0.98] flex items-center justify-center" id="register-submit" type="submit">
+<span>Sign Up</span>
+</button>
+<p class="text-center text-label-md text-on-surface-variant mt-2">Sudah punya akun? <button class="text-primary font-bold hover:text-primary/80 hover:underline underline-offset-4 decoration-2 transition-all" id="show-login" type="button">Masuk</button></p>
+</form>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low w-full">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-10 max-w-container-max mx-auto gap-gutter">
+<div class="flex flex-col items-center md:items-start gap-2">
+<span class="font-headline-md text-headline-md font-bold text-primary">SerenityPath</span>
+<span class="font-label-md text-label-md text-secondary">© 2024 SerenityPath. All rights reserved.</span>
+</div>
+<div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 transition-all duration-200 ease-in-out" href="#">Terms of Service</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 transition-all duration-200 ease-in-out" href="#">Privacy Policy</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 transition-all duration-200 ease-in-out" href="#">Contact Us</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 transition-all duration-200 ease-in-out" href="#">Help Center</a>
+</div>
+</div>
+</footer>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Floating nav on scroll — identical behaviour to the main page
+        const topNav = document.getElementById('top-nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 60) {
+                topNav.classList.add('is-floating');
+            } else {
+                topNav.classList.remove('is-floating');
+            }
+        });
+
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const showRegisterBtn = document.getElementById('show-register');
+        const showLoginBtn = document.getElementById('show-login');
+        const navRegisterBtn = document.getElementById('nav-register-btn');
+        const navLoginBtn = document.getElementById('nav-login-btn');
+        const modalTitle = document.getElementById('modal-title');
+        const feedbackEl = document.getElementById('form-feedback');
+
+        function setNavActive(target) {
+            if (target === 'login') {
+                navLoginBtn.className = 'px-6 py-2 rounded-full font-label-md text-label-md transition-all duration-300 active:scale-95 shadow-sm soft-shadow bg-primary text-on-primary hover:bg-primary/90';
+                navRegisterBtn.className = 'px-6 py-2 rounded-full font-label-md text-label-md transition-all duration-300 active:scale-95 border border-primary text-primary hover:bg-primary/5';
+            } else {
+                navRegisterBtn.className = 'px-6 py-2 rounded-full font-label-md text-label-md transition-all duration-300 active:scale-95 shadow-sm soft-shadow bg-secondary text-on-secondary hover:bg-secondary/90';
+                navLoginBtn.className = 'px-6 py-2 rounded-full font-label-md text-label-md transition-all duration-300 active:scale-95 border border-secondary text-secondary hover:bg-secondary/5';
+            }
+        }
+
+        function showLogin() {
+            registerForm.classList.remove('form-active');
+            registerForm.classList.add('form-hidden');
+            loginForm.classList.remove('form-hidden');
+            loginForm.classList.add('form-active');
+            modalTitle.textContent = 'Masuk ke SerenityPath';
+            modalTitle.className = 'font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight transition-colors duration-300';
+            setNavActive('login');
+        }
+
+        function showRegister() {
+            loginForm.classList.remove('form-active');
+            loginForm.classList.add('form-hidden');
+            registerForm.classList.remove('form-hidden');
+            registerForm.classList.add('form-active');
+            modalTitle.textContent = 'Daftar SerenityPath';
+            modalTitle.className = 'font-headline-lg-mobile text-headline-lg-mobile text-secondary tracking-tight transition-colors duration-300';
+            setNavActive('register');
+        }
+
+        function toggleForms() {
+            feedbackEl.classList.add('hidden');
+            feedbackEl.className = 'hidden mb-4 p-3 rounded-xl text-center font-label-md transition-all duration-300';
+
+            const isLoginVisible = loginForm.classList.contains('form-active');
+            if (isLoginVisible) {
+                showRegister();
+            } else {
+                showLogin();
+            }
+        }
+
+        showRegisterBtn.addEventListener('click', toggleForms);
+        showLoginBtn.addEventListener('click', toggleForms);
+        navRegisterBtn.addEventListener('click', () => {
+            feedbackEl.classList.add('hidden');
+            showRegister();
+        });
+        navLoginBtn.addEventListener('click', () => {
+            feedbackEl.classList.add('hidden');
+            showLogin();
+        });
+
+        // Handle initial state from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('state') === 'register' || window.location.hash === '#register') {
+            showRegister();
+        } else {
+            setNavActive('login');
+        }
+
+        function showFeedback(message, type) {
+            feedbackEl.textContent = message;
+            feedbackEl.classList.remove('hidden', 'bg-error-container', 'text-on-error-container', 'bg-primary-container', 'text-on-primary-container', 'bg-surface-container', 'text-on-surface');
+
+            if (type === 'success') {
+                feedbackEl.classList.add('bg-primary-container', 'text-on-primary-container');
+            } else if (type === 'error') {
+                feedbackEl.classList.add('bg-error-container', 'text-on-error-container');
+            } else {
+                feedbackEl.classList.add('bg-surface-container', 'text-on-surface');
+            }
+        }
+
+        function setLoading(btn, isLoading, originalText) {
+            if (isLoading) {
+                btn.disabled = true;
+                btn.innerHTML = `<span class="loader"></span> Loading...`;
+                btn.classList.add('opacity-80', 'cursor-not-allowed');
+            } else {
+                btn.disabled = false;
+                btn.innerHTML = `<span>${originalText}</span>`;
+                btn.classList.remove('opacity-80', 'cursor-not-allowed');
+            }
+        }
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+
+            if (!email || !password) {
+                showFeedback('Please fill in all fields.', 'error');
+                return;
+            }
+
+            const payload = { action: 'login', email, password };
+            console.log('API Request Payload:', payload);
+
+            const btn = document.getElementById('login-submit');
+            setLoading(btn, true, 'Sign In');
+            feedbackEl.classList.add('hidden');
+
+            // Simulate API call
+            setTimeout(() => {
+                setLoading(btn, false, 'Sign In');
+                showFeedback('Login successful! Redirecting...', 'success');
+                // Reset form optional
+                // loginForm.reset();
+            }, 1500);
+        });
+
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value.trim();
+            const email = document.getElementById('register-email').value.trim();
+            const dob = document.getElementById('register-dob').value.trim();
+            const education = document.getElementById('register-education').value.trim();
+            const password = document.getElementById('register-password').value.trim();
+
+            if (!name || !email || !dob || !education || !password) {
+                showFeedback('Please fill in all fields.', 'error');
+                return;
+            }
+
+            const payload = { action: 'register', name, email, dob, education, password };
+            console.log('API Request Payload:', payload);
+
+            const btn = document.getElementById('register-submit');
+            setLoading(btn, true, 'Sign Up');
+            feedbackEl.classList.add('hidden');
+
+            // Simulate API call
+            setTimeout(() => {
+                setLoading(btn, false, 'Sign Up');
+                showFeedback('Registration successful! Please sign in.', 'success');
+                registerForm.reset();
+                setTimeout(() => {
+                    showLogin();
+                }, 2000);
+            }, 1500);
+        });
+    });
+    </script>
+
+
+</body></html>

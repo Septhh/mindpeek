@@ -1,0 +1,277 @@
+<!DOCTYPE html><html lang="id"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>SerenityPath - Deteksi Stres Remaja</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Quicksand:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-on-surface": "#ebf2f4",
+                      "error-container": "#ffdad6",
+                      "on-surface": "#161d1f",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed": "#bee9ff",
+                      "secondary-fixed-dim": "#8ad0f1",
+                      "on-primary": "#ffffff",
+                      "inverse-primary": "#76d6d5",
+                      "secondary": "#0d6683",
+                      "surface-bright": "#f4fafd",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-container": "#056380",
+                      "on-primary-fixed": "#002020",
+                      "surface-dim": "#d4dbdd",
+                      "tertiary-container": "#657675",
+                      "on-background": "#161d1f",
+                      "on-surface-variant": "#3e4949",
+                      "on-tertiary-container": "#ebfdfc",
+                      "tertiary-fixed": "#d4e6e5",
+                      "on-primary-fixed-variant": "#004f4f",
+                      "on-tertiary-fixed": "#0e1e1e",
+                      "primary": "#006565",
+                      "error": "#ba1a1a",
+                      "on-tertiary": "#ffffff",
+                      "surface-variant": "#dde4e6",
+                      "primary-fixed": "#93f2f2",
+                      "surface-container": "#e8eff1",
+                      "inverse-surface": "#2b3234",
+                      "outline": "#6e7979",
+                      "secondary-container": "#98deff",
+                      "tertiary-fixed-dim": "#b8cac9",
+                      "on-secondary-fixed": "#001f2a",
+                      "on-primary-container": "#e3fffe",
+                      "tertiary": "#4d5d5d",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-fixed-dim": "#76d6d5",
+                      "surface-tint": "#006a6a",
+                      "background": "#f4fafd",
+                      "primary-container": "#008080",
+                      "on-error": "#ffffff",
+                      "surface-container-high": "#e2e9ec",
+                      "surface": "#f4fafd",
+                      "surface-container-highest": "#dde4e6",
+                      "surface-container-low": "#eef5f7",
+                      "on-secondary-fixed-variant": "#004d65",
+                      "outline-variant": "#bdc9c8",
+                      "on-tertiary-fixed-variant": "#3a4a49"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "section-gap": "80px",
+                      "gutter": "24px",
+                      "margin-desktop": "48px",
+                      "margin-mobile": "16px",
+                      "container-max": "1200px",
+                      "unit": "8px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": [
+                              "Quicksand"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Quicksand"
+                      ],
+                      "headline-xl": [
+                              "Quicksand"
+                      ],
+                      "headline-md": [
+                              "Quicksand"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-xl": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+            }
+          }
+        }
+      </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .soft-shadow {
+            box-shadow: 0 10px 30px rgba(0, 101, 101, 0.08);
+        }
+        .is-floating {
+            width: 92% !important;
+            top: 16px !important;
+            border-radius: 16px !important;
+            box-shadow: 0 10px 30px rgba(0, 101, 101, 0.15) !important;
+            background-color: rgba(244, 250, 253, 0.95) !important;
+        }
+      </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<nav class="bg-surface/80 backdrop-blur-xl w-full mx-auto top-0 sticky z-50 transition-all duration-300 ease-in-out border-transparent is-floating" id="top-nav">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="flex items-center gap-4">
+<a class="font-headline-md text-headline-md font-bold text-primary" href="#">SerenityPath</a>
+</div><button class="md:hidden text-primary"><span class="material-symbols-outlined text-3xl">menu</span></button>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md text-label-md hover:bg-primary/5 transition-all duration-300 scale-95 transition-transform duration-200" href="#">Home</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md hover:bg-primary/5 transition-all duration-300" href="#">Stress Detection</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md hover:bg-primary/5 transition-all duration-300" href="#">Contact Us</a>
+</div>
+<div class="flex items-center gap-4"><button class="px-6 py-2 border border-primary text-primary rounded-full font-label-md text-label-md hover:bg-primary/5 transition-all duration-300 active:scale-95" onclick="window.location.href='Login_uy.html?state=register'">Sign Up</button>
+
+<button class="px-6 py-2 bg-primary text-on-primary rounded-full font-label-md text-label-md hover:bg-primary/90 transition-all duration-300 active:scale-95 shadow-sm soft-shadow" onclick="window.location.href='Login_uy.html'">Sign In</button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow flex flex-col items-center justify-center w-full px-margin-mobile md:px-margin-desktop py-10 md:py-section-gap gap-10 md:gap-section-gap max-w-container-max mx-auto">
+<!-- Hero Section -->
+<section class="w-full relative rounded-3xl overflow-hidden soft-shadow" style="min-height: 80vh;">
+<div class="absolute inset-0 bg-secondary-fixed-dim/20 z-0">
+<img class="w-full h-full object-cover opacity-80 mix-blend-overlay" data-alt="A serene, bright, and modern composition of teenagers relaxing outdoors in a beautiful, sunny park with lush green grass and soft sunlight. The scene uses a calm, supportive color palette featuring soft blues, greens, and bright whites. The mood is peaceful, uplifting, and focuses on mental wellness, with a clean, light-mode aesthetic suitable for a modern mental health web platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDehJOM_0kwEcH_BR-eMa5kxaqMpAEP2ETVAi9r25yurZptKQ2n4RTW0XeMs-ZJpUHjT9EfM69Au70WSxFsJMb9zN_R-xMLYrNR7BnaKmazYXbZEX_YCjTDWqpHVTmAaZbW2x1Rc_7755h-Q4w4k_tTGUbVWoAtlVvaXHc8hOfRAmZ8-z306B0Vsswe-TS2DSXicCSnT_bV1U4EGKkeC615BOy-GlkzF4NBOZZLB9BeP6m34_5cFAve2A">
+</div>
+<div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 py-16">
+<div class="glass-panel p-8 md:p-12 rounded-2xl max-w-3xl">
+<h1 class="font-headline-lg text-headline-lg md:text-5xl text-primary mb-6">Pentingnya kesehatan mental bagi remaja</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8 max-w-2xl mx-auto">Masa remaja adalah perjalanan menemukan diri. Kami di sini untuk memberikan ruang aman, cerita yang menginspirasi, dan pemahaman yang lebih baik tentang kondisi emosionalmu.</p>
+<p class="font-body-md text-body-md text-primary-container italic">"Slogan tentang ketenangan dan pertumbuhan"</p>
+</div>
+</div>
+</section>
+<!-- User Info / CTA Section -->
+<section class="w-full flex flex-col md:flex-row gap-gutter items-center justify-center gap-8">
+<!-- Info Card -->
+<div class="w-full md:w-1/2 bg-surface-bright rounded-xl p-8 border border-surface-container-highest soft-shadow flex flex-col gap-6">
+<div class="flex items-center gap-4 text-primary">
+<span class="material-symbols-outlined text-4xl">person</span>
+<h2 class="font-headline-md text-headline-md">Siapkan Profilmu</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Untuk pengalaman yang dipersonalisasi, kami akan membutuhkan beberapa informasi dasar saat kamu mendaftar:</p>
+<ul class="space-y-3 font-body-md text-body-md text-on-surface-variant ml-4">
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-secondary text-sm">mail</span> Email</li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-secondary text-sm">badge</span> Nama Lengkap</li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-secondary text-sm">cake</span> Tanggal Lahir (TTL)</li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-secondary text-sm">school</span> Jenjang Pendidikan</li>
+</ul>
+</div>
+<!-- CTA Card -->
+<div class="w-full md:w-1/2 bg-surface-container-low rounded-xl p-6 md:p-10 flex flex-col items-center justify-center text-center gap-6 md:gap-8 border border-tertiary-fixed-dim soft-shadow h-full">
+<h3 class="font-headline-lg text-headline-lg md:text-4xl text-primary-container">Mari kita cek tingkat stresmu</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">Ambil waktu sejenak untuk mengenali perasaanmu saat ini melalui tes singkat yang dirancang khusus untuk remaja.</p>
+<button class="px-8 py-4 bg-primary text-on-primary rounded-xl font-label-md text-label-md md:text-lg hover:bg-primary/90 transition-all duration-300 active:scale-95 shadow-md hover:shadow-lg flex items-center gap-2">
+                    Mulai Tes Stres <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low full-width bg-surface-container-low flat no shadows">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-10 max-w-container-max mx-auto gap-gutter">
+<div class="flex flex-col items-center md:items-start gap-2">
+<span class="font-headline-md text-headline-md font-bold text-primary">SerenityPath</span>
+<span class="font-label-md text-label-md text-secondary">© 2024 SerenityPath. All rights reserved.</span>
+</div>
+<div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 Transition-all duration-200 ease-in-out" href="#">Terms of Service</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 Transition-all duration-200 ease-in-out" href="#">Privacy Policy</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 Transition-all duration-200 ease-in-out" href="#">Contact Us</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 Transition-all duration-200 ease-in-out" href="#">Help Center</a>
+</div>
+</div>
+</footer>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const topNav = document.getElementById('top-nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 60) {
+                topNav.classList.add('is-floating');
+            } else {
+                topNav.classList.remove('is-floating');
+            }
+        });
+    });
+</script>
+
+
+
+
+
+
+</body></html>
