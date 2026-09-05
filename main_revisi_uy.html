@@ -191,12 +191,22 @@
 </div><button class="md:hidden text-primary"><span class="material-symbols-outlined text-3xl">menu</span></button>
 <div class="hidden md:flex gap-8 items-center">
 <a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md text-label-md hover:bg-primary/5 transition-all duration-300 scale-95 transition-transform duration-200" href="#">Home</a>
-<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md hover:bg-primary/5 transition-all duration-300" href="#">Stress Detection</a>
-<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md hover:bg-primary/5 transition-all duration-300" href="#">Contact Us</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md hover:bg-primary/5 transition-all duration-300" href="Login_uy_revisi.html" id="nav-stress-link">Stress Detection</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md hover:bg-primary/5 transition-all duration-300" href="#">Tentang Kami</a>
 </div>
-<div class="flex items-center gap-4"><button class="px-6 py-2 border border-primary text-primary rounded-full font-label-md text-label-md hover:bg-primary/5 transition-all duration-300 active:scale-95" onclick="window.location.href='Login_uy.html?state=register'">Sign Up</button>
+<div class="flex items-center gap-4" id="auth-buttons"><button class="px-6 py-2 border border-primary text-primary rounded-full font-label-md text-label-md hover:bg-primary/5 transition-all duration-300 active:scale-95" onclick="window.location.href='Login_uy_revisi.html?state=register'">Sign Up</button>
 
-<button class="px-6 py-2 bg-primary text-on-primary rounded-full font-label-md text-label-md hover:bg-primary/90 transition-all duration-300 active:scale-95 shadow-sm soft-shadow" onclick="window.location.href='Login_uy.html'">Sign In</button>
+<button class="px-6 py-2 bg-primary text-on-primary rounded-full font-label-md text-label-md hover:bg-primary/90 transition-all duration-300 active:scale-95 shadow-sm soft-shadow" onclick="window.location.href='Login_uy_revisi.html'">Sign In</button>
+</div>
+<div class="hidden items-center gap-2 relative" id="user-greeting">
+<button class="flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 hover:bg-primary/20 transition-all duration-300" id="user-greeting-btn" type="button">
+<span class="material-symbols-outlined text-primary text-xl">account_circle</span>
+<span class="font-label-md text-label-md text-primary" id="user-greeting-name">Hi, Pengguna</span>
+<span class="material-symbols-outlined text-primary text-base">expand_more</span>
+</button>
+<div class="hidden absolute right-0 top-full mt-2 bg-surface-container-lowest rounded-xl shadow-lg border border-outline-variant/30 py-2 w-40 z-50" id="user-dropdown">
+<button class="w-full text-left px-4 py-2 text-on-surface-variant hover:bg-surface-container-low hover:text-error font-label-md text-label-md" id="logout-btn" type="button">Keluar</button>
+</div>
 </div>
 </div>
 </nav>
@@ -210,7 +220,7 @@
 <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 py-16">
 <div class="glass-panel p-8 md:p-12 rounded-2xl max-w-3xl">
 <h1 class="font-headline-lg text-headline-lg md:text-5xl text-primary mb-6">Pentingnya kesehatan mental bagi remaja</h1>
-<p class="font-body-lg text-body-lg text-on-surface-variant mb-8 max-w-2xl mx-auto">Masa remaja adalah perjalanan menemukan diri. Kami di sini untuk memberikan ruang aman, cerita yang menginspirasi, dan pemahaman yang lebih baik tentang kondisi emosionalmu.</p>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8 max-w-2xl mx-auto">Masa remaja adalah perjalanan menemukan diri. Kami di sini untuk memberikan ruang aman, dan pemahaman yang lebih baik tentang kondisi emosionalmu.</p>
 <p class="font-body-md text-body-md text-primary-container italic">"Slogan tentang ketenangan dan pertumbuhan"</p>
 </div>
 </div>
@@ -220,10 +230,13 @@
 <!-- Info Card -->
 <div class="w-full md:w-1/2 bg-surface-bright rounded-xl p-8 border border-surface-container-highest soft-shadow flex flex-col gap-6">
 <div class="flex items-center gap-4 text-primary">
-<span class="material-symbols-outlined text-4xl">person</span>
-<h2 class="font-headline-md text-headline-md">Siapkan Profilmu</h2>
+<span class="material-symbols-outlined text-4xl" id="profile-card-icon">person</span>
+<h2 class="font-headline-md text-headline-md" id="profile-card-title">Siapkan Profilmu</h2>
 </div>
-<p class="font-body-md text-body-md text-on-surface-variant">Untuk pengalaman yang dipersonalisasi, kami akan membutuhkan beberapa informasi dasar saat kamu mendaftar:</p>
+
+<!-- Tampilan TAMU (belum login) -->
+<div id="profile-guest-content" class="flex flex-col gap-6">
+<p class="font-body-md text-body-md text-on-surface-variant">Untuk pengalaman yang lebih personal, kami butuh informasi untuk memaksimalkan manfaat dari layanan kami:</p>
 <ul class="space-y-3 font-body-md text-body-md text-on-surface-variant ml-4">
 <li class="flex items-center gap-3"><span class="material-symbols-outlined text-secondary text-sm">mail</span> Email</li>
 <li class="flex items-center gap-3"><span class="material-symbols-outlined text-secondary text-sm">badge</span> Nama Lengkap</li>
@@ -231,11 +244,50 @@
 <li class="flex items-center gap-3"><span class="material-symbols-outlined text-secondary text-sm">school</span> Jenjang Pendidikan</li>
 </ul>
 </div>
+
+<!-- Tampilan SUDAH LOGIN: statistik kesehatan mental (placeholder, menunggu data tes tersimpan) -->
+<div id="profile-user-content" class="hidden flex-col gap-5">
+<p class="font-body-md text-body-md text-on-surface-variant">Ringkasan tiga jenis tes yang akan kamu jalani, dan bagaimana perkembanganmu dari waktu ke waktu.</p>
+<div class="grid grid-cols-3 gap-3">
+<div class="flex flex-col items-center gap-2">
+<div class="relative w-16 h-16 rounded-full flex items-center justify-center" style="background: conic-gradient(#dde4e6 0deg 360deg);">
+<div class="absolute w-11 h-11 bg-surface-bright rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant text-base">psychology</span>
+</div>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-semibold">PHQ-9</span>
+<span class="font-label-md text-on-surface-variant" style="font-size: 10px;">Belum ada data</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="relative w-16 h-16 rounded-full flex items-center justify-center" style="background: conic-gradient(#dde4e6 0deg 360deg);">
+<div class="absolute w-11 h-11 bg-surface-bright rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant text-base">groups</span>
+</div>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-semibold">SVS</span>
+<span class="font-label-md text-on-surface-variant" style="font-size: 10px;">Segera hadir</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="relative w-16 h-16 rounded-full flex items-center justify-center" style="background: conic-gradient(#dde4e6 0deg 360deg);">
+<div class="absolute w-11 h-11 bg-surface-bright rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant text-base">bolt</span>
+</div>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-semibold">PSS</span>
+<span class="font-label-md text-on-surface-variant" style="font-size: 10px;">Segera hadir</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-4 border border-outline-variant/30">
+<p class="font-label-md text-label-md text-secondary mb-2 flex items-center gap-1"><span class="material-symbols-outlined text-sm">trending_up</span> PERKEMBANGAN DARI WAKTU KE WAKTU</p>
+<p class="font-body-md text-body-md text-on-surface-variant" style="font-size: 13px;">Grafik perkembanganmu akan muncul di sini setelah kamu menyelesaikan tes secara berkala.</p>
+</div>
+</div>
+</div>
 <!-- CTA Card -->
 <div class="w-full md:w-1/2 bg-surface-container-low rounded-xl p-6 md:p-10 flex flex-col items-center justify-center text-center gap-6 md:gap-8 border border-tertiary-fixed-dim soft-shadow h-full">
 <h3 class="font-headline-lg text-headline-lg md:text-4xl text-primary-container">Mari kita cek tingkat stresmu</h3>
-<p class="font-body-md text-body-md text-on-surface-variant max-w-md">Ambil waktu sejenak untuk mengenali perasaanmu saat ini melalui tes singkat yang dirancang khusus untuk remaja.</p>
-<button class="px-8 py-4 bg-primary text-on-primary rounded-xl font-label-md text-label-md md:text-lg hover:bg-primary/90 transition-all duration-300 active:scale-95 shadow-md hover:shadow-lg flex items-center gap-2">
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">Ambil waktu sejenak untuk mengenali keadaanmu saat ini melalui tes singkat yang dirancang khusus untuk remaja.</p>
+<button class="px-8 py-4 bg-primary text-on-primary rounded-xl font-label-md text-label-md md:text-lg hover:bg-primary/90 transition-all duration-300 active:scale-95 shadow-md hover:shadow-lg flex items-center gap-2" id="cta-test-btn">
                     Mulai Tes Stres <span class="material-symbols-outlined">arrow_forward</span>
 </button>
 </div>
@@ -251,12 +303,77 @@
 <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
 <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 Transition-all duration-200 ease-in-out" href="#">Terms of Service</a>
 <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 Transition-all duration-200 ease-in-out" href="#">Privacy Policy</a>
-<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 Transition-all duration-200 ease-in-out" href="#">Contact Us</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 Transition-all duration-200 ease-in-out" href="#">Tentang Kami</a>
 <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 Transition-all duration-200 ease-in-out" href="#">Help Center</a>
 </div>
 </div>
 </footer>
 <script>
+    /**
+     * =====================================================================
+     * STATUS LOGIN — disimpan di localStorage browser (bukan cookie/session
+     * server) karena tiap halaman (main/login/tes) adalah reload penuh,
+     * bukan single-page app. Diisi oleh Login_uy_revisi.html saat login
+     * berhasil, dibaca di sini untuk menentukan tampilan nav & kartu profil.
+     *
+     * CATATAN: localStorage TIDAK berfungsi di pratinjau bawaan Claude,
+     * tapi akan bekerja normal begitu file ini dibuka/di-hosting sungguhan
+     * di browser.
+     * =====================================================================
+     */
+    function getLoggedInUser() {
+        try {
+            const raw = localStorage.getItem('sp_user');
+            return raw ? JSON.parse(raw) : null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    function logoutUser() {
+        localStorage.removeItem('sp_user');
+        window.location.href = 'main_revisi_uy.html';
+    }
+
+    function applyAuthState() {
+        const user = getLoggedInUser();
+
+        const authButtons = document.getElementById('auth-buttons');
+        const userGreeting = document.getElementById('user-greeting');
+        const greetingName = document.getElementById('user-greeting-name');
+        const navStressLink = document.getElementById('nav-stress-link');
+        const ctaTestBtn = document.getElementById('cta-test-btn');
+        const profileIcon = document.getElementById('profile-card-icon');
+        const profileTitle = document.getElementById('profile-card-title');
+        const profileGuestContent = document.getElementById('profile-guest-content');
+        const profileUserContent = document.getElementById('profile-user-content');
+
+        if (user) {
+            authButtons.style.display = 'none';
+            userGreeting.style.display = 'flex';
+            greetingName.textContent = 'Hi, ' + (user.name ? user.name.split(' ')[0] : 'Pengguna');
+
+            navStressLink.href = 'stress_detection__2_.html';
+            ctaTestBtn.onclick = () => { window.location.href = 'stress_detection__2_.html'; };
+
+            profileIcon.textContent = 'monitor_heart';
+            profileTitle.textContent = 'Tentang Dirimu';
+            profileGuestContent.style.display = 'none';
+            profileUserContent.style.display = 'flex';
+        } else {
+            authButtons.style.display = 'flex';
+            userGreeting.style.display = 'none';
+
+            navStressLink.href = 'Login_uy_revisi.html';
+            ctaTestBtn.onclick = () => { window.location.href = 'Login_uy_revisi.html'; };
+
+            profileIcon.textContent = 'person';
+            profileTitle.textContent = 'Siapkan Profilmu';
+            profileGuestContent.style.display = 'flex';
+            profileUserContent.style.display = 'none';
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         const topNav = document.getElementById('top-nav');
         window.addEventListener('scroll', () => {
@@ -266,6 +383,18 @@
                 topNav.classList.remove('is-floating');
             }
         });
+
+        applyAuthState();
+
+        // Dropdown "Hi, {nama}" -> tombol Keluar
+        const greetingBtn = document.getElementById('user-greeting-btn');
+        const dropdown = document.getElementById('user-dropdown');
+        greetingBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdown.classList.toggle('hidden');
+        });
+        document.addEventListener('click', () => dropdown.classList.add('hidden'));
+        document.getElementById('logout-btn').addEventListener('click', logoutUser);
     });
 </script>
 

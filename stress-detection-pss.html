@@ -1,0 +1,750 @@
+<!DOCTYPE html><html lang="id"><head>
+<meta charset="utf-8">
+<!-- Penjaga akses: kalau belum login, langsung alihkan ke halaman login sebelum halaman ini sempat tampil -->
+<script>
+    (function () {
+        try {
+            if (!localStorage.getItem('sp_user')) {
+                window.location.replace('Login_uy_revisi.html');
+            }
+        } catch (e) { /* localStorage tidak tersedia (mis. pratinjau Claude) */ }
+    })();
+</script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>SerenityPath - Tes Stres (PSS-10)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Quicksand:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-on-surface": "#ebf2f4",
+                      "error-container": "#ffdad6",
+                      "on-surface": "#161d1f",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed": "#bee9ff",
+                      "secondary-fixed-dim": "#8ad0f1",
+                      "on-primary": "#ffffff",
+                      "inverse-primary": "#76d6d5",
+                      "secondary": "#0d6683",
+                      "surface-bright": "#f4fafd",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-container": "#056380",
+                      "on-primary-fixed": "#002020",
+                      "surface-dim": "#d4dbdd",
+                      "tertiary-container": "#657675",
+                      "on-background": "#161d1f",
+                      "on-surface-variant": "#3e4949",
+                      "on-tertiary-container": "#ebfdfc",
+                      "tertiary-fixed": "#d4e6e5",
+                      "on-primary-fixed-variant": "#004f4f",
+                      "on-tertiary-fixed": "#0e1e1e",
+                      "primary": "#006565",
+                      "error": "#ba1a1a",
+                      "on-tertiary": "#ffffff",
+                      "surface-variant": "#dde4e6",
+                      "primary-fixed": "#93f2f2",
+                      "surface-container": "#e8eff1",
+                      "inverse-surface": "#2b3234",
+                      "outline": "#6e7979",
+                      "secondary-container": "#98deff",
+                      "tertiary-fixed-dim": "#b8cac9",
+                      "on-secondary-fixed": "#001f2a",
+                      "on-primary-container": "#e3fffe",
+                      "tertiary": "#4d5d5d",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-fixed-dim": "#76d6d5",
+                      "surface-tint": "#006a6a",
+                      "background": "#f4fafd",
+                      "primary-container": "#008080",
+                      "on-error": "#ffffff",
+                      "surface-container-high": "#e2e9ec",
+                      "surface": "#f4fafd",
+                      "surface-container-highest": "#dde4e6",
+                      "surface-container-low": "#eef5f7",
+                      "on-secondary-fixed-variant": "#004d65",
+                      "outline-variant": "#bdc9c8",
+                      "on-tertiary-fixed-variant": "#3a4a49"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "2xl": "1rem",
+                      "3xl": "1.5rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "section-gap": "80px",
+                      "gutter": "24px",
+                      "margin-desktop": "48px",
+                      "margin-mobile": "16px",
+                      "container-max": "1200px",
+                      "unit": "8px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": ["Quicksand"],
+                      "label-md": ["Inter"],
+                      "headline-lg": ["Quicksand"],
+                      "headline-xl": ["Quicksand"],
+                      "headline-md": ["Quicksand"],
+                      "body-lg": ["Inter"],
+                      "body-md": ["Inter"],
+                      "label-sm": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                      "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                      "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                      "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                      "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                      "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                      "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                      "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }]
+              }
+            }
+          }
+        }
+      </script>
+<style>
+        :root {
+            /* Kurva ease-in-cubic murni — dipakai konsisten di semua animasi
+               kecuali animasi "muncul" PPS bar yang dijelaskan terpisah. */
+            --ease-in-cubic: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .soft-shadow {
+            box-shadow: 0 10px 30px rgba(0, 101, 101, 0.08);
+        }
+        .is-floating {
+            width: 92% !important;
+            top: 16px !important;
+            border-radius: 16px !important;
+            box-shadow: 0 10px 30px rgba(0, 101, 101, 0.15) !important;
+            background-color: rgba(244, 250, 253, 0.95) !important;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
+
+        /* ============ STACK SOAL + BLUR REVEAL ============ */
+        #questions-stack {
+            position: relative;
+        }
+        .question-block {
+            scroll-margin-top: 190px; /* supaya auto-scroll tidak ketutup nav + PPS bar */
+            margin-bottom: 120px;     /* ruang untuk tombol "Lanjut" mengambang di bawahnya */
+            filter: blur(11px);
+            opacity: 0.35;            /* dikombinasikan dgn blur utk kesan ~70% buram */
+            transform: scale(0.97);
+            pointer-events: none;
+            user-select: none;
+            transition: filter 0.7s var(--ease-in-cubic),
+                        opacity 0.7s var(--ease-in-cubic),
+                        transform 0.7s var(--ease-in-cubic);
+        }
+        @media (min-width: 640px) {
+            .question-block { margin-bottom: 140px; }
+        }
+        .question-block.active {
+            filter: blur(0);
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .intensity-btn { transition: all 0.2s ease; }
+        .intensity-btn:hover { transform: translateY(-2px); }
+        .intensity-btn.selected {
+            background-color: #006565;
+            color: #ffffff;
+            box-shadow: 0 8px 20px rgba(0, 101, 101, 0.25);
+            transform: translateY(-2px);
+        }
+        .intensity-btn.selected .intensity-number { color: #ffffff; }
+
+        /* ============ TOMBOL "LANJUT" MELUNCUR TURUN ============ */
+        #next-btn {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: top 0.7s var(--ease-in-cubic), opacity 0.4s ease;
+            z-index: 10;
+        }
+        #next-btn.visible { opacity: 1; }
+
+        /* ============ PPS BAR: muncul "plop" lalu jadi wadah kaca ============ */
+        #pps-wrapper {
+            position: fixed;
+            top: 84px; /* nilai awal, akan disesuaikan otomatis via JS (positionPpsBar) */
+            left: 50%;
+            width: 92%;
+            max-width: 640px;
+            z-index: 40;
+            padding: 6px 2px;
+            transform-origin: left center;
+            transform: translateX(-50%) scaleX(0);
+            opacity: 0;
+            transition: transform 0.7s var(--ease-in-cubic),
+                        opacity 0.35s ease,
+                        top 0.3s ease,
+                        background-color 0.6s var(--ease-in-cubic),
+                        border-radius 0.6s var(--ease-in-cubic),
+                        box-shadow 0.6s var(--ease-in-cubic),
+                        padding 0.6s var(--ease-in-cubic),
+                        border-color 0.6s var(--ease-in-cubic);
+        }
+        #pps-wrapper.visible {
+            opacity: 1;
+            transform: translateX(-50%) scaleX(1);
+        }
+        /* "wadah" kaca semi-transparan setelah pindah ke soal ke-2 dst */
+        #pps-wrapper.docked {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            padding: 14px 20px;
+            box-shadow: 0 10px 30px rgba(0, 101, 101, 0.15);
+        }
+        #pps-track {
+            width: 100%;
+            height: 8px;
+            border-radius: 9999px;
+            background-color: #dde4e6;
+            overflow: hidden;
+        }
+        #pps-fill {
+            height: 100%;
+            border-radius: 9999px;
+            background-color: #006565;
+            width: 0%;
+            transition: width 0.6s var(--ease-in-cubic);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<nav class="bg-surface/80 backdrop-blur-xl w-full mx-auto top-0 sticky z-50 transition-all duration-300 ease-in-out border-transparent is-floating" id="top-nav">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="flex items-center gap-4">
+<a class="font-headline-md text-headline-md font-bold text-primary" href="main_revisi_uy.html">SerenityPath</a>
+</div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md hover:bg-primary/5 transition-all duration-300" href="main_revisi_uy.html">Home</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md text-label-md hover:bg-primary/5 transition-all duration-300" href="#">Tes Stres</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md hover:bg-primary/5 transition-all duration-300" href="#">Contact Us</a>
+</div>
+<div class="hidden md:flex items-center gap-4" id="auth-buttons">
+<button class="px-6 py-2 border border-primary text-primary rounded-full font-label-md text-label-md hover:bg-primary/5 transition-all duration-300 active:scale-95" onclick="window.location.href='Login_uy_revisi.html?state=register'">Sign Up</button>
+<button class="px-6 py-2 bg-primary text-on-primary rounded-full font-label-md text-label-md hover:bg-primary/90 transition-all duration-300 active:scale-95 shadow-sm soft-shadow" onclick="window.location.href='Login_uy_revisi.html'">Sign In</button>
+</div>
+<div class="hidden items-center gap-2 relative" id="user-greeting">
+<button class="flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 hover:bg-primary/20 transition-all duration-300" id="user-greeting-btn" type="button">
+<span class="material-symbols-outlined text-primary text-xl">account_circle</span>
+<span class="font-label-md text-label-md text-primary" id="user-greeting-name">Hi, Pengguna</span>
+<span class="material-symbols-outlined text-primary text-base">expand_more</span>
+</button>
+<div class="hidden absolute right-0 top-full mt-2 bg-surface-container-lowest rounded-xl shadow-lg border border-outline-variant/30 py-2 w-40 z-50" id="user-dropdown">
+<button class="w-full text-left px-4 py-2 text-on-surface-variant hover:bg-surface-container-low hover:text-error font-label-md text-label-md" id="logout-btn" type="button">Keluar</button>
+</div>
+</div>
+<button aria-expanded="false" aria-label="Buka menu" class="md:hidden text-primary p-2 -mr-2" id="menu-toggle" type="button"><span class="material-symbols-outlined text-3xl" id="menu-icon">menu</span></button>
+</div>
+<!-- Menu mobile -->
+<div class="hidden md:hidden flex-col gap-1 px-margin-mobile pb-5 pt-1" id="mobile-menu">
+<a class="text-on-surface-variant py-3 px-3 rounded-lg hover:bg-primary/5 font-label-md text-label-md" href="main_revisi_uy.html">Home</a>
+<a class="text-primary font-bold py-3 px-3 rounded-lg bg-primary/5 font-label-md text-label-md" href="#">Tes Stres</a>
+<a class="text-on-surface-variant py-3 px-3 rounded-lg hover:bg-primary/5 font-label-md text-label-md" href="#">Contact Us</a>
+<div class="flex flex-col gap-3 mt-3 pt-3 border-t border-outline-variant/40" id="mobile-auth-buttons">
+<button class="w-full px-6 py-3 border border-primary text-primary rounded-full font-label-md text-label-md active:scale-95" onclick="window.location.href='Login_uy_revisi.html?state=register'">Sign Up</button>
+<button class="w-full px-6 py-3 bg-primary text-on-primary rounded-full font-label-md text-label-md active:scale-95 shadow-sm soft-shadow" onclick="window.location.href='Login_uy_revisi.html'">Sign In</button>
+</div>
+<div class="hidden flex-col gap-1 mt-3 pt-3 border-t border-outline-variant/40" id="mobile-user-greeting">
+<p class="px-3 pb-1 font-label-md text-label-md text-primary font-semibold" id="mobile-user-greeting-name">Hi, Pengguna</p>
+<button class="text-left px-3 py-2 rounded-lg hover:bg-surface-container-low hover:text-error text-on-surface-variant font-label-md text-label-md" id="mobile-logout-btn" type="button">Keluar</button>
+</div>
+</div>
+<!-- Stepper 3 bagian tes: menyatu dengan nav supaya ikut mengambang & jadi acuan posisi PPS bar -->
+<div class="flex items-center w-full px-margin-mobile md:px-margin-desktop pb-3 pt-1 max-w-container-max mx-auto" id="test-stepper">
+<div class="flex flex-col items-center gap-1 flex-1" data-step="phq9">
+<div class="w-7 h-7 rounded-full flex items-center justify-center bg-primary text-on-primary" id="step-icon-phq9"><span class="material-symbols-outlined" style="font-size: 16px;">check</span></div>
+<span class="font-label-md text-on-surface-variant" style="font-size: 10px;">PHQ-9</span>
+</div>
+<div class="flex-1 h-0.5 bg-primary/50 mb-4" id="step-line-1"></div>
+<div class="flex flex-col items-center gap-1 flex-1" data-step="pss10">
+<div class="w-7 h-7 rounded-full flex items-center justify-center bg-primary text-on-primary font-label-md" style="font-size: 12px;" id="step-icon-pss10">2</div>
+<span class="font-label-md text-primary font-semibold" style="font-size: 10px;">PSS-10</span>
+</div>
+<div class="flex-1 h-0.5 bg-outline-variant/50 mb-4" id="step-line-2"></div>
+<div class="flex flex-col items-center gap-1 flex-1" data-step="svs">
+<div class="w-7 h-7 rounded-full flex items-center justify-center bg-surface-container-highest text-on-surface-variant font-label-md" style="font-size: 12px;" id="step-icon-svs">3</div>
+<span class="font-label-md text-on-surface-variant" style="font-size: 10px;">SVS</span>
+</div>
+</div>
+</nav>
+
+<!-- PPS BAR (Persentase Penyelesaian Soal) — muncul setelah "Mulai Tes" ditekan -->
+<div id="pps-wrapper">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-md text-label-md text-on-surface-variant" id="pps-label">Pertanyaan 1 dari 12</span>
+<span class="font-label-md text-label-md text-primary" id="pps-percent">0%</span>
+</div>
+<div id="pps-track"><div id="pps-fill"></div></div>
+</div>
+
+<!-- Main Content -->
+<main class="flex-grow flex flex-col items-center w-full px-margin-mobile md:px-margin-desktop py-10 md:py-section-gap max-w-container-max mx-auto">
+
+<!-- ===================== HERO + DISCLAIMER (selalu terlihat jelas) ===================== -->
+<section class="w-full flex flex-col items-center mb-16" id="hero-intro">
+<div class="glass-panel soft-shadow rounded-3xl p-6 sm:p-8 md:p-12 max-w-2xl w-full text-center animate-fade-in-up">
+
+<div class="flex justify-center mb-6">
+<span class="material-symbols-outlined text-primary bg-primary/10 rounded-full p-4 text-4xl">self_improvement</span>
+</div>
+
+<h1 class="font-headline-lg text-headline-lg md:text-4xl text-primary mb-2">Bagian 2: Skala Stres</h1>
+<p class="font-label-md text-label-md text-secondary font-semibold mb-4">Bagian 2 dari 3 · PSS-10</p>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8">Lanjut ya — kali ini pertanyaannya sedikit berbeda.</p>
+
+<div class="bg-secondary-container/40 border border-secondary/30 rounded-2xl p-5 text-left flex gap-4 mb-6">
+<span class="material-symbols-outlined text-secondary shrink-0">info</span>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-semibold mb-1">Perhatikan rentang waktunya berbeda dari bagian 1</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Bagian ini menanyakan perasaan dan pikiranmu selama <span class="font-semibold">1 bulan terakhir</span> (bukan 2 minggu seperti bagian sebelumnya). Jawablah sesuai apa yang benar-benar kamu rasakan.</p>
+</div>
+</div>
+
+<div class="bg-surface-container-low rounded-2xl p-5 text-left mb-8">
+<p class="font-label-md text-label-md text-on-surface-variant mb-1">Bagian ini memakai Perceived Stress Scale (PSS-10), alat ukur stres yang dipersepsikan, banyak dipakai dalam penelitian psikologi.</p>
+</div>
+
+<div class="grid grid-cols-3 gap-4 mb-8 text-left">
+<div class="flex flex-col items-center gap-1 p-3 rounded-xl bg-surface-container-low">
+<span class="material-symbols-outlined text-primary">quiz</span>
+<span class="font-label-md text-label-md text-on-surface-variant text-center">10 Pertanyaan</span>
+</div>
+<div class="flex flex-col items-center gap-1 p-3 rounded-xl bg-surface-container-low">
+<span class="material-symbols-outlined text-primary">schedule</span>
+<span class="font-label-md text-label-md text-on-surface-variant text-center">± 2 Menit</span>
+</div>
+<div class="flex flex-col items-center gap-1 p-3 rounded-xl bg-surface-container-low">
+<span class="material-symbols-outlined text-primary">lock</span>
+<span class="font-label-md text-label-md text-on-surface-variant text-center">Privat &amp; Rahasia</span>
+</div>
+</div>
+
+<p class="font-label-md text-label-md text-on-surface-variant" id="auto-start-note">Soal pertama akan terbuka otomatis dalam sesaat...</p>
+</div>
+</section>
+
+<!-- ===================== STACK SOAL (terisi otomatis via JS, semua terblur di awal) ===================== -->
+<section class="w-full flex flex-col items-center max-w-2xl mx-auto" id="questions-stack">
+<!-- question-block & result-block akan disisipkan di sini oleh JS -->
+<button class="px-8 py-3 bg-primary text-on-primary rounded-xl font-label-md text-label-md hover:bg-primary/90 transition-all duration-300 active:scale-95 shadow-md flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none" disabled="" id="next-btn">
+Lanjut <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-surface-container-low w-full mt-20">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-10 max-w-container-max mx-auto gap-gutter">
+<div class="flex flex-col items-center md:items-start gap-2">
+<span class="font-headline-md text-headline-md font-bold text-primary">SerenityPath</span>
+<span class="font-label-md text-label-md text-secondary">© 2024 SerenityPath. All rights reserved.</span>
+</div>
+<div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 transition-all duration-200 ease-in-out" href="#">Terms of Service</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 transition-all duration-200 ease-in-out" href="#">Privacy Policy</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 transition-all duration-200 ease-in-out" href="#">Contact Us</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 transition-all duration-200 ease-in-out" href="#">Help Center</a>
+</div>
+</div>
+</footer>
+
+<script>
+    /**
+     * =====================================================================
+     * SOAL TES — PSS-10 (Perceived Stress Scale-10), versi Bahasa Indonesia,
+     * sesuai dokumen referensi pengguna. Skala jawaban 5 tingkat (0-4):
+     *   0 = Tidak pernah
+     *   1 = Hampir tidak pernah (1-2 kali)
+     *   2 = Kadang-kadang (3-4 kali)
+     *   3 = Cukup sering (5-6 kali)
+     *   4 = Sangat sering (> 6 kali)
+     * Soal #4, #5, #7, #8 (favourable) ditandai "reverse: true" — skornya
+     * dibalik (4-x) sebelum dijumlahkan, sesuai rubrik resmi PSS-10
+     * (lihat fungsi finishTest()).
+     * =====================================================================
+     */
+    const ANSWER_OPTIONS = [
+        { value: 0, label: 'Tidak pernah' },
+        { value: 1, label: 'Hampir tidak pernah' },
+        { value: 2, label: 'Kadang-kadang' },
+        { value: 3, label: 'Cukup sering' },
+        { value: 4, label: 'Sangat sering' }
+    ];
+
+    const QUESTIONS = [
+        { category: 'PSS-10', text: 'Seberapa sering Anda merasa kecewa karena sesuatu yang terjadi di luar harapan Anda?' },
+        { category: 'PSS-10', text: 'Seberapa sering Anda merasa tidak mampu mengendalikan hal yang Anda anggap penting dalam hidup Anda?' },
+        { category: 'PSS-10', text: 'Seberapa sering Anda merasa sangat gelisah dan tertekan?' },
+        { category: 'PSS-10', text: 'Seberapa sering Anda merasa yakin dengan kemampuan Anda dalam menangani masalah-masalah pribadi Anda?', reverse: true },
+        { category: 'PSS-10', text: 'Seberapa sering Anda merasa bahwa segala sesuatu berjalan sesuai dengan keinginan Anda?', reverse: true },
+        { category: 'PSS-10', text: 'Seberapa sering Anda merasa bahwa Anda tidak mampu menyelesaikan hal-hal yang harus dikerjakan?' },
+        { category: 'PSS-10', text: 'Seberapa sering Anda mampu mengendalikan rasa mudah tersinggung dalam kehidupan Anda?', reverse: true },
+        { category: 'PSS-10', text: 'Seberapa sering Anda merasa senang dengan segala hal yang Anda lakukan?', reverse: true },
+        { category: 'PSS-10', text: 'Seberapa sering Anda merasa marah karena sesuatu yang terjadi di luar kendali Anda?' },
+        { category: 'PSS-10', text: 'Seberapa sering Anda mengalami banyak kesulitan sehingga Anda tidak mampu mengatasinya?' }
+    ];
+
+    const stack = document.getElementById('questions-stack');
+    const nextBtn = document.getElementById('next-btn');
+    const ppsWrapper = document.getElementById('pps-wrapper');
+    const ppsFill = document.getElementById('pps-fill');
+    const ppsLabel = document.getElementById('pps-label');
+    const ppsPercent = document.getElementById('pps-percent');
+    const topNav = document.getElementById('top-nav');
+
+    let currentIndex = -1; // -1 = belum mulai
+    const answers = new Array(QUESTIONS.length).fill(null);
+    let hasDocked = false; // penanda PPS bar sudah bertransformasi jadi wadah kaca
+
+    /* ---------- Posisikan PPS bar tepat di bawah navbar (termasuk stepper), di ukuran layar apapun ---------- */
+    function positionPpsBar() {
+        const navRect = topNav.getBoundingClientRect();
+        ppsWrapper.style.top = (navRect.bottom + 12) + 'px';
+    }
+
+    /* ---------- Stepper 3-bagian: PHQ-9 -> PSS-10 -> SVS ---------- */
+    function markStepDone(key) {
+        const icon = document.getElementById('step-icon-' + key);
+        if (!icon) return;
+        icon.textContent = 'check';
+        icon.className = 'w-7 h-7 rounded-full flex items-center justify-center bg-primary text-on-primary';
+        icon.style.fontSize = '16px';
+    }
+
+    function markStepActive(key) {
+        const icon = document.getElementById('step-icon-' + key);
+        const label = icon ? icon.parentElement.querySelector('span:last-child') : null;
+        if (!icon) return;
+        icon.className = 'w-7 h-7 rounded-full flex items-center justify-center bg-primary text-on-primary font-label-md';
+        icon.style.fontSize = '12px';
+        if (label) {
+            label.className = 'font-label-md text-primary font-semibold';
+            label.style.fontSize = '10px';
+        }
+    }
+
+    /* ---------- Bangun elemen tiap soal ---------- */
+    function buildQuestionBlock(q, index) {
+        const block = document.createElement('div');
+        block.className = 'question-block glass-panel soft-shadow rounded-3xl p-6 sm:p-8 md:p-12 w-full';
+        block.id = 'q-block-' + index;
+        block.dataset.index = index;
+
+        const backLink = index > 0
+            ? `<button type="button" class="back-link font-label-md text-label-md text-on-surface-variant hover:text-primary flex items-center gap-1 mb-6" data-target="${index - 1}"><span class="material-symbols-outlined text-base">arrow_back</span> Kembali</button>`
+            : '';
+
+        block.innerHTML = `
+            ${backLink}
+            <p class="font-label-md text-label-md text-secondary text-center mb-4">${q.category.toUpperCase()}</p>
+            <h2 class="font-headline-lg-mobile text-headline-lg-mobile md:text-headline-lg text-on-surface text-center mb-10">${q.text}</h2>
+            <div class="flex flex-row justify-between gap-1 sm:gap-2.5 intensity-options"></div>
+        `;
+
+        const optionsWrap = block.querySelector('.intensity-options');
+        ANSWER_OPTIONS.forEach((opt) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'intensity-btn flex-1 flex flex-col items-center justify-center gap-1 py-2.5 sm:py-4 px-0.5 rounded-lg sm:rounded-2xl bg-surface-container-low border border-outline-variant/40 hover:border-primary min-w-0';
+            btn.dataset.value = opt.value;
+            btn.innerHTML = `
+                <span class="intensity-number font-headline-md text-base sm:text-headline-md text-primary">${opt.value}</span>
+                <span class="intensity-label font-label-md text-on-surface-variant leading-tight text-center" style="font-size: 9px;">${opt.label}</span>
+            `;
+            btn.addEventListener('click', () => selectIntensity(index, opt.value));
+            optionsWrap.appendChild(btn);
+        });
+
+        block.querySelector('.back-link')?.addEventListener('click', (e) => {
+            const target = Number(e.currentTarget.dataset.target);
+            goToQuestion(target);
+        });
+
+        return block;
+    }
+
+    /* ---------- Bangun blok transisi ke bagian berikutnya (bukan hasil skor) ---------- */
+    function buildResultBlock() {
+        const block = document.createElement('div');
+        block.className = 'question-block glass-panel soft-shadow rounded-3xl p-6 sm:p-8 md:p-12 w-full text-center';
+        block.id = 'result-block';
+        block.innerHTML = `
+            <div class="flex justify-center mb-6">
+                <span class="material-symbols-outlined text-primary bg-primary/10 rounded-full p-4 text-4xl">task_alt</span>
+            </div>
+            <h2 class="font-headline-lg text-headline-lg md:text-4xl text-primary mb-4">Bagian 2 selesai!</h2>
+            <p class="font-body-lg text-body-lg text-on-surface-variant mb-6">Terima kasih sudah menyelesaikan dua bagian dengan jujur. Progresmu sudah tersimpan otomatis di perangkat ini.</p>
+
+            <div class="bg-surface-container-low rounded-2xl p-5 text-left mb-8 flex gap-4">
+                <span class="material-symbols-outlined text-secondary shrink-0">construction</span>
+                <div>
+                    <p class="font-body-md text-body-md text-on-surface font-semibold mb-1">Bagian 3 (SVS) sedang kami siapkan</p>
+                    <p class="font-body-md text-body-md text-on-surface-variant">Hasil lengkapmu — gabungan PHQ-9, PSS-10, dan SVS — akan bisa kamu lihat begitu bagian terakhir ini rilis. Tidak perlu mengulang dari awal; progresmu sudah aman tersimpan.</p>
+                </div>
+            </div>
+
+            <button class="px-8 py-3 bg-primary text-on-primary rounded-xl font-label-md text-label-md hover:bg-primary/90 transition-all duration-300 active:scale-95 shadow-md" onclick="window.location.href='main_revisi_uy.html'">Kembali ke Beranda</button>
+        `;
+        return block;
+    }
+
+    // Render semua soal + blok transisi ke dalam stack (sebelum tombol next-btn)
+    QUESTIONS.forEach((q, i) => stack.insertBefore(buildQuestionBlock(q, i), nextBtn));
+    stack.insertBefore(buildResultBlock(), nextBtn);
+
+    /* ---------- Pilih intensitas ---------- */
+    function selectIntensity(index, value) {
+        answers[index] = value;
+        const block = document.getElementById('q-block-' + index);
+        block.querySelectorAll('.intensity-btn').forEach((btn) => {
+            btn.classList.toggle('selected', Number(btn.dataset.value) === value);
+        });
+        if (index === currentIndex) {
+            nextBtn.disabled = false;
+        }
+    }
+
+    /* ---------- Posisikan tombol "Lanjut" tepat di bawah soal aktif ---------- */
+    function positionNextButton(activeBlock) {
+        const top = activeBlock.offsetTop + activeBlock.offsetHeight + 32; // jarak 32px di bawah kartu
+        nextBtn.style.top = top + 'px';
+        nextBtn.classList.add('visible');
+    }
+
+    /* ---------- Update PPS bar ---------- */
+    function updateProgress(index) {
+        const total = QUESTIONS.length;
+        const doneCount = Math.min(index + 1, total);
+        const percent = Math.round((doneCount / total) * 100);
+        ppsFill.style.width = percent + '%';
+        ppsPercent.textContent = percent + '%';
+        ppsLabel.textContent = index < total
+            ? `Pertanyaan ${index + 1} dari ${total}`
+            : 'Selesai!';
+    }
+
+    /* ---------- Pindah ke soal tertentu (dipakai start, next, & tombol kembali) ---------- */
+    function goToQuestion(targetIndex) {
+        // Buramkan kembali soal yang sedang aktif (jika ada & bukan hasil)
+        if (currentIndex >= 0 && currentIndex < QUESTIONS.length) {
+            document.getElementById('q-block-' + currentIndex).classList.remove('active');
+        }
+
+        currentIndex = targetIndex;
+        const targetBlock = document.getElementById('q-block-' + targetIndex);
+        targetBlock.classList.add('active');
+
+        updateProgress(targetIndex);
+        positionNextButton(targetBlock);
+        nextBtn.disabled = answers[targetIndex] === null;
+
+        // PPS bar bertransformasi jadi "wadah" kaca begitu masuk ke soal ke-2 dst
+        if (targetIndex >= 1 && !hasDocked) {
+            ppsWrapper.classList.add('docked');
+            hasDocked = true;
+        }
+
+        targetBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* ---------- Auto-mulai: tanpa tombol "Mulai Tes" lagi, langsung lanjut dari bagian sebelumnya ---------- */
+    function autoStart() {
+        positionPpsBar();
+        ppsWrapper.classList.add('visible');
+        goToQuestion(0);
+    }
+
+    /* ---------- Tombol Lanjut / Lihat Hasil ---------- */
+    nextBtn.addEventListener('click', () => {
+        if (currentIndex < QUESTIONS.length - 1) {
+            goToQuestion(currentIndex + 1);
+            nextBtn.innerHTML = currentIndex === QUESTIONS.length - 1
+                ? 'Lihat Hasil <span class="material-symbols-outlined">task_alt</span>'
+                : 'Lanjut <span class="material-symbols-outlined">arrow_forward</span>';
+        } else {
+            finishTest();
+        }
+    });
+
+    /* ---------- Interpretasi skor PSS-10 (disimpan untuk hasil akhir nanti setelah SVS selesai) ---------- */
+    function interpretPSS(score) {
+        if (score <= 13) return 'Stres tingkat rendah — dalam batas normal/wajar';
+        if (score <= 26) return 'Stres tingkat sedang — perlu perhatian dan strategi koping';
+        return 'Stres tingkat tinggi — perlu evaluasi dan intervensi profesional';
+    }
+
+    function finishTest() {
+        document.getElementById('q-block-' + currentIndex).classList.remove('active');
+        currentIndex = QUESTIONS.length; // posisi transisi
+
+        // --- Hitung skor PSS-10 dengan reverse scoring untuk soal #4,5,7,8 (favourable) ---
+        // Rumus reverse resmi PSS-10: skor final = 4 - skor asli
+        const pssScore = QUESTIONS.reduce((sum, q, i) => {
+            const raw = answers[i] || 0;
+            const finalValue = q.reverse ? (4 - raw) : raw;
+            return sum + finalValue;
+        }, 0);
+
+        // Simpan diam-diam untuk digabung jadi hasil akhir setelah semua bagian (PHQ-9, PSS-10, SVS) selesai
+        try {
+            localStorage.setItem('sp_test_pss10', JSON.stringify({
+                score: pssScore,
+                interpretation: interpretPSS(pssScore),
+                answers: answers,
+                completedAt: new Date().toISOString()
+            }));
+        } catch (e) { /* localStorage tidak tersedia (mis. pratinjau Claude) */ }
+
+        const resultBlock = document.getElementById('result-block');
+        resultBlock.classList.add('active');
+        updateProgress(QUESTIONS.length - 1);
+        nextBtn.classList.remove('visible');
+        resultBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // Tandai step PSS-10 selesai, SVS jadi berikutnya (belum aktif karena belum dibuat)
+        markStepDone('pss10');
+    }
+
+    // Reposisi tombol "Lanjut" & PPS bar bila ukuran layar berubah (mis. rotasi HP)
+    window.addEventListener('resize', () => {
+        positionPpsBar();
+        if (currentIndex >= 0 && currentIndex < QUESTIONS.length) {
+            positionNextButton(document.getElementById('q-block-' + currentIndex));
+        }
+    });
+
+    // ---- Status login: tampilkan "Hi, {nama}" di nav ----
+    function getLoggedInUser() {
+        try {
+            const raw = localStorage.getItem('sp_user');
+            return raw ? JSON.parse(raw) : null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    function logoutUser() {
+        localStorage.removeItem('sp_user');
+        window.location.href = 'Login_uy_revisi.html';
+    }
+
+    function applyAuthState() {
+        const user = getLoggedInUser();
+        const authButtons = document.getElementById('auth-buttons');
+        const userGreeting = document.getElementById('user-greeting');
+        const greetingName = document.getElementById('user-greeting-name');
+        const mobileAuthButtons = document.getElementById('mobile-auth-buttons');
+        const mobileUserGreeting = document.getElementById('mobile-user-greeting');
+        const mobileGreetingName = document.getElementById('mobile-user-greeting-name');
+
+        const firstName = user && user.name ? user.name.split(' ')[0] : 'Pengguna';
+
+        if (user) {
+            authButtons.style.display = 'none';
+            userGreeting.style.display = 'flex';
+            greetingName.textContent = 'Hi, ' + firstName;
+
+            mobileAuthButtons.style.display = 'none';
+            mobileUserGreeting.style.display = 'flex';
+            mobileGreetingName.textContent = 'Hi, ' + firstName;
+        } else {
+            authButtons.style.display = 'flex';
+            userGreeting.style.display = 'none';
+            mobileAuthButtons.style.display = 'flex';
+            mobileUserGreeting.style.display = 'none';
+        }
+    }
+
+    // Floating nav mengambang saat scroll — konsisten dgn halaman main & login
+    document.addEventListener('DOMContentLoaded', () => {
+        applyAuthState();
+
+        // Auto-mulai bagian 2 (PSS-10) — tanpa perlu tombol "Mulai Tes" lagi
+        setTimeout(autoStart, 700);
+
+        const greetingBtn = document.getElementById('user-greeting-btn');
+        const dropdown = document.getElementById('user-dropdown');
+        greetingBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdown.classList.toggle('hidden');
+        });
+        document.addEventListener('click', () => dropdown.classList.add('hidden'));
+        document.getElementById('logout-btn').addEventListener('click', logoutUser);
+        document.getElementById('mobile-logout-btn').addEventListener('click', logoutUser);
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 60) {
+                topNav.classList.add('is-floating');
+            } else {
+                topNav.classList.remove('is-floating');
+            }
+            // Nav yang mengambang sedikit berubah posisi -> PPS bar ikut menyesuaikan
+            positionPpsBar();
+        });
+
+        // ---- Toggle menu mobile ----
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+
+        function closeMenu() {
+            mobileMenu.classList.add('hidden');
+            mobileMenu.classList.remove('flex');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            menuIcon.textContent = 'menu';
+            positionPpsBar();
+        }
+
+        menuToggle.addEventListener('click', () => {
+            const isOpen = mobileMenu.classList.contains('flex');
+            if (isOpen) {
+                closeMenu();
+            } else {
+                mobileMenu.classList.remove('hidden');
+                mobileMenu.classList.add('flex');
+                menuToggle.setAttribute('aria-expanded', 'true');
+                menuIcon.textContent = 'close';
+                positionPpsBar();
+            }
+        });
+
+        mobileMenu.querySelectorAll('a, button').forEach((el) => {
+            el.addEventListener('click', closeMenu);
+        });
+
+        positionPpsBar();
+    });
+</script>
+
+
+</body></html>
