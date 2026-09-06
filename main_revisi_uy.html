@@ -245,41 +245,41 @@
 </ul>
 </div>
 
-<!-- Tampilan SUDAH LOGIN: statistik kesehatan mental (placeholder, menunggu data tes tersimpan) -->
+<!-- Tampilan SUDAH LOGIN: ringkasan hasil tes (diisi dari spreadsheet via kode.gs) -->
 <div id="profile-user-content" class="hidden flex-col gap-5">
-<p class="font-body-md text-body-md text-on-surface-variant">Ringkasan tiga jenis tes yang akan kamu jalani, dan bagaimana perkembanganmu dari waktu ke waktu.</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Ringkasan hasil tiga bagian tesmu (PHQ-9, PSS-10, dan SVS).</p>
 <div class="grid grid-cols-3 gap-3">
 <div class="flex flex-col items-center gap-2">
-<div class="relative w-16 h-16 rounded-full flex items-center justify-center" style="background: conic-gradient(#dde4e6 0deg 360deg);">
+<div class="relative w-16 h-16 rounded-full flex items-center justify-center" id="ring-phq9" style="background: conic-gradient(#dde4e6 0deg 360deg);">
 <div class="absolute w-11 h-11 bg-surface-bright rounded-full flex items-center justify-center">
 <span class="material-symbols-outlined text-on-surface-variant text-base">psychology</span>
 </div>
 </div>
 <span class="font-label-md text-label-md text-on-surface font-semibold">PHQ-9</span>
-<span class="font-label-md text-on-surface-variant" style="font-size: 10px;">Belum ada data</span>
+<span class="font-label-md text-on-surface-variant text-center" style="font-size: 10px;" id="status-phq9">Belum ada data</span>
 </div>
 <div class="flex flex-col items-center gap-2">
-<div class="relative w-16 h-16 rounded-full flex items-center justify-center" style="background: conic-gradient(#dde4e6 0deg 360deg);">
+<div class="relative w-16 h-16 rounded-full flex items-center justify-center" id="ring-pss" style="background: conic-gradient(#dde4e6 0deg 360deg);">
+<div class="absolute w-11 h-11 bg-surface-bright rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant text-base">bolt</span>
+</div>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-semibold">PSS-10</span>
+<span class="font-label-md text-on-surface-variant text-center" style="font-size: 10px;" id="status-pss">Belum ada data</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="relative w-16 h-16 rounded-full flex items-center justify-center" id="ring-svs" style="background: conic-gradient(#dde4e6 0deg 360deg);">
 <div class="absolute w-11 h-11 bg-surface-bright rounded-full flex items-center justify-center">
 <span class="material-symbols-outlined text-on-surface-variant text-base">groups</span>
 </div>
 </div>
 <span class="font-label-md text-label-md text-on-surface font-semibold">SVS</span>
-<span class="font-label-md text-on-surface-variant" style="font-size: 10px;">Segera hadir</span>
-</div>
-<div class="flex flex-col items-center gap-2">
-<div class="relative w-16 h-16 rounded-full flex items-center justify-center" style="background: conic-gradient(#dde4e6 0deg 360deg);">
-<div class="absolute w-11 h-11 bg-surface-bright rounded-full flex items-center justify-center">
-<span class="material-symbols-outlined text-on-surface-variant text-base">bolt</span>
+<span class="font-label-md text-on-surface-variant text-center" style="font-size: 10px;" id="status-svs">Belum ada data</span>
 </div>
 </div>
-<span class="font-label-md text-label-md text-on-surface font-semibold">PSS</span>
-<span class="font-label-md text-on-surface-variant" style="font-size: 10px;">Segera hadir</span>
-</div>
-</div>
-<div class="bg-surface-container-low rounded-xl p-4 border border-outline-variant/30">
-<p class="font-label-md text-label-md text-secondary mb-2 flex items-center gap-1"><span class="material-symbols-outlined text-sm">trending_up</span> PERKEMBANGAN DARI WAKTU KE WAKTU</p>
-<p class="font-body-md text-body-md text-on-surface-variant" style="font-size: 13px;">Grafik perkembanganmu akan muncul di sini setelah kamu menyelesaikan tes secara berkala.</p>
+<div class="bg-surface-container-low rounded-xl p-4 border border-outline-variant/30" id="interpretation-box">
+<p class="font-label-md text-label-md text-secondary mb-2 flex items-center gap-1"><span class="material-symbols-outlined text-sm">info</span> INTERPRETASI</p>
+<p class="font-body-md text-body-md text-on-surface-variant" style="font-size: 13px;" id="interpretation-text">Selesaikan ketiga bagian tes untuk melihat interpretasi hasilmu di sini.</p>
 </div>
 </div>
 </div>
@@ -321,6 +321,8 @@
      * di browser.
      * =====================================================================
      */
+    const API_URL = 'https://script.google.com/macros/s/AKfycby8kH8EaZjqZjtfFLkub4E6szeQo4TdIwx0TugF1UtpbzisBAy8RfGT9gZT7Wh_CtnEBw/exec';
+
     function getLoggedInUser() {
         try {
             const raw = localStorage.getItem('sp_user');
@@ -333,6 +335,116 @@
     function logoutUser() {
         localStorage.removeItem('sp_user');
         window.location.href = 'main_revisi_uy.html';
+    }
+
+    /**
+     * =====================================================================
+     * RINGKASAN HASIL TES — diambil dari spreadsheet (via kode.gs, action
+     * 'getResults') berdasarkan email user yang sedang login. Kalau server
+     * tidak terjangkau (mis. pratinjau ini), coba pakai cadangan tersimpan
+     * di localStorage ('sp_test_final') dari sesi tes terakhir di perangkat
+     * ini, supaya kartu tetap terisi.
+     * =====================================================================
+     */
+    function ringGradient(percent, color) {
+        const deg = Math.max(0, Math.min(100, percent)) * 3.6;
+        return `conic-gradient(${color} 0deg ${deg}deg, #dde4e6 ${deg}deg 360deg)`;
+    }
+
+    function renderResults(r) {
+        const ringPhq9 = document.getElementById('ring-phq9');
+        const ringPss = document.getElementById('ring-pss');
+        const ringSvs = document.getElementById('ring-svs');
+        const statusPhq9 = document.getElementById('status-phq9');
+        const statusPss = document.getElementById('status-pss');
+        const statusSvs = document.getElementById('status-svs');
+        const interpretationText = document.getElementById('interpretation-text');
+
+        const hasPhq9 = r.phq9Score !== undefined && r.phq9Score !== null && r.phq9Score !== '';
+        const hasPss = r.pssScore !== undefined && r.pssScore !== null && r.pssScore !== '';
+        const hasSvs = r.svsScore !== undefined && r.svsScore !== null && r.svsScore !== '';
+
+        if (hasPhq9) {
+            ringPhq9.style.background = ringGradient((Number(r.phq9Score) / 27) * 100, '#006565');
+            statusPhq9.textContent = 'Skor: ' + r.phq9Score;
+        }
+        if (hasPss) {
+            ringPss.style.background = ringGradient((Number(r.pssScore) / 40) * 100, '#0d6683');
+            statusPss.textContent = 'Skor: ' + r.pssScore;
+        }
+        if (hasSvs) {
+            ringSvs.style.background = ringGradient((Number(r.svsScore) / 80) * 100, '#4d5d5d');
+            statusSvs.textContent = 'Skor: ' + r.svsScore;
+        }
+
+        const interpretations = [];
+        if (hasPhq9 && r.phq9Interpretation) interpretations.push('PHQ-9: ' + r.phq9Interpretation);
+        if (hasPss && r.pssInterpretation) interpretations.push('PSS-10: ' + r.pssInterpretation);
+        if (hasSvs && r.svsInterpretation) interpretations.push('SVS: ' + r.svsInterpretation);
+
+        if (interpretations.length > 0) {
+            interpretationText.innerHTML = interpretations.join('<br><br>');
+        }
+    }
+
+    // Dipakai HANYA sebagai cadangan kalau server (kode.gs) tidak terjangkau.
+    // Sebelumnya fungsi ini tidak memeriksa pemilik data sama sekali — itulah
+    // sebabnya pindah akun tetap menampilkan hasil akun sebelumnya (data lama
+    // di localStorage browser ikut kebaca meski user login sudah berbeda).
+    // Sekarang wajib dicocokkan dengan email yang sedang login.
+    function loadResultsFromLocalFallback(currentEmail) {
+        try {
+            const raw = localStorage.getItem('sp_test_final');
+            if (!raw) {
+                console.warn('[SerenityPath] Tidak ada cadangan lokal (sp_test_final) untuk ditampilkan.');
+                return;
+            }
+            const data = JSON.parse(raw);
+
+            if (!data.email || data.email.toLowerCase() !== String(currentEmail).toLowerCase()) {
+                console.warn('[SerenityPath] Cadangan lokal ditemukan tapi milik akun lain (' + data.email + '), bukan akun yang sedang login (' + currentEmail + '). Diabaikan agar tidak salah tampil.');
+                return;
+            }
+
+            console.log('[SerenityPath] Menampilkan hasil dari cadangan lokal (server tidak terjangkau/gagal).');
+            renderResults({
+                phq9Score: data.phq9 ? data.phq9.score : null,
+                phq9Interpretation: data.phq9 ? data.phq9.interpretation : '',
+                pssScore: data.pss10 ? data.pss10.score : null,
+                pssInterpretation: data.pss10 ? data.pss10.interpretation : '',
+                svsScore: data.svs ? data.svs.score : null,
+                svsInterpretation: data.svs ? data.svs.interpretation : ''
+            });
+        } catch (e) { console.error('[SerenityPath] Gagal membaca cadangan lokal:', e); }
+    }
+
+    function loadTestResults(email) {
+        if (!email) return;
+
+        fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ action: 'getResults', email: email })
+        })
+            .then((res) => res.json())
+            .then((result) => {
+                // Log mentah ke console untuk debugging. Kalau result.success === false
+                // dengan message 'Aksi tidak dikenali.', artinya Web App Apps Script
+                // BELUM di-deploy ulang dengan kode kode.gs versi terbaru (lihat catatan
+                // di kode.gs). Kalau errornya soal parsing/HTML, biasanya izin akses
+                // deployment Apps Script belum "Anyone".
+                console.log('[SerenityPath] Respons getResults dari server:', result);
+                if (result.success && result.results) {
+                    renderResults(result.results);
+                } else {
+                    console.error('[SerenityPath] getResults gagal:', result && result.message);
+                    loadResultsFromLocalFallback(email);
+                }
+            })
+            .catch((err) => {
+                console.error('[SerenityPath] Gagal menghubungi server saat getResults (network/CORS/deploy):', err);
+                loadResultsFromLocalFallback(email);
+            });
     }
 
     function applyAuthState() {
@@ -360,6 +472,8 @@
             profileTitle.textContent = 'Tentang Dirimu';
             profileGuestContent.style.display = 'none';
             profileUserContent.style.display = 'flex';
+
+            loadTestResults(user.email);
         } else {
             authButtons.style.display = 'flex';
             userGreeting.style.display = 'none';

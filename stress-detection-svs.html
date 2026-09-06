@@ -1,17 +1,26 @@
 <!DOCTYPE html><html lang="id"><head>
 <meta charset="utf-8">
-<!-- Penjaga akses: kalau belum login, langsung alihkan ke halaman login sebelum halaman ini sempat tampil -->
+<!-- Penjaga akses: kalau belum login, atau belum menyelesaikan bagian 1 & 2, alihkan sebelum halaman ini sempat tampil -->
 <script>
     (function () {
         try {
             if (!localStorage.getItem('sp_user')) {
                 window.location.replace('Login_uy_revisi.html');
+                return;
+            }
+            if (!localStorage.getItem('sp_test_phq9')) {
+                window.location.replace('stress_detection__2_.html');
+                return;
+            }
+            if (!localStorage.getItem('sp_test_pss10')) {
+                window.location.replace('stress-detection-pss.html');
+                return;
             }
         } catch (e) { /* localStorage tidak tersedia (mis. pratinjau Claude) */ }
     })();
 </script>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>SerenityPath - Tes Stres (PSS-10)</title>
+<title>SerenityPath - Tes Stres (SVS)</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Quicksand:wght@600;700&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
@@ -286,13 +295,13 @@
 </div>
 <div class="flex-1 h-0.5 bg-primary/50 mb-4" id="step-line-1"></div>
 <div class="flex flex-col items-center gap-1 flex-1" data-step="pss10">
-<div class="w-7 h-7 rounded-full flex items-center justify-center bg-primary text-on-primary font-label-md" style="font-size: 12px;" id="step-icon-pss10">2</div>
-<span class="font-label-md text-primary font-semibold" style="font-size: 10px;">PSS-10</span>
+<div class="w-7 h-7 rounded-full flex items-center justify-center bg-primary text-on-primary" id="step-icon-pss10"><span class="material-symbols-outlined" style="font-size: 16px;">check</span></div>
+<span class="font-label-md text-on-surface-variant" style="font-size: 10px;">PSS-10</span>
 </div>
-<div class="flex-1 h-0.5 bg-outline-variant/50 mb-4" id="step-line-2"></div>
+<div class="flex-1 h-0.5 bg-primary/50 mb-4" id="step-line-2"></div>
 <div class="flex flex-col items-center gap-1 flex-1" data-step="svs">
-<div class="w-7 h-7 rounded-full flex items-center justify-center bg-surface-container-highest text-on-surface-variant font-label-md" style="font-size: 12px;" id="step-icon-svs">3</div>
-<span class="font-label-md text-on-surface-variant" style="font-size: 10px;">SVS</span>
+<div class="w-7 h-7 rounded-full flex items-center justify-center bg-primary text-on-primary font-label-md" style="font-size: 12px;" id="step-icon-svs">3</div>
+<span class="font-label-md text-primary font-semibold" style="font-size: 10px;">SVS</span>
 </div>
 </div>
 </nav>
@@ -300,7 +309,7 @@
 <!-- PPS BAR (Persentase Penyelesaian Soal) — muncul setelah "Mulai Tes" ditekan -->
 <div id="pps-wrapper">
 <div class="flex justify-between items-center mb-2">
-<span class="font-label-md text-label-md text-on-surface-variant" id="pps-label">Pertanyaan 1 dari 12</span>
+<span class="font-label-md text-label-md text-on-surface-variant" id="pps-label">Pertanyaan 1 dari 20</span>
 <span class="font-label-md text-label-md text-primary" id="pps-percent">0%</span>
 </div>
 <div id="pps-track"><div id="pps-fill"></div></div>
@@ -317,30 +326,30 @@
 <span class="material-symbols-outlined text-primary bg-primary/10 rounded-full p-4 text-4xl">self_improvement</span>
 </div>
 
-<h1 class="font-headline-lg text-headline-lg md:text-4xl text-primary mb-2">Bagian 2: Skala Stres</h1>
-<p class="font-label-md text-label-md text-secondary font-semibold mb-4">Bagian 2 dari 3 · PSS-10</p>
-<p class="font-body-lg text-body-lg text-on-surface-variant mb-8">Lanjut ya — kali ini pertanyaannya sedikit berbeda.</p>
+<h1 class="font-headline-lg text-headline-lg md:text-4xl text-primary mb-2">Bagian 3: Faktor Pelindung dari Stres</h1>
+<p class="font-label-md text-label-md text-secondary font-semibold mb-4">Bagian 3 dari 3 · SVS (disesuaikan)</p>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8">Hampir selesai! Bagian terakhir ini menanyakan kebiasaan sehari-hari yang bisa membantumu lebih tahan terhadap stres.</p>
 
 <div class="bg-secondary-container/40 border border-secondary/30 rounded-2xl p-5 text-left flex gap-4 mb-6">
 <span class="material-symbols-outlined text-secondary shrink-0">info</span>
 <div>
-<p class="font-body-md text-body-md text-on-surface font-semibold mb-1">Perhatikan rentang waktunya berbeda dari bagian 1</p>
-<p class="font-body-md text-body-md text-on-surface-variant">Bagian ini menanyakan perasaan dan pikiranmu selama <span class="font-semibold">1 bulan terakhir</span> (bukan 2 minggu seperti bagian sebelumnya). Jawablah sesuai apa yang benar-benar kamu rasakan.</p>
+<p class="font-body-md text-body-md text-on-surface font-semibold mb-1">Rentang waktu bagian ini: 7 hari terakhir</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Jawablah sejujurnya sesuai apa yang benar-benar terjadi dalam <span class="font-semibold">7 hari terakhir</span>, bukan yang seharusnya kamu lakukan.</p>
 </div>
 </div>
 
 <div class="bg-surface-container-low rounded-2xl p-5 text-left mb-8">
-<p class="font-label-md text-label-md text-on-surface-variant mb-1">Bagian ini memakai Perceived Stress Scale (PSS-10), alat ukur stres yang dipersepsikan, banyak dipakai dalam penelitian psikologi.</p>
+<p class="font-label-md text-label-md text-on-surface-variant mb-1">Bagian ini diadaptasi dari Stress Vulnerability Scale (Miller &amp; Smith, 1985), yang mengukur kebiasaan hidup terkait ketahanan terhadap stres. Pertanyaan telah disesuaikan bahasanya untuk remaja dan belum divalidasi secara khusus untuk remaja Indonesia, sehingga hasilnya bersifat deskriptif — bukan diagnosis.</p>
 </div>
 
 <div class="grid grid-cols-3 gap-4 mb-8 text-left">
 <div class="flex flex-col items-center gap-1 p-3 rounded-xl bg-surface-container-low">
 <span class="material-symbols-outlined text-primary">quiz</span>
-<span class="font-label-md text-label-md text-on-surface-variant text-center">10 Pertanyaan</span>
+<span class="font-label-md text-label-md text-on-surface-variant text-center">20 Pertanyaan</span>
 </div>
 <div class="flex flex-col items-center gap-1 p-3 rounded-xl bg-surface-container-low">
 <span class="material-symbols-outlined text-primary">schedule</span>
-<span class="font-label-md text-label-md text-on-surface-variant text-center">± 2 Menit</span>
+<span class="font-label-md text-label-md text-on-surface-variant text-center">± 3 Menit</span>
 </div>
 <div class="flex flex-col items-center gap-1 p-3 rounded-xl bg-surface-container-low">
 <span class="material-symbols-outlined text-primary">lock</span>
@@ -381,37 +390,56 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
 <script>
     /**
      * =====================================================================
-     * SOAL TES — PSS-10 (Perceived Stress Scale-10), versi Bahasa Indonesia,
-     * sesuai dokumen referensi pengguna. Skala jawaban 5 tingkat (0-4):
+     * SOAL TES — Bagian 3, diadaptasi dari Stress Vulnerability Scale (SVS,
+     * Miller & Smith 1985). Item ASLI SVS tidak direproduksi kata demi kata;
+     * setiap item di bawah adalah adaptasi konstruk untuk konteks & bahasa
+     * remaja Indonesia (lihat catatan "source" per-item), sehingga BUKAN
+     * instrumen yang otomatis tervalidasi untuk populasi ini.
+     *
+     * Semua item mengarah ke satu arah (semakin sering = semakin banyak
+     * faktor pelindung yang dimiliki), sehingga tidak diperlukan reverse
+     * scoring. Skala jawaban 5 tingkat (0-4), sama seperti bagian
+     * sebelumnya, mengukur FREKUENSI dalam 7 hari terakhir:
      *   0 = Tidak pernah
-     *   1 = Hampir tidak pernah (1-2 kali)
+     *   1 = Jarang (1-2 kali)
      *   2 = Kadang-kadang (3-4 kali)
-     *   3 = Cukup sering (5-6 kali)
-     *   4 = Sangat sering (> 6 kali)
-     * Soal #4, #5, #7, #8 (favourable) ditandai "reverse: true" — skornya
-     * dibalik (4-x) sebelum dijumlahkan, sesuai rubrik resmi PSS-10
-     * (lihat fungsi finishTest()).
+     *   3 = Sering (5-6 kali)
+     *   4 = Selalu / hampir setiap hari
+     *
+     * source: 'SVS-DERIVED' (konstruk asli dipertahankan, kalimat diadaptasi),
+     *         'ADAPTED' (konstruk terkait tapi diubah konteksnya utk remaja),
+     *         'NEW' (ditambahkan utk melengkapi domain yg relevan remaja).
      * =====================================================================
      */
     const ANSWER_OPTIONS = [
         { value: 0, label: 'Tidak pernah' },
-        { value: 1, label: 'Hampir tidak pernah' },
+        { value: 1, label: 'Jarang' },
         { value: 2, label: 'Kadang-kadang' },
-        { value: 3, label: 'Cukup sering' },
-        { value: 4, label: 'Sangat sering' }
+        { value: 3, label: 'Sering' },
+        { value: 4, label: 'Selalu' }
     ];
 
     const QUESTIONS = [
-        { category: 'PSS-10', text: 'Seberapa sering Anda merasa kecewa karena sesuatu yang terjadi di luar harapan Anda?' },
-        { category: 'PSS-10', text: 'Seberapa sering Anda merasa tidak mampu mengendalikan hal yang Anda anggap penting dalam hidup Anda?' },
-        { category: 'PSS-10', text: 'Seberapa sering Anda merasa sangat gelisah dan tertekan?' },
-        { category: 'PSS-10', text: 'Seberapa sering Anda merasa yakin dengan kemampuan Anda dalam menangani masalah-masalah pribadi Anda?', reverse: true },
-        { category: 'PSS-10', text: 'Seberapa sering Anda merasa bahwa segala sesuatu berjalan sesuai dengan keinginan Anda?', reverse: true },
-        { category: 'PSS-10', text: 'Seberapa sering Anda merasa bahwa Anda tidak mampu menyelesaikan hal-hal yang harus dikerjakan?' },
-        { category: 'PSS-10', text: 'Seberapa sering Anda mampu mengendalikan rasa mudah tersinggung dalam kehidupan Anda?', reverse: true },
-        { category: 'PSS-10', text: 'Seberapa sering Anda merasa senang dengan segala hal yang Anda lakukan?', reverse: true },
-        { category: 'PSS-10', text: 'Seberapa sering Anda merasa marah karena sesuatu yang terjadi di luar kendali Anda?' },
-        { category: 'PSS-10', text: 'Seberapa sering Anda mengalami banyak kesulitan sehingga Anda tidak mampu mengatasinya?' }
+        { category: 'Tidur & Pemulihan', text: 'Selama 7 hari terakhir, seberapa sering kamu tidur cukup (sekitar 7-9 jam) di malam hari?', source: 'SVS-DERIVED' },
+        { category: 'Tidur & Pemulihan', text: 'Selama 7 hari terakhir, seberapa sering kamu bangun dalam keadaan merasa cukup segar dan siap beraktivitas?', source: 'ADAPTED' },
+        { category: 'Kebiasaan Sehari-hari', text: 'Selama 7 hari terakhir, seberapa sering kamu makan dengan pola teratur (sarapan/makan utama tidak terlewat)?', source: 'SVS-DERIVED' },
+        { category: 'Kebiasaan Sehari-hari', text: 'Selama 7 hari terakhir, seberapa sering kamu memberi waktu istirahat dari layar HP/laptop sebelum tidur?', source: 'NEW' },
+        { category: 'Aktivitas Fisik', text: 'Selama 7 hari terakhir, seberapa sering kamu bergerak aktif atau berolahraga (jalan cepat, olahraga sekolah, bermain aktif) setidaknya 20-30 menit?', source: 'SVS-DERIVED' },
+        { category: 'Aktivitas Fisik', text: 'Selama 7 hari terakhir, seberapa sering kamu merasa punya cukup energi untuk menjalani aktivitas harianmu?', source: 'ADAPTED' },
+        { category: 'Dukungan Sosial', text: 'Selama 7 hari terakhir, seberapa sering kamu merasa ada seseorang yang bisa diandalkan kalau kamu butuh bantuan?', source: 'SVS-DERIVED' },
+        { category: 'Dukungan Sosial', text: 'Selama 7 hari terakhir, seberapa sering kamu merasa didukung oleh orang-orang di sekitarmu?', source: 'ADAPTED' },
+        { category: 'Hubungan yang Dipercaya', text: 'Selama 7 hari terakhir, seberapa sering kamu merasa punya teman atau orang dewasa yang bisa dipercaya untuk cerita masalah pribadi?', source: 'SVS-DERIVED' },
+        { category: 'Hubungan yang Dipercaya', text: 'Selama 7 hari terakhir, seberapa sering kamu merasa nyaman meminta tolong ketika sedang kesulitan?', source: 'ADAPTED' },
+        { category: 'Ekspresi Emosi', text: 'Selama 7 hari terakhir, seberapa sering kamu bisa mengungkapkan perasaanmu (senang, sedih, marah) dengan cara yang membuatmu lega?', source: 'SVS-DERIVED' },
+        { category: 'Ekspresi Emosi', text: 'Selama 7 hari terakhir, seberapa sering kamu merasa mampu menenangkan diri saat sedang kesal atau cemas?', source: 'NEW' },
+        { category: 'Komunikasi di Rumah', text: 'Selama 7 hari terakhir, seberapa sering kamu mengobrol dengan orang di rumah tentang hal-hal yang terjadi di sekolah atau kehidupanmu?', source: 'SVS-DERIVED' },
+        { category: 'Komunikasi di Rumah', text: 'Selama 7 hari terakhir, seberapa sering suasana di rumah terasa cukup nyaman untukmu?', source: 'ADAPTED' },
+        { category: 'Koneksi Sosial', text: 'Selama 7 hari terakhir, seberapa sering kamu menghabiskan waktu bersama teman (langsung maupun daring)?', source: 'SVS-DERIVED' },
+        { category: 'Koneksi Sosial', text: 'Selama 7 hari terakhir, seberapa sering kamu merasa menjadi bagian dari suatu kelompok pertemanan atau komunitas?', source: 'NEW' },
+        { category: 'Waktu Luang', text: 'Selama 7 hari terakhir, seberapa sering kamu meluangkan waktu untuk melakukan hal yang kamu sukai (hobi, hiburan, dsb.)?', source: 'SVS-DERIVED' },
+        { category: 'Waktu Luang', text: 'Selama 7 hari terakhir, seberapa sering kamu tertawa atau menikmati momen yang menyenangkan?', source: 'ADAPTED' },
+        { category: 'Manajemen Waktu', text: 'Selama 7 hari terakhir, seberapa sering kamu merasa mampu mengatur waktu antara tugas sekolah dan kegiatan lain?', source: 'SVS-DERIVED' },
+        { category: 'Pemulihan Pribadi', text: 'Selama 7 hari terakhir, seberapa sering kamu meluangkan waktu tenang untuk dirimu sendiri (misalnya jeda sejenak dari kesibukan)?', source: 'SVS-DERIVED' }
     ];
 
     const stack = document.getElementById('questions-stack');
@@ -493,27 +521,28 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
         return block;
     }
 
-    /* ---------- Bangun blok transisi ke bagian berikutnya (SVS) ---------- */
+    /* ---------- Bangun blok hasil akhir (gabungan PHQ-9 + PSS-10 + SVS) ---------- */
     function buildResultBlock() {
         const block = document.createElement('div');
         block.className = 'question-block glass-panel soft-shadow rounded-3xl p-6 sm:p-8 md:p-12 w-full text-center';
         block.id = 'result-block';
         block.innerHTML = `
-            <div class="flex justify-center mb-6">
-                <span class="material-symbols-outlined text-primary bg-primary/10 rounded-full p-4 text-4xl">task_alt</span>
+            <div class="flex justify-center mb-6" id="result-icon-wrap">
+                <span class="material-symbols-outlined text-primary bg-primary/10 rounded-full p-4 text-4xl" id="result-icon">task_alt</span>
             </div>
-            <h2 class="font-headline-lg text-headline-lg md:text-4xl text-primary mb-4">Bagian 2 selesai!</h2>
-            <p class="font-body-lg text-body-lg text-on-surface-variant mb-6">Terima kasih sudah menyelesaikan dua bagian dengan jujur. Tinggal satu bagian singkat lagi.</p>
+            <h2 class="font-headline-lg text-headline-lg md:text-4xl text-primary mb-4" id="result-title">Semua bagian selesai!</h2>
+            <p class="font-body-lg text-body-lg text-on-surface-variant mb-6" id="result-subtitle">Sedang menyimpan &amp; merangkum hasilmu...</p>
 
-            <div class="bg-surface-container-low rounded-2xl p-5 text-left mb-8 flex gap-4">
-                <span class="material-symbols-outlined text-secondary shrink-0">arrow_forward</span>
-                <div>
-                    <p class="font-body-md text-body-md text-on-surface font-semibold mb-1">Lanjut ke Bagian 3 (SVS)</p>
-                    <p class="font-body-md text-body-md text-on-surface-variant">Bagian terakhir ini menanyakan kebiasaan sehari-hari terkait ketahanan terhadap stres. Progresmu sudah aman tersimpan, kamu akan diarahkan otomatis.</p>
-                </div>
+            <div class="bg-surface-container-low rounded-2xl p-5 text-left mb-4">
+                <p class="font-label-md text-label-md text-secondary mb-1 font-semibold">FAKTOR PELINDUNG DARI STRES (SVS - disesuaikan)</p>
+                <p class="font-body-md text-body-md text-on-surface" id="svs-interpretation-text">Menghitung...</p>
             </div>
 
-            <button class="px-8 py-3 bg-primary text-on-primary rounded-xl font-label-md text-label-md hover:bg-primary/90 transition-all duration-300 active:scale-95 shadow-md" onclick="window.location.href='stress-detection-svs.html'">Lanjut ke Bagian 3</button>
+            <div class="bg-secondary-container/30 border border-secondary/20 rounded-2xl p-5 text-left mb-8">
+                <p class="font-label-md text-label-md text-on-surface-variant" style="font-size: 12px;">Catatan: hasil ini bersifat deskriptif, bukan diagnosis medis/psikologis. Instrumen bagian ini diadaptasi dari SVS (Miller &amp; Smith, 1985) dan belum divalidasi khusus untuk remaja Indonesia. Jika kamu merasa perlu bicara dengan seseorang, jangan ragu menghubungi guru BK, orang tua, atau tenaga profesional terdekat.</p>
+            </div>
+
+            <button class="px-8 py-3 bg-primary text-on-primary rounded-xl font-label-md text-label-md hover:bg-primary/90 transition-all duration-300 active:scale-95 shadow-md disabled:opacity-50" id="finish-cta-btn" disabled>Menyimpan hasil...</button>
         `;
         return block;
     }
@@ -596,33 +625,58 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
         }
     });
 
-    /* ---------- Interpretasi skor PSS-10 (disimpan untuk hasil akhir nanti setelah SVS selesai) ---------- */
-    function interpretPSS(score) {
-        if (score <= 13) return 'Stres tingkat rendah — dalam batas normal/wajar';
-        if (score <= 26) return 'Stres tingkat sedang — perlu perhatian dan strategi koping';
-        return 'Stres tingkat tinggi — perlu evaluasi dan intervensi profesional';
+    /* ---------- URL Apps Script (sama dengan halaman login) ---------- */
+    const API_URL = 'https://script.google.com/macros/s/AKfycby8kH8EaZjqZjtfFLkub4E6szeQo4TdIwx0TugF1UtpbzisBAy8RfGT9gZT7Wh_CtnEBw/exec';
+
+    /* ---------- Interpretasi skor SVS (adaptasi remaja) ----------
+       Skor mentah = jumlah 20 item (0-4 tiap item) -> rentang 0-80.
+       Semakin TINGGI skor = semakin banyak faktor pelindung yang dimiliki
+       (arah kebalikan dari SVS asli, yang dihitung sbg "kerentanan").
+       Bahasa deskriptif, tanpa label klinis, sesuai catatan keterbatasan. */
+    function interpretSVS(score) {
+        const percent = score / 80;
+        if (percent >= 0.7) {
+            return 'Responsmu menunjukkan faktor pelindung terhadap stres tampak cukup kuat di sebagian besar aspek yang ditanyakan (tidur, dukungan sosial, dan kebiasaan sehari-hari).';
+        }
+        if (percent >= 0.4) {
+            return 'Responsmu menunjukkan sejumlah faktor pelindung sudah ada, namun beberapa aspek — misalnya tidur, waktu bersama orang terdekat, atau pengelolaan waktu — mungkin masih perlu diperkuat.';
+        }
+        return 'Responsmu mengindikasikan beberapa faktor pelindung tampak terbatas saat ini. Ini mungkin perlu dipantau lebih lanjut, dan bisa jadi saat yang baik untuk mencari dukungan tambahan dari orang dewasa terpercaya, guru BK, atau konselor.';
+    }
+
+    /* ---------- Simpan hasil gabungan (PHQ-9 + PSS-10 + SVS) ke spreadsheet via kode.gs ---------- */
+    function saveCombinedResults(email, phq9, pss10, svs) {
+        return fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({
+                action: 'saveResults',
+                email: email,
+                phq9Score: phq9.score,
+                phq9Interpretation: phq9.interpretation,
+                pssScore: pss10.score,
+                pssInterpretation: pss10.interpretation,
+                svsScore: svs.score,
+                svsInterpretation: svs.interpretation
+            })
+        }).then((res) => res.json());
     }
 
     function finishTest() {
         document.getElementById('q-block-' + currentIndex).classList.remove('active');
         currentIndex = QUESTIONS.length; // posisi transisi
 
-        // --- Hitung skor PSS-10 dengan reverse scoring untuk soal #4,5,7,8 (favourable) ---
-        // Rumus reverse resmi PSS-10: skor final = 4 - skor asli
-        const pssScore = QUESTIONS.reduce((sum, q, i) => {
-            const raw = answers[i] || 0;
-            const finalValue = q.reverse ? (4 - raw) : raw;
-            return sum + finalValue;
-        }, 0);
+        // --- Hitung skor SVS: jumlah polos 20 item, semua searah (0-4), tanpa reverse ---
+        const svsScore = answers.reduce((sum, v) => sum + (v || 0), 0);
+        const svsResult = {
+            score: svsScore,
+            interpretation: interpretSVS(svsScore),
+            answers: answers,
+            completedAt: new Date().toISOString()
+        };
 
-        // Simpan diam-diam untuk digabung jadi hasil akhir setelah semua bagian (PHQ-9, PSS-10, SVS) selesai
         try {
-            localStorage.setItem('sp_test_pss10', JSON.stringify({
-                score: pssScore,
-                interpretation: interpretPSS(pssScore),
-                answers: answers,
-                completedAt: new Date().toISOString()
-            }));
+            localStorage.setItem('sp_test_svs', JSON.stringify(svsResult));
         } catch (e) { /* localStorage tidak tersedia (mis. pratinjau Claude) */ }
 
         const resultBlock = document.getElementById('result-block');
@@ -631,13 +685,67 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
         nextBtn.classList.remove('visible');
         resultBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-        // Tandai step PSS-10 selesai, SVS jadi berikutnya
-        markStepDone('pss10');
+        document.getElementById('svs-interpretation-text').textContent = svsResult.interpretation;
 
-        // Lanjut otomatis ke bagian 3 (SVS) — tombol di atas tetap tersedia sbg cadangan manual
-        setTimeout(() => {
-            window.location.href = 'stress-detection-svs.html';
-        }, 1400);
+        markStepDone('pss10');
+        markStepDone('svs');
+
+        // --- Gabungkan ketiga hasil & kirim ke spreadsheet (via kode.gs) ---
+        let phq9Result = null;
+        let pss10Result = null;
+        try {
+            phq9Result = JSON.parse(localStorage.getItem('sp_test_phq9'));
+            pss10Result = JSON.parse(localStorage.getItem('sp_test_pss10'));
+        } catch (e) { /* abaikan */ }
+
+        const resultSubtitle = document.getElementById('result-subtitle');
+        const finishBtn = document.getElementById('finish-cta-btn');
+        const user = getLoggedInUser();
+
+        // sp_test_final ditandai dengan email pemiliknya, supaya halaman utama
+        // (main_revisi_uy.html) tidak salah menampilkan cadangan lokal milik
+        // akun lain saat fallback dari server dipakai.
+        const finalCombined = {
+            email: (user && user.email) ? user.email.toLowerCase() : null,
+            phq9: phq9Result,
+            pss10: pss10Result,
+            svs: svsResult,
+            completedAt: new Date().toISOString()
+        };
+        try {
+            localStorage.setItem('sp_test_final', JSON.stringify(finalCombined));
+        } catch (e) { /* localStorage tidak tersedia (mis. pratinjau Claude) */ }
+
+        if (user && user.email && phq9Result && pss10Result) {
+            saveCombinedResults(user.email, phq9Result, pss10Result, svsResult)
+                .then((res) => {
+                    // Log mentah ke console supaya mudah dicek lewat DevTools kalau ada masalah:
+                    // { success:false, message:'Aksi tidak dikenali.' } -> deployment Apps Script
+                    // BELUM di-redeploy versi terbaru (kode di editor tidak otomatis update exec URL).
+                    console.log('[SerenityPath] Respons saveResults dari server:', res);
+                    if (res && res.success) {
+                        resultSubtitle.textContent = 'Terima kasih sudah menyelesaikan ketiga bagian dengan jujur. Hasilmu sudah tersimpan.';
+                    } else {
+                        console.error('[SerenityPath] Gagal menyimpan hasil ke server:', res && res.message);
+                        resultSubtitle.textContent = 'Hasilmu sudah dihitung, tapi belum berhasil tersimpan ke server (' + (res && res.message ? res.message : 'lihat console') + '). Kamu tetap bisa melihat ringkasannya di Beranda.';
+                    }
+                })
+                .catch((err) => {
+                    console.error('[SerenityPath] Gagal menghubungi server (network/CORS/deploy):', err);
+                    resultSubtitle.textContent = 'Hasilmu sudah dihitung dan tersimpan di perangkat ini. Sedang bermasalah menghubungi server — coba lagi nanti dari Beranda.';
+                })
+                .finally(() => {
+                    finishBtn.disabled = false;
+                    finishBtn.textContent = 'Lihat Hasil di Beranda';
+                    finishBtn.onclick = () => { window.location.href = 'main_revisi_uy.html'; };
+                });
+        } else {
+            console.warn('[SerenityPath] Tidak mengirim ke server: user/email atau hasil PHQ-9/PSS-10 tidak lengkap.', { user, phq9Result, pss10Result });
+            resultSubtitle.textContent = 'Hasilmu sudah dihitung dan tersimpan di perangkat ini.';
+            finishBtn.disabled = false;
+            finishBtn.textContent = 'Lihat Hasil di Beranda';
+            finishBtn.onclick = () => { window.location.href = 'main_revisi_uy.html'; };
+        }
     }
 
     // Reposisi tombol "Lanjut" & PPS bar bila ukuran layar berubah (mis. rotasi HP)
@@ -694,7 +802,7 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
     document.addEventListener('DOMContentLoaded', () => {
         applyAuthState();
 
-        // Auto-mulai bagian 2 (PSS-10) — tanpa perlu tombol "Mulai Tes" lagi
+        // Auto-mulai bagian 3 (SVS) — tanpa perlu tombol "Mulai Tes" lagi
         setTimeout(autoStart, 700);
 
         const greetingBtn = document.getElementById('user-greeting-btn');

@@ -408,6 +408,19 @@
                 .then((result) => {
                     setLoading(btn, false, 'Sign In');
                     if (result.success) {
+                        // Kalau akun yang login sekarang berbeda dari akun terakhir di browser
+                        // ini, bersihkan sisa data tes lokal (progres/hasil PHQ-9, PSS-10, SVS)
+                        // supaya TIDAK ikut terbawa/tertampil ke akun yang baru login.
+                        try {
+                            const prevUserRaw = localStorage.getItem('sp_user');
+                            const prevUser = prevUserRaw ? JSON.parse(prevUserRaw) : null;
+                            const prevEmail = prevUser && prevUser.email ? prevUser.email.toLowerCase() : null;
+                            const newEmail = result.user && result.user.email ? result.user.email.toLowerCase() : null;
+                            if (prevEmail !== newEmail) {
+                                ['sp_test_phq9', 'sp_test_pss10', 'sp_test_svs', 'sp_test_final'].forEach((k) => localStorage.removeItem(k));
+                            }
+                        } catch (e) { /* abaikan */ }
+
                         // Simpan status login untuk dibaca halaman lain (nav "Hi, {nama}", dsb.)
                         try {
                             localStorage.setItem('sp_user', JSON.stringify(result.user));
