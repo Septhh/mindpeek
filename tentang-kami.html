@@ -280,11 +280,12 @@ Kembali ke Beranda <span class="material-symbols-outlined">arrow_forward</span>
 </div>
 </footer>
 
+<script src="crypto-util.js"></script>
 <script>
-    function getLoggedInUser() {
+    async function getLoggedInUser() {
         try {
             const raw = localStorage.getItem('sp_user');
-            return raw ? JSON.parse(raw) : null;
+            return await MPCrypto.decryptFromStorage(raw);
         } catch (e) {
             return null;
         }
@@ -295,8 +296,8 @@ Kembali ke Beranda <span class="material-symbols-outlined">arrow_forward</span>
         window.location.href = 'main_revisi_uy.html';
     }
 
-    function applyAuthState() {
-        const user = getLoggedInUser();
+    async function applyAuthState() {
+        const user = await getLoggedInUser();
         const authButtons = document.getElementById('auth-buttons');
         const userGreeting = document.getElementById('user-greeting');
         const greetingName = document.getElementById('user-greeting-name');

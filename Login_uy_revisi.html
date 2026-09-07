@@ -266,18 +266,24 @@
 </div>
 </div>
 </footer>
-<script>
+<script src="crypto-util.js"></script>
+    <script>
     const API_URL = 'https://script.google.com/macros/s/AKfycby8kH8EaZjqZjtfFLkub4E6szeQo4TdIwx0TugF1UtpbzisBAy8RfGT9gZT7Wh_CtnEBw/exec';
 
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
         // Kalau ternyata sudah login, tidak perlu tampilkan form ini lagi
         try {
-            const existing = localStorage.getItem('sp_user');
+            const existingRaw = localStorage.getItem('sp_user');
+            const existing = await MPCrypto.decryptFromStorage(existingRaw);
             if (existing) {
                 window.location.href = 'main_revisi_uy.html';
                 return;
             }
         } catch (e) { /* localStorage tidak tersedia (mis. pratinjau Claude) */ }
+
+        // Prefetch handshake DH di background supaya submit form login/register
+        // tidak perlu menunggu round-trip handshake lagi (tidak memblokir UI).
+        MPCrypto.ensureSession(API_URL).catch((e) => console.warn('[MindPeek] Prefetch handshake DH gagal (akan dicoba lagi saat submit):', e));
 
         // Floating nav on scroll — identical behaviour to the main page
         const topNav = document.getElementById('top-nav');
@@ -398,14 +404,8 @@
             setLoading(btn, true, 'Masuk');
             feedbackEl.classList.add('hidden');
 
-            fetch(API_URL, {
-                method: 'POST',
-                // text/plain menghindari CORS preflight ke Apps Script
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({ action: 'login', email, password })
-            })
-                .then((res) => res.json())
-                .then((result) => {
+            MPCrypto.secureFetch(API_URL, 'login', { email, password })
+                .then(async (result) => {
                     setLoading(btn, false, 'Masuk');
                     if (result.success) {
                         // Kalau akun yang login sekarang berbeda dari akun terakhir di browser
@@ -413,7 +413,7 @@
                         // supaya TIDAK ikut terbawa/tertampil ke akun yang baru login.
                         try {
                             const prevUserRaw = localStorage.getItem('sp_user');
-                            const prevUser = prevUserRaw ? JSON.parse(prevUserRaw) : null;
+                            const prevUser = await MPCrypto.decryptFromStorage(prevUserRaw);
                             const prevEmail = prevUser && prevUser.email ? prevUser.email.toLowerCase() : null;
                             const newEmail = result.user && result.user.email ? result.user.email.toLowerCase() : null;
                             if (prevEmail !== newEmail) {
@@ -423,7 +423,7 @@
 
                         // Simpan status login untuk dibaca halaman lain (nav "Hi, {nama}", dsb.)
                         try {
-                            localStorage.setItem('sp_user', JSON.stringify(result.user));
+                            localStorage.setItem('sp_user', await MPCrypto.encryptForStorage(result.user));
                         } catch (e) { /* localStorage tidak tersedia (mis. pratinjau Claude) */ }
                         showFeedback('Login berhasil! Mengalihkan...', 'success');
                         setTimeout(() => {
@@ -457,12 +457,7 @@
             setLoading(btn, true, 'Daftar');
             feedbackEl.classList.add('hidden');
 
-            fetch(API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({ action: 'register', name, email, dob, education, password })
-            })
-                .then((res) => res.json())
+            MPCrypto.secureFetch(API_URL, 'register', { name, email, dob, education, password })
                 .then((result) => {
                     setLoading(btn, false, 'Daftar');
                     if (result.success) {

@@ -1,10 +1,18 @@
 <!DOCTYPE html><html lang="id"><head>
 <meta charset="utf-8">
-<!-- Penjaga akses: kalau belum login, langsung alihkan ke halaman login sebelum halaman ini sempat tampil -->
+<!-- Modul enkripsi (dh + storage) — harus dimuat sebelum guard akses di bawah -->
+<script src="crypto-util.js"></script>
+<!-- Penjaga akses: kalau belum login, langsung alihkan ke halaman login sebelum halaman ini sempat tampil.
+     Catatan: karena dekripsi localStorage sekarang memakai Web Crypto (async), guard ini
+     jadi async — halaman bisa sekilas ter-render sebelum redirect terjadi, alih-alih benar2
+     "sebelum sempat tampil" seperti versi lama yang sinkron. Ini trade-off yang tak terhindari
+     begitu localStorage dienkripsi (crypto.subtle browser memang murni async). -->
 <script>
-    (function () {
+    (async function () {
         try {
-            if (!localStorage.getItem('sp_user')) {
+            const raw = localStorage.getItem('sp_user');
+            const user = await MPCrypto.decryptFromStorage(raw);
+            if (!user) {
                 window.location.replace('Login_uy_revisi.html');
             }
         } catch (e) { /* localStorage tidak tersedia (mis. pratinjau Claude) */ }
@@ -611,7 +619,7 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
         return 'Responsmu mengindikasikan gejala pada tingkat yang berat dan cukup sering dialami — sangat dianjurkan untuk berbicara dengan tenaga profesional secepatnya.';
     }
 
-    function finishTest() {
+    async function finishTest() {
         document.getElementById('q-block-' + currentIndex).classList.remove('active');
         currentIndex = QUESTIONS.length; // posisi transisi
 
@@ -620,7 +628,7 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
 
         // Simpan diam-diam untuk digabung jadi hasil akhir setelah semua bagian (PHQ-9, PSS-10, SVS) selesai
         try {
-            localStorage.setItem('sp_test_phq9', JSON.stringify({
+            localStorage.setItem('sp_test_phq9', await MPCrypto.encryptForStorage({
                 score: phq9Score,
                 interpretation: interpretPHQ9(phq9Score),
                 answers: answers,
@@ -670,10 +678,10 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
     });
 
     // ---- Status login: tampilkan "Hi, {nama}" di nav ----
-    function getLoggedInUser() {
+    async function getLoggedInUser() {
         try {
             const raw = localStorage.getItem('sp_user');
-            return raw ? JSON.parse(raw) : null;
+            return await MPCrypto.decryptFromStorage(raw);
         } catch (e) {
             return null;
         }
@@ -684,8 +692,8 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
         window.location.href = 'Login_uy_revisi.html';
     }
 
-    function applyAuthState() {
-        const user = getLoggedInUser();
+    async function applyAuthState() {
+        const user = await getLoggedInUser();
         const authButtons = document.getElementById('auth-buttons');
         const userGreeting = document.getElementById('user-greeting');
         const greetingName = document.getElementById('user-greeting-name');
@@ -713,7 +721,7 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
 
     // Floating nav mengambang saat scroll — konsisten dgn halaman main & login
     document.addEventListener('DOMContentLoaded', () => {
-        applyAuthState();
+        applyAuthState(); // async, dibiarkan berjalan di background (fire-and-forget)
 
         const greetingBtn = document.getElementById('user-greeting-btn');
         const dropdown = document.getElementById('user-dropdown');

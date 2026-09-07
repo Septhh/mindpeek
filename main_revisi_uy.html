@@ -308,6 +308,7 @@
 </div>
 </div>
 </footer>
+<script src="crypto-util.js"></script>
 <script>
     /**
      * =====================================================================
@@ -315,6 +316,8 @@
      * server) karena tiap halaman (main/login/tes) adalah reload penuh,
      * bukan single-page app. Diisi oleh Login_uy_revisi.html saat login
      * berhasil, dibaca di sini untuk menentukan tampilan nav & kartu profil.
+     * Nilai yang tersimpan sudah terenkripsi (lihat crypto-util.js), dibaca
+     * lewat MPCrypto.decryptFromStorage().
      *
      * CATATAN: localStorage TIDAK berfungsi di pratinjau bawaan Claude,
      * tapi akan bekerja normal begitu file ini dibuka/di-hosting sungguhan
@@ -323,10 +326,10 @@
      */
     const API_URL = 'https://script.google.com/macros/s/AKfycby8kH8EaZjqZjtfFLkub4E6szeQo4TdIwx0TugF1UtpbzisBAy8RfGT9gZT7Wh_CtnEBw/exec';
 
-    function getLoggedInUser() {
+    async function getLoggedInUser() {
         try {
             const raw = localStorage.getItem('sp_user');
-            return raw ? JSON.parse(raw) : null;
+            return await MPCrypto.decryptFromStorage(raw);
         } catch (e) {
             return null;
         }
@@ -392,14 +395,14 @@
     // sebabnya pindah akun tetap menampilkan hasil akun sebelumnya (data lama
     // di localStorage browser ikut kebaca meski user login sudah berbeda).
     // Sekarang wajib dicocokkan dengan email yang sedang login.
-    function loadResultsFromLocalFallback(currentEmail) {
+    async function loadResultsFromLocalFallback(currentEmail) {
         try {
             const raw = localStorage.getItem('sp_test_final');
-            if (!raw) {
+            const data = await MPCrypto.decryptFromStorage(raw);
+            if (!data) {
                 console.warn('[MindPeek] Tidak ada cadangan lokal (sp_test_final) untuk ditampilkan.');
                 return;
             }
-            const data = JSON.parse(raw);
 
             if (!data.email || data.email.toLowerCase() !== String(currentEmail).toLowerCase()) {
                 console.warn('[MindPeek] Cadangan lokal ditemukan tapi milik akun lain (' + data.email + '), bukan akun yang sedang login (' + currentEmail + '). Diabaikan agar tidak salah tampil.');
@@ -421,12 +424,7 @@
     function loadTestResults(email) {
         if (!email) return;
 
-        fetch(API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({ action: 'getResults', email: email })
-        })
-            .then((res) => res.json())
+        MPCrypto.secureFetch(API_URL, 'getResults', { email: email })
             .then((result) => {
                 // Log mentah ke console untuk debugging. Kalau result.success === false
                 // dengan message 'Aksi tidak dikenali.', artinya Web App Apps Script
@@ -447,8 +445,8 @@
             });
     }
 
-    function applyAuthState() {
-        const user = getLoggedInUser();
+    async function applyAuthState() {
+        const user = await getLoggedInUser();
 
         const authButtons = document.getElementById('auth-buttons');
         const userGreeting = document.getElementById('user-greeting');
@@ -488,7 +486,7 @@
         }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
         const topNav = document.getElementById('top-nav');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 60) {
@@ -498,7 +496,10 @@
             }
         });
 
-        applyAuthState();
+        // Prefetch handshake DH di background (dipakai saat getResults nanti).
+        MPCrypto.ensureSession(API_URL).catch((e) => console.warn('[MindPeek] Prefetch handshake DH gagal:', e));
+
+        await applyAuthState();
 
         // Dropdown "Hi, {nama}" -> tombol Keluar
         const greetingBtn = document.getElementById('user-greeting-btn');

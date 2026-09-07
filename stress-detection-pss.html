@@ -1,10 +1,16 @@
 <!DOCTYPE html><html lang="id"><head>
 <meta charset="utf-8">
-<!-- Penjaga akses: kalau belum login, langsung alihkan ke halaman login sebelum halaman ini sempat tampil -->
+<!-- Modul enkripsi (dh + storage) — harus dimuat sebelum guard akses di bawah -->
+<script src="crypto-util.js"></script>
+<!-- Penjaga akses: kalau belum login, langsung alihkan ke halaman login sebelum halaman ini sempat tampil.
+     Async karena dekripsi localStorage sekarang memakai Web Crypto (lihat catatan sama di
+     stress_detection__2_.html). -->
 <script>
-    (function () {
+    (async function () {
         try {
-            if (!localStorage.getItem('sp_user')) {
+            const raw = localStorage.getItem('sp_user');
+            const user = await MPCrypto.decryptFromStorage(raw);
+            if (!user) {
                 window.location.replace('Login_uy_revisi.html');
             }
         } catch (e) { /* localStorage tidak tersedia (mis. pratinjau Claude) */ }
@@ -603,7 +609,7 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
         return 'Responsmu menunjukkan tekanan pada tingkat yang cukup tinggi, dan ada baiknya kamu mempertimbangkan untuk berbicara dengan tenaga profesional.';
     }
 
-    function finishTest() {
+    async function finishTest() {
         document.getElementById('q-block-' + currentIndex).classList.remove('active');
         currentIndex = QUESTIONS.length; // posisi transisi
 
@@ -617,7 +623,7 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
 
         // Simpan diam-diam untuk digabung jadi hasil akhir setelah semua bagian (PHQ-9, PSS-10, SVS) selesai
         try {
-            localStorage.setItem('sp_test_pss10', JSON.stringify({
+            localStorage.setItem('sp_test_pss10', await MPCrypto.encryptForStorage({
                 score: pssScore,
                 interpretation: interpretPSS(pssScore),
                 answers: answers,
@@ -649,10 +655,10 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
     });
 
     // ---- Status login: tampilkan "Hi, {nama}" di nav ----
-    function getLoggedInUser() {
+    async function getLoggedInUser() {
         try {
             const raw = localStorage.getItem('sp_user');
-            return raw ? JSON.parse(raw) : null;
+            return await MPCrypto.decryptFromStorage(raw);
         } catch (e) {
             return null;
         }
@@ -663,8 +669,8 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
         window.location.href = 'Login_uy_revisi.html';
     }
 
-    function applyAuthState() {
-        const user = getLoggedInUser();
+    async function applyAuthState() {
+        const user = await getLoggedInUser();
         const authButtons = document.getElementById('auth-buttons');
         const userGreeting = document.getElementById('user-greeting');
         const greetingName = document.getElementById('user-greeting-name');

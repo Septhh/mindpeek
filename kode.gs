@@ -7,6 +7,38 @@ const BASE_HEADERS = ['Email', 'Nama', 'TanggalLahir', 'JenjangPendidikan', 'Pas
 const RESULT_HEADERS = ['PHQ-9', 'Interpretasi PHQ-9', 'PSS', 'Intepretasi PSS', 'SVS', 'Interpretasi SVS'];
 const ALL_HEADERS = BASE_HEADERS.concat(RESULT_HEADERS);
 
+/* =====================================================================
+ * ENKRIPSI DH (lapisan tambahan di atas HTTPS) — lihat TODO-Enkripsi-DH.md
+ *
+ * Skema: classic Diffie-Hellman (modpow, RFC 3526 Group 14 / 2048-bit,
+ * g=2) karena Apps Script tidak punya crypto.subtle (jadi ECDH manual di
+ * sini akan jauh lebih rumit/rawan bug). Cipher simetris: stream cipher
+ * berbasis HMAC-SHA256 (mode mirip CTR) + tag HMAC-SHA256 terpisah
+ * (encrypt-then-MAC) sebagai pengganti AES-GCM, karena Apps Script juga
+ * tidak punya AES built-in — hanya butuh SHA-256 & HMAC-SHA256 yang
+ * tersedia native lewat Utilities, dan konstruksi yang identik dipakai
+ * di crypto-util.js (client) supaya kedua sisi persis sinkron.
+ * ===================================================================== */
+
+const DH_PRIME_HEX =
+  'FFFFFFFFFFFFFFFFC90FDAA22168C234C4C6628B80DC1CD129024E088A67CC' +
+  '74020BBEA63B139B22514A08798E3404DDEF9519B3CD3A431B302B0A6DF25F' +
+  '14374FE1356D6D51C245E485B576625E7EC6F44C42E9A637ED6B0BFF5CB6F4' +
+  '06B7EDEE386BFB5A899FA5AE9F24117C4B1FE649286651ECE45B3DC2007CB8' +
+  'A163BF0598DA48361C55D39A69163FA8FD24CF5F83655D23DCA3AD961C62F3' +
+  '56208552BB9ED529077096966D670C354E4ABC9804F1746C08CA18217C3290' +
+  '5E462E36CE3BE39E772C180E86039B2783A2EC07A28FB5C55DF06F4C52C9DE' +
+  '2BCBF6955817183995497CEA956AE515D2261898FA051015728E5A8AAAC42D' +
+  'AD33170D04507A33A85521ABDF1CBA64ECFB850458DBEF0A8AEA71575D060C' +
+  '7DB3970F85A6E1E4C7ABF5AE8CDB0933D71E8C94E04A25619DCEE3D2261AD2' +
+  'EE6BF12FFA06D98A0864D87602733EC86A64521F2B18177B200CBBE117577A' +
+  '615D6C770988C0BAD946E208E24FA074E5AB3143DB5BFCE0FD108E4B82D120' +
+  'A93AD2CAFFFFFFFFFFFFFFFF';
+const DH_G = 2n;
+const DH_PRIME = BigInt('0x' + DH_PRIME_HEX);
+const DH_PRIME_BYTE_LEN = 256; // 2048 bit / 8
+const DH_SESSION_TTL_SECONDS = 1800; // 30 menit — sesuai TODO ("15-30 menit"), dalam batas CacheService
+
 /* ---------------------- ROUTER ---------------------- */
 
 function doPost(e) {
@@ -14,17 +46,42 @@ function doPost(e) {
     const body = JSON.parse(e.postData.contents);
     const action = body.action;
 
-    if (action === 'register') {
-      return respond(registerUser(body));
-    } else if (action === 'login') {
-      return respond(loginUser(body));
-    } else if (action === 'saveResults') {
-      return respond(saveResults(body));
-    } else if (action === 'getResults') {
-      return respond(getResults(body));
-    } else {
-      return respond({ success: false, message: 'Aksi tidak dikenali.' });
+    // Handshake DH: satu-satunya action yang dikirim & dibalas polos (belum
+    // ada shared secret untuk enkripsi di titik ini — memang begitu cara
+    // kerja key-exchange).
+    if (action === 'dhInit') {
+      return handleDhInit(body);
     }
+
+    // Semua action lain WAJIB datang dalam bentuk terenkripsi:
+    // { action, sessionId, iv, ciphertext, tag }
+    const sessionData = loadDhSession(body.sessionId);
+    if (!sessionData) {
+      return respond({ success: false, code: 'session_expired', message: 'Sesi enkripsi kedaluwarsa atau tidak ditemukan. Mohon lakukan handshake ulang.' });
+    }
+
+    let innerData;
+    try {
+      const decrypted = symDecrypt(sessionData.encKey, sessionData.macKey, { iv: body.iv, ciphertext: body.ciphertext, tag: body.tag });
+      innerData = JSON.parse(bytesToUtf8(decrypted));
+    } catch (decErr) {
+      return respond({ success: false, code: 'session_expired', message: 'Gagal mendekripsi payload (tag tidak valid / sesi rusak). Mohon handshake ulang.' });
+    }
+
+    let result;
+    if (action === 'register') {
+      result = registerUser(innerData);
+    } else if (action === 'login') {
+      result = loginUser(innerData);
+    } else if (action === 'saveResults') {
+      result = saveResults(innerData);
+    } else if (action === 'getResults') {
+      result = getResults(innerData);
+    } else {
+      result = { success: false, message: 'Aksi tidak dikenali.' };
+    }
+
+    return respondEncrypted(result, sessionData);
   } catch (err) {
     return respond({ success: false, message: 'Terjadi kesalahan server: ' + err.message });
   }
@@ -32,6 +89,50 @@ function doPost(e) {
 
 function doGet(e) {
   return respond({ status: 'MindPeek API aktif' });
+}
+
+/* ---------------------- DH HANDSHAKE ---------------------- */
+
+function handleDhInit(body) {
+  const clientPublicHex = body.publicKey;
+  if (!clientPublicHex) {
+    return respond({ success: false, message: 'publicKey wajib diisi.' });
+  }
+
+  const clientPublic = hexToBigInt(clientPublicHex);
+  const serverPrivate = serverRandomPrivateKey();
+  const serverPublic = modPow(DH_G, serverPrivate, DH_PRIME);
+  const sharedSecret = modPow(clientPublic, serverPrivate, DH_PRIME);
+  const keys = deriveKeys(sharedSecret);
+
+  const sessionId = Utilities.getUuid();
+  const cache = CacheService.getScriptCache();
+  cache.put('dh_' + sessionId, JSON.stringify({
+    encKey: keys.encKey,
+    macKey: keys.macKey,
+    createdAt: new Date().getTime()
+  }), DH_SESSION_TTL_SECONDS);
+
+  return respond({ success: true, sessionId: sessionId, serverPublicKey: bigIntToHex(serverPublic) });
+}
+
+function loadDhSession(sessionId) {
+  if (!sessionId) return null;
+  const cache = CacheService.getScriptCache();
+  const raw = cache.get('dh_' + sessionId);
+  if (!raw) return null;
+  try {
+    const parsed = JSON.parse(raw);
+    return { encKey: parsed.encKey, macKey: parsed.macKey };
+  } catch (e) {
+    return null;
+  }
+}
+
+function respondEncrypted(obj, sessionData) {
+  const plaintext = stringToUnsignedBytes(JSON.stringify(obj));
+  const enc = symEncrypt(sessionData.encKey, sessionData.macKey, plaintext);
+  return respond({ iv: enc.iv, ciphertext: enc.ciphertext, tag: enc.tag });
 }
 
 /* ---------------------- SHEET HELPER ---------------------- */
@@ -232,7 +333,7 @@ function getResults(data) {
   };
 }
 
-/* ---------------------- HASH + SALT UTIL ---------------------- */
+/* ---------------------- HASH + SALT UTIL (password akun) ---------------------- */
 
 function hashPassword(password, salt) {
   let bytes = Utilities.computeDigest(
@@ -255,7 +356,177 @@ function bytesToHex(bytes) {
   }).join('');
 }
 
-/* ---------------------- RESPONSE HELPER ---------------------- */
+/* =====================================================================
+ * PRIMITIF DH + ENKRIPSI (byte array di sini SELALU "unsigned" [0..255]
+ * kecuali sesaat sebelum/sesudah dilempar ke fungsi bawaan Utilities,
+ * yang memakai byte signed [-128..127] — dikonversi via toSigned/toUnsigned)
+ * ===================================================================== */
+
+function toUnsigned(b) { return b < 0 ? b + 256 : b; }
+function toSigned(b) { return b > 127 ? b - 256 : b; }
+
+function hexToUnsignedBytes(hex) {
+  if (hex.length % 2 !== 0) hex = '0' + hex;
+  const out = [];
+  for (let i = 0; i < hex.length; i += 2) out.push(parseInt(hex.substr(i, 2), 16));
+  return out;
+}
+
+function hexToBigInt(hex) {
+  if (!hex) return 0n;
+  return BigInt('0x' + hex);
+}
+
+function bigIntToHex(n) {
+  let hex = n.toString(16);
+  if (hex.length % 2 !== 0) hex = '0' + hex;
+  return hex;
+}
+
+function bigIntToUnsignedBytes(n, length) {
+  const hex = bigIntToHex(n);
+  let bytes = hexToUnsignedBytes(hex);
+  if (length) {
+    if (bytes.length > length) {
+      bytes = bytes.slice(bytes.length - length);
+    } else if (bytes.length < length) {
+      bytes = new Array(length - bytes.length).fill(0).concat(bytes);
+    }
+  }
+  return bytes;
+}
+
+function unsignedBytesToBigInt(bytes) {
+  const hex = bytesToHex(bytes); // bytesToHex sudah aman untuk input unsigned juga
+  return BigInt('0x' + (hex || '00'));
+}
+
+function modPow(base, exp, mod) {
+  base = ((base % mod) + mod) % mod;
+  let result = 1n;
+  while (exp > 0n) {
+    if (exp & 1n) result = (result * base) % mod;
+    exp >>= 1n;
+    base = (base * base) % mod;
+  }
+  return result;
+}
+
+function stringToUnsignedBytes(str) {
+  const signed = Utilities.newBlob(str).getBytes(); // UTF-8 default
+  return signed.map(toUnsigned);
+}
+
+function bytesToUtf8(unsignedBytes) {
+  const signed = unsignedBytes.map(toSigned);
+  return Utilities.newBlob(signed).getDataAsString('UTF-8');
+}
+
+function sha256(unsignedBytes) {
+  const signed = unsignedBytes.map(toSigned);
+  const digest = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, signed);
+  return digest.map(toUnsigned);
+}
+
+function hmacSha256(keyUnsignedBytes, msgUnsignedBytes) {
+  const keySigned = keyUnsignedBytes.map(toSigned);
+  const msgSigned = msgUnsignedBytes.map(toSigned);
+  const sig = Utilities.computeHmacSha256Signature(msgSigned, keySigned);
+  return sig.map(toUnsigned);
+}
+
+function concatUnsigned() {
+  let out = [];
+  for (let i = 0; i < arguments.length; i++) out = out.concat(arguments[i]);
+  return out;
+}
+
+function u32be(n) {
+  return [(n >>> 24) & 0xff, (n >>> 16) & 0xff, (n >>> 8) & 0xff, n & 0xff];
+}
+
+function constantTimeEqual(a, b) {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= (a[i] ^ b[i]);
+  return diff === 0;
+}
+
+function unsignedBytesToBase64(bytes) {
+  return Utilities.base64Encode(bytes.map(toSigned));
+}
+
+function base64ToUnsignedBytes(b64) {
+  const signed = Utilities.base64Decode(b64);
+  return signed.map(toUnsigned);
+}
+
+// Apps Script tidak punya CSPRNG asli — entropy dibangun dari beberapa
+// Utilities.getUuid() (masing2 122 bit acak) + waktu + Math.random(),
+// lalu diwhiten lewat SHA-256. Ini keterbatasan yang diketahui & didoku-
+// mentasikan (lihat TODO), bukan CSPRNG kelas kriptografi penuh — cukup
+// memadai untuk private key sesi DH berumur pendek (≤30 menit, sekali pakai).
+function randomUnsignedBytes(n) {
+  let out = [];
+  while (out.length < n) {
+    const seedStr = Utilities.getUuid() + '|' + Utilities.getUuid() + '|' + new Date().getTime() + '|' + Math.random();
+    out = out.concat(sha256(stringToUnsignedBytes(seedStr)));
+  }
+  return out.slice(0, n);
+}
+
+function serverRandomPrivateKey() {
+  const bytes = randomUnsignedBytes(32); // 256-bit eksponen privat
+  return unsignedBytesToBigInt(bytes) % DH_PRIME;
+}
+
+function deriveKeys(sharedSecretBigInt) {
+  const secretBytes = bigIntToUnsignedBytes(sharedSecretBigInt, DH_PRIME_BYTE_LEN);
+  const prk = sha256(secretBytes); // "extract"
+  const encKey = hmacSha256(prk, concatUnsigned(stringToUnsignedBytes('MindPeek-enc'), [1]));
+  const macKey = hmacSha256(prk, concatUnsigned(stringToUnsignedBytes('MindPeek-mac'), [1]));
+  return { encKey: encKey, macKey: macKey };
+}
+
+// Stream cipher berbasis HMAC (mode mirip CTR) + tag HMAC (encrypt-then-MAC).
+// Konstruksi ini HARUS identik dengan versi di crypto-util.js (client).
+function symEncrypt(encKey, macKey, plaintextBytes) {
+  const iv = randomUnsignedBytes(16);
+  const nBlocks = Math.max(1, Math.ceil(plaintextBytes.length / 32));
+  let keystream = [];
+  for (let i = 0; i < nBlocks; i++) {
+    keystream = keystream.concat(hmacSha256(encKey, concatUnsigned(iv, u32be(i))));
+  }
+  keystream = keystream.slice(0, plaintextBytes.length);
+  const ciphertext = plaintextBytes.map(function (b, idx) { return b ^ keystream[idx]; });
+  const tag = hmacSha256(macKey, concatUnsigned(iv, ciphertext));
+  return {
+    iv: unsignedBytesToBase64(iv),
+    ciphertext: unsignedBytesToBase64(ciphertext),
+    tag: unsignedBytesToBase64(tag)
+  };
+}
+
+function symDecrypt(encKey, macKey, payload) {
+  const iv = base64ToUnsignedBytes(payload.iv);
+  const ciphertext = base64ToUnsignedBytes(payload.ciphertext);
+  const tag = base64ToUnsignedBytes(payload.tag);
+
+  const expectedTag = hmacSha256(macKey, concatUnsigned(iv, ciphertext));
+  if (!constantTimeEqual(tag, expectedTag)) {
+    throw new Error('Tag HMAC tidak valid.');
+  }
+
+  const nBlocks = Math.max(1, Math.ceil(ciphertext.length / 32));
+  let keystream = [];
+  for (let i = 0; i < nBlocks; i++) {
+    keystream = keystream.concat(hmacSha256(encKey, concatUnsigned(iv, u32be(i))));
+  }
+  keystream = keystream.slice(0, ciphertext.length);
+  return ciphertext.map(function (b, idx) { return b ^ keystream[idx]; });
+}
+
+/* ---------------------- RESPONSE HELPER (plain / tidak terenkripsi) ---------------------- */
 
 function respond(obj) {
   return ContentService

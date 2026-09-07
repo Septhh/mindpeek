@@ -1,18 +1,24 @@
 <!DOCTYPE html><html lang="id"><head>
 <meta charset="utf-8">
-<!-- Penjaga akses: kalau belum login, atau belum menyelesaikan bagian 1 & 2, alihkan sebelum halaman ini sempat tampil -->
+<!-- Modul enkripsi (dh + storage) — harus dimuat sebelum guard akses di bawah -->
+<script src="crypto-util.js"></script>
+<!-- Penjaga akses: kalau belum login, atau belum menyelesaikan bagian 1 & 2, alihkan sebelum halaman ini sempat tampil.
+     Async karena dekripsi localStorage sekarang memakai Web Crypto. -->
 <script>
-    (function () {
+    (async function () {
         try {
-            if (!localStorage.getItem('sp_user')) {
+            const user = await MPCrypto.decryptFromStorage(localStorage.getItem('sp_user'));
+            if (!user) {
                 window.location.replace('Login_uy_revisi.html');
                 return;
             }
-            if (!localStorage.getItem('sp_test_phq9')) {
+            const phq9 = await MPCrypto.decryptFromStorage(localStorage.getItem('sp_test_phq9'));
+            if (!phq9) {
                 window.location.replace('stress_detection__2_.html');
                 return;
             }
-            if (!localStorage.getItem('sp_test_pss10')) {
+            const pss10 = await MPCrypto.decryptFromStorage(localStorage.getItem('sp_test_pss10'));
+            if (!pss10) {
                 window.location.replace('stress-detection-pss.html');
                 return;
             }
@@ -646,23 +652,18 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
 
     /* ---------- Simpan hasil gabungan (PHQ-9 + PSS-10 + SVS) ke spreadsheet via kode.gs ---------- */
     function saveCombinedResults(email, phq9, pss10, svs) {
-        return fetch(API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({
-                action: 'saveResults',
-                email: email,
-                phq9Score: phq9.score,
-                phq9Interpretation: phq9.interpretation,
-                pssScore: pss10.score,
-                pssInterpretation: pss10.interpretation,
-                svsScore: svs.score,
-                svsInterpretation: svs.interpretation
-            })
-        }).then((res) => res.json());
+        return MPCrypto.secureFetch(API_URL, 'saveResults', {
+            email: email,
+            phq9Score: phq9.score,
+            phq9Interpretation: phq9.interpretation,
+            pssScore: pss10.score,
+            pssInterpretation: pss10.interpretation,
+            svsScore: svs.score,
+            svsInterpretation: svs.interpretation
+        });
     }
 
-    function finishTest() {
+    async function finishTest() {
         document.getElementById('q-block-' + currentIndex).classList.remove('active');
         currentIndex = QUESTIONS.length; // posisi transisi
 
@@ -676,7 +677,7 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
         };
 
         try {
-            localStorage.setItem('sp_test_svs', JSON.stringify(svsResult));
+            localStorage.setItem('sp_test_svs', await MPCrypto.encryptForStorage(svsResult));
         } catch (e) { /* localStorage tidak tersedia (mis. pratinjau Claude) */ }
 
         const resultBlock = document.getElementById('result-block');
@@ -694,13 +695,13 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
         let phq9Result = null;
         let pss10Result = null;
         try {
-            phq9Result = JSON.parse(localStorage.getItem('sp_test_phq9'));
-            pss10Result = JSON.parse(localStorage.getItem('sp_test_pss10'));
+            phq9Result = await MPCrypto.decryptFromStorage(localStorage.getItem('sp_test_phq9'));
+            pss10Result = await MPCrypto.decryptFromStorage(localStorage.getItem('sp_test_pss10'));
         } catch (e) { /* abaikan */ }
 
         const resultSubtitle = document.getElementById('result-subtitle');
         const finishBtn = document.getElementById('finish-cta-btn');
-        const user = getLoggedInUser();
+        const user = await getLoggedInUser();
 
         // sp_test_final ditandai dengan email pemiliknya, supaya halaman utama
         // (main_revisi_uy.html) tidak salah menampilkan cadangan lokal milik
@@ -713,7 +714,7 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
             completedAt: new Date().toISOString()
         };
         try {
-            localStorage.setItem('sp_test_final', JSON.stringify(finalCombined));
+            localStorage.setItem('sp_test_final', await MPCrypto.encryptForStorage(finalCombined));
         } catch (e) { /* localStorage tidak tersedia (mis. pratinjau Claude) */ }
 
         if (user && user.email && phq9Result && pss10Result) {
@@ -757,10 +758,10 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
     });
 
     // ---- Status login: tampilkan "Hi, {nama}" di nav ----
-    function getLoggedInUser() {
+    async function getLoggedInUser() {
         try {
             const raw = localStorage.getItem('sp_user');
-            return raw ? JSON.parse(raw) : null;
+            return await MPCrypto.decryptFromStorage(raw);
         } catch (e) {
             return null;
         }
@@ -771,8 +772,8 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
         window.location.href = 'Login_uy_revisi.html';
     }
 
-    function applyAuthState() {
-        const user = getLoggedInUser();
+    async function applyAuthState() {
+        const user = await getLoggedInUser();
         const authButtons = document.getElementById('auth-buttons');
         const userGreeting = document.getElementById('user-greeting');
         const greetingName = document.getElementById('user-greeting-name');
@@ -801,6 +802,8 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
     // Floating nav mengambang saat scroll — konsisten dgn halaman main & login
     document.addEventListener('DOMContentLoaded', () => {
         applyAuthState();
+        // Prefetch handshake DH di background — dipakai nanti saat saveResults dikirim.
+        MPCrypto.ensureSession(API_URL).catch((e) => console.warn('[MindPeek] Prefetch handshake DH gagal:', e));
 
         // Auto-mulai bagian 3 (SVS) — tanpa perlu tombol "Mulai Tes" lagi
         setTimeout(autoStart, 700);
