@@ -1,1 +1,483 @@
-<script>document.write(decodeURIComponent(escape(atob("PCFET0NUWVBFIGh0bWw+PGh0bWwgbGFuZz0iaWQiPjxoZWFkPjxtZXRhIGNoYXJzZXQ9InV0Zi04Ij48bWV0YSBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsIGluaXRpYWwtc2NhbGU9MS4wIiBuYW1lPSJ2aWV3cG9ydCI+PHRpdGxlPk1pbmRQZWVrIC0gQXV0aGVudGljYXRpb248L3RpdGxlPjxsaW5rIGhyZWY9Imh0dHBzOi8vZm9udHMuZ29vZ2xlYXBpcy5jb20vY3NzMj9mYW1pbHk9TWF0ZXJpYWwrU3ltYm9scytPdXRsaW5lZDp3Z2h0LEZJTExAMTAwLi43MDAsMC4uMSZhbXA7ZGlzcGxheT1zd2FwIiByZWw9InN0eWxlc2hlZXQiPjxsaW5rIGhyZWY9Imh0dHBzOi8vZm9udHMuZ29vZ2xlYXBpcy5jb20iIHJlbD0icHJlY29ubmVjdCI+PGxpbmsgY3Jvc3NvcmlnaW49IiIgaHJlZj0iaHR0cHM6Ly9mb250cy5nc3RhdGljLmNvbSIgcmVsPSJwcmVjb25uZWN0Ij48bGluayBocmVmPSJodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PUludGVyOndnaHRANDAwOzUwMDs2MDAmYW1wO2ZhbWlseT1RdWlja3NhbmQ6d2dodEA2MDA7NzAwJmFtcDtkaXNwbGF5PXN3YXAiIHJlbD0ic3R5bGVzaGVldCI+PHNjcmlwdCBzcmM9Imh0dHBzOi8vY2RuLnRhaWx3aW5kY3NzLmNvbT9wbHVnaW5zPWZvcm1zLGNvbnRhaW5lci1xdWVyaWVzIj48L3NjcmlwdD48c2NyaXB0IGlkPSJ0YWlsd2luZC1jb25maWciPiB0YWlsd2luZC5jb25maWcgPSB7IGRhcmtNb2RlOiAiY2xhc3MiLCB0aGVtZTogeyBleHRlbmQ6IHsgImNvbG9ycyI6IHsgImludmVyc2Utb24tc3VyZmFjZSI6ICIjZWJmMmY0IiwgImVycm9yLWNvbnRhaW5lciI6ICIjZmZkYWQ2IiwgIm9uLXN1cmZhY2UiOiAiIzE2MWQxZiIsICJvbi1lcnJvci1jb250YWluZXIiOiAiIzkzMDAwYSIsICJzZWNvbmRhcnktZml4ZWQiOiAiI2JlZTlmZiIsICJzZWNvbmRhcnktZml4ZWQtZGltIjogIiM4YWQwZjEiLCAib24tcHJpbWFyeSI6ICIjZmZmZmZmIiwgImludmVyc2UtcHJpbWFyeSI6ICIjNzZkNmQ1IiwgInNlY29uZGFyeSI6ICIjMGQ2NjgzIiwgInN1cmZhY2UtYnJpZ2h0IjogIiNmNGZhZmQiLCAib24tc2Vjb25kYXJ5IjogIiNmZmZmZmYiLCAib24tc2Vjb25kYXJ5LWNvbnRhaW5lciI6ICIjMDU2MzgwIiwgIm9uLXByaW1hcnktZml4ZWQiOiAiIzAwMjAyMCIsICJzdXJmYWNlLWRpbSI6ICIjZDRkYmRkIiwgInRlcnRpYXJ5LWNvbnRhaW5lciI6ICIjNjU3Njc1IiwgIm9uLWJhY2tncm91bmQiOiAiIzE2MWQxZiIsICJvbi1zdXJmYWNlLXZhcmlhbnQiOiAiIzNlNDk0OSIsICJvbi10ZXJ0aWFyeS1jb250YWluZXIiOiAiI2ViZmRmYyIsICJ0ZXJ0aWFyeS1maXhlZCI6ICIjZDRlNmU1IiwgIm9uLXByaW1hcnktZml4ZWQtdmFyaWFudCI6ICIjMDA0ZjRmIiwgIm9uLXRlcnRpYXJ5LWZpeGVkIjogIiMwZTFlMWUiLCAicHJpbWFyeSI6ICIjMDA2NTY1IiwgImVycm9yIjogIiNiYTFhMWEiLCAib24tdGVydGlhcnkiOiAiI2ZmZmZmZiIsICJzdXJmYWNlLXZhcmlhbnQiOiAiI2RkZTRlNiIsICJwcmltYXJ5LWZpeGVkIjogIiM5M2YyZjIiLCAic3VyZmFjZS1jb250YWluZXIiOiAiI2U4ZWZmMSIsICJpbnZlcnNlLXN1cmZhY2UiOiAiIzJiMzIzNCIsICJvdXRsaW5lIjogIiM2ZTc5NzkiLCAic2Vjb25kYXJ5LWNvbnRhaW5lciI6ICIjOThkZWZmIiwgInRlcnRpYXJ5LWZpeGVkLWRpbSI6ICIjYjhjYWM5IiwgIm9uLXNlY29uZGFyeS1maXhlZCI6ICIjMDAxZjJhIiwgIm9uLXByaW1hcnktY29udGFpbmVyIjogIiNlM2ZmZmUiLCAidGVydGlhcnkiOiAiIzRkNWQ1ZCIsICJzdXJmYWNlLWNvbnRhaW5lci1sb3dlc3QiOiAiI2ZmZmZmZiIsICJwcmltYXJ5LWZpeGVkLWRpbSI6ICIjNzZkNmQ1IiwgInN1cmZhY2UtdGludCI6ICIjMDA2YTZhIiwgImJhY2tncm91bmQiOiAiI2Y0ZmFmZCIsICJwcmltYXJ5LWNvbnRhaW5lciI6ICIjMDA4MDgwIiwgIm9uLWVycm9yIjogIiNmZmZmZmYiLCAic3VyZmFjZS1jb250YWluZXItaGlnaCI6ICIjZTJlOWVjIiwgInN1cmZhY2UiOiAiI2Y0ZmFmZCIsICJzdXJmYWNlLWNvbnRhaW5lci1oaWdoZXN0IjogIiNkZGU0ZTYiLCAic3VyZmFjZS1jb250YWluZXItbG93IjogIiNlZWY1ZjciLCAib24tc2Vjb25kYXJ5LWZpeGVkLXZhcmlhbnQiOiAiIzAwNGQ2NSIsICJvdXRsaW5lLXZhcmlhbnQiOiAiI2JkYzljOCIsICJvbi10ZXJ0aWFyeS1maXhlZC12YXJpYW50IjogIiMzYTRhNDkiIH0sICJib3JkZXJSYWRpdXMiOiB7ICJERUZBVUxUIjogIjAuMjVyZW0iLCAibGciOiAiMC41cmVtIiwgInhsIjogIjAuNzVyZW0iLCAiMnhsIjogIjFyZW0iLCAiM3hsIjogIjEuNXJlbSIsICJmdWxsIjogIjk5OTlweCIgfSwgInNwYWNpbmciOiB7ICJzZWN0aW9uLWdhcCI6ICI4MHB4IiwgImd1dHRlciI6ICIyNHB4IiwgIm1hcmdpbi1kZXNrdG9wIjogIjQ4cHgiLCAibWFyZ2luLW1vYmlsZSI6ICIxNnB4IiwgImNvbnRhaW5lci1tYXgiOiAiMTIwMHB4IiwgInVuaXQiOiAiOHB4IiB9LCAiZm9udEZhbWlseSI6IHsgImhlYWRsaW5lLWxnLW1vYmlsZSI6IFsiUXVpY2tzYW5kIl0sICJsYWJlbC1tZCI6IFsiSW50ZXIiXSwgImhlYWRsaW5lLWxnIjogWyJRdWlja3NhbmQiXSwgImhlYWRsaW5lLXhsIjogWyJRdWlja3NhbmQiXSwgImhlYWRsaW5lLW1kIjogWyJRdWlja3NhbmQiXSwgImJvZHktbGciOiBbIkludGVyIl0sICJib2R5LW1kIjogWyJJbnRlciJdLCAibGFiZWwtc20iOiBbIkludGVyIl0gfSwgImZvbnRTaXplIjogeyAiaGVhZGxpbmUtbGctbW9iaWxlIjogWyIyOHB4IiwgeyAibGluZUhlaWdodCI6ICIzNnB4IiwgImZvbnRXZWlnaHQiOiAiNjAwIiB9XSwgImxhYmVsLW1kIjogWyIxNHB4IiwgeyAibGluZUhlaWdodCI6ICIyMHB4IiwgImxldHRlclNwYWNpbmciOiAiMC4wMWVtIiwgImZvbnRXZWlnaHQiOiAiNTAwIiB9XSwgImhlYWRsaW5lLWxnIjogWyIzMnB4IiwgeyAibGluZUhlaWdodCI6ICI0MHB4IiwgImZvbnRXZWlnaHQiOiAiNjAwIiB9XSwgImhlYWRsaW5lLXhsIjogWyI0OHB4IiwgeyAibGluZUhlaWdodCI6ICI1NnB4IiwgImxldHRlclNwYWNpbmciOiAiLTAuMDJlbSIsICJmb250V2VpZ2h0IjogIjcwMCIgfV0sICJoZWFkbGluZS1tZCI6IFsiMjRweCIsIHsgImxpbmVIZWlnaHQiOiAiMzJweCIsICJmb250V2VpZ2h0IjogIjYwMCIgfV0sICJib2R5LWxnIjogWyIxOHB4IiwgeyAibGluZUhlaWdodCI6ICIyOHB4IiwgImZvbnRXZWlnaHQiOiAiNDAwIiB9XSwgImJvZHktbWQiOiBbIjE2cHgiLCB7ICJsaW5lSGVpZ2h0IjogIjI0cHgiLCAiZm9udFdlaWdodCI6ICI0MDAiIH1dLCAibGFiZWwtc20iOiBbIjEycHgiLCB7ICJsaW5lSGVpZ2h0IjogIjE2cHgiLCAiZm9udFdlaWdodCI6ICI2MDAiIH1dIH0gfSB9IH0gPC9zY3JpcHQ+PHN0eWxlPiBib2R5IHsgbWluLWhlaWdodDogbWF4KDg4NHB4LCAxMDBkdmgpOyB9IC8qIC0tLSBzaGFyZWQgd2l0aCBtYWluIHBhZ2UsIGtlZXBzIHRoZSB0d28gc2NyZWVucyBmZWVsaW5nIGxpa2Ugb25lIHByb2R1Y3QgLS0tICovIC5nbGFzcy1wYW5lbCB7IGJhY2tncm91bmQ6IHJnYmEoMjU1LCAyNTUsIDI1NSwgMC43KTsgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDEycHgpOyAtd2Via2l0LWJhY2tkcm9wLWZpbHRlcjogYmx1cigxMnB4KTsgYm9yZGVyOiAxcHggc29saWQgcmdiYSgyNTUsIDI1NSwgMjU1LCAwLjMpOyB9IC5zb2Z0LXNoYWRvdyB7IGJveC1zaGFkb3c6IDAgMTBweCAzMHB4IHJnYmEoMCwgMTAxLCAxMDEsIDAuMDgpOyB9IC5pcy1mbG9hdGluZyB7IHdpZHRoOiA5MiUgIWltcG9ydGFudDsgdG9wOiAxNnB4ICFpbXBvcnRhbnQ7IGJvcmRlci1yYWRpdXM6IDE2cHggIWltcG9ydGFudDsgYm94LXNoYWRvdzogMCAxMHB4IDMwcHggcmdiYSgwLCAxMDEsIDEwMSwgMC4xNSkgIWltcG9ydGFudDsgYmFja2dyb3VuZC1jb2xvcjogcmdiYSgyNDQsIDI1MCwgMjUzLCAwLjk1KSAhaW1wb3J0YW50OyB9IEBrZXlmcmFtZXMgZmFkZUluVXAgeyBmcm9tIHsgb3BhY2l0eTogMDsgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDIwcHgpOyB9IHRvIHsgb3BhY2l0eTogMTsgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDApOyB9IH0gLmFuaW1hdGUtZmFkZS1pbi11cCB7IGFuaW1hdGlvbjogZmFkZUluVXAgMC42cyBlYXNlLW91dCBmb3J3YXJkczsgfSAuZm9ybS10cmFuc2l0aW9uIHsgdHJhbnNpdGlvbjogb3BhY2l0eSAwLjRzIGVhc2UsIHRyYW5zZm9ybSAwLjRzIGVhc2U7IH0gLmZvcm0taGlkZGVuIHsgb3BhY2l0eTogMDsgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDEwcHgpOyBwb2ludGVyLWV2ZW50czogbm9uZTsgcG9zaXRpb246IGFic29sdXRlOyB2aXNpYmlsaXR5OiBoaWRkZW47IHdpZHRoOiAxMDAlOyB9IC5mb3JtLWFjdGl2ZSB7IG9wYWNpdHk6IDE7IHRyYW5zZm9ybTogdHJhbnNsYXRlWSgwKTsgcG9zaXRpb246IHJlbGF0aXZlOyB2aXNpYmlsaXR5OiB2aXNpYmxlOyB3aWR0aDogMTAwJTsgfSAubG9hZGVyIHsgYm9yZGVyOiAycHggc29saWQgdHJhbnNwYXJlbnQ7IGJvcmRlci10b3A6IDJweCBzb2xpZCBjdXJyZW50Q29sb3I7IGJvcmRlci1yaWdodDogMnB4IHNvbGlkIGN1cnJlbnRDb2xvcjsgYm9yZGVyLXJhZGl1czogNTAlOyB3aWR0aDogMTZweDsgaGVpZ2h0OiAxNnB4OyBhbmltYXRpb246IHNwaW4gMXMgbGluZWFyIGluZmluaXRlOyBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7IHZlcnRpY2FsLWFsaWduOiBtaWRkbGU7IG1hcmdpbi1yaWdodDogOHB4OyB9IEBrZXlmcmFtZXMgc3BpbiB7IDAlIHsgdHJhbnNmb3JtOiByb3RhdGUoMGRlZyk7IH0gMTAwJSB7IHRyYW5zZm9ybTogcm90YXRlKDM2MGRlZyk7IH0gfSA8L3N0eWxlPjwvaGVhZD48Ym9keSBjbGFzcz0iYmctYmFja2dyb3VuZCB0ZXh0LW9uLWJhY2tncm91bmQgZm9udC1ib2R5LW1kIGFudGlhbGlhc2VkIGZsZXggZmxleC1jb2wgbWluLWgtc2NyZWVuIj48bmF2IGNsYXNzPSJiZy1zdXJmYWNlLzgwIGJhY2tkcm9wLWJsdXIteGwgdy1mdWxsIG14LWF1dG8gdG9wLTAgc3RpY2t5IHotNTAgdHJhbnNpdGlvbi1hbGwgZHVyYXRpb24tMzAwIGVhc2UtaW4tb3V0IGJvcmRlci10cmFuc3BhcmVudCBpcy1mbG9hdGluZyIgaWQ9InRvcC1uYXYiPjxkaXYgY2xhc3M9ImZsZXgganVzdGlmeS1iZXR3ZWVuIGl0ZW1zLWNlbnRlciB3LWZ1bGwgcHgtbWFyZ2luLW1vYmlsZSBtZDpweC1tYXJnaW4tZGVza3RvcCBweS00IG1heC13LWNvbnRhaW5lci1tYXggbXgtYXV0byI+PGRpdiBjbGFzcz0iZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTQiPjxhIGNsYXNzPSJmb250LWhlYWRsaW5lLW1kIHRleHQtaGVhZGxpbmUtbWQgZm9udC1ib2xkIHRleHQtcHJpbWFyeSIgaHJlZj0ibWFpbl9yZXZpc2lfdXkuaHRtbCI+TWluZFBlZWs8L2E+PC9kaXY+PGJ1dHRvbiBjbGFzcz0ibWQ6aGlkZGVuIHRleHQtcHJpbWFyeSI+PHNwYW4gY2xhc3M9Im1hdGVyaWFsLXN5bWJvbHMtb3V0bGluZWQgdGV4dC0zeGwiPm1lbnU8L3NwYW4+PC9idXR0b24+PGRpdiBjbGFzcz0iaGlkZGVuIG1kOmZsZXggZ2FwLTggaXRlbXMtY2VudGVyIj48YSBjbGFzcz0idGV4dC1vbi1zdXJmYWNlLXZhcmlhbnQgaG92ZXI6dGV4dC1wcmltYXJ5IHRyYW5zaXRpb24tY29sb3JzIGZvbnQtbGFiZWwtbWQgdGV4dC1sYWJlbC1tZCBob3ZlcjpiZy1wcmltYXJ5LzUgdHJhbnNpdGlvbi1hbGwgZHVyYXRpb24tMzAwIiBocmVmPSJtYWluX3JldmlzaV91eS5odG1sIj5CZXJhbmRhPC9hPjxhIGNsYXNzPSJ0ZXh0LW9uLXN1cmZhY2UtdmFyaWFudCBob3Zlcjp0ZXh0LXByaW1hcnkgdHJhbnNpdGlvbi1jb2xvcnMgZm9udC1sYWJlbC1tZCB0ZXh0LWxhYmVsLW1kIGhvdmVyOmJnLXByaW1hcnkvNSB0cmFuc2l0aW9uLWFsbCBkdXJhdGlvbi0zMDAiIGhyZWY9Im1haW5fcmV2aXNpX3V5Lmh0bWwjc3RyZXNzLXRlc3QiPkRldGVrc2kgU3RyZXNzPC9hPjxhIGNsYXNzPSJ0ZXh0LW9uLXN1cmZhY2UtdmFyaWFudCBob3Zlcjp0ZXh0LXByaW1hcnkgdHJhbnNpdGlvbi1jb2xvcnMgZm9udC1sYWJlbC1tZCB0ZXh0LWxhYmVsLW1kIGhvdmVyOmJnLXByaW1hcnkvNSB0cmFuc2l0aW9uLWFsbCBkdXJhdGlvbi0zMDAiIGhyZWY9IiMiPlRlbnRhbmcgS2FtaTwvYT48L2Rpdj48ZGl2IGNsYXNzPSJmbGV4IGl0ZW1zLWNlbnRlciBnYXAtNCI+PGJ1dHRvbiBjbGFzcz0icHgtNiBweS0yIHJvdW5kZWQtZnVsbCBmb250LWxhYmVsLW1kIHRleHQtbGFiZWwtbWQgdHJhbnNpdGlvbi1hbGwgZHVyYXRpb24tMzAwIGFjdGl2ZTpzY2FsZS05NSBib3JkZXIgYm9yZGVyLXByaW1hcnkgdGV4dC1wcmltYXJ5IGhvdmVyOmJnLXByaW1hcnkvNSIgaWQ9Im5hdi1yZWdpc3Rlci1idG4iIHR5cGU9ImJ1dHRvbiI+RGFmdGFyPC9idXR0b24+PGJ1dHRvbiBjbGFzcz0icHgtNiBweS0yIHJvdW5kZWQtZnVsbCBmb250LWxhYmVsLW1kIHRleHQtbGFiZWwtbWQgdHJhbnNpdGlvbi1hbGwgZHVyYXRpb24tMzAwIGFjdGl2ZTpzY2FsZS05NSBzaGFkb3ctc20gc29mdC1zaGFkb3cgYmctcHJpbWFyeSB0ZXh0LW9uLXByaW1hcnkgaG92ZXI6YmctcHJpbWFyeS85MCIgaWQ9Im5hdi1sb2dpbi1idG4iIHR5cGU9ImJ1dHRvbiI+TWFzdWs8L2J1dHRvbj48L2Rpdj48L2Rpdj48L25hdj48bWFpbiBjbGFzcz0iZmxleC1ncm93IGZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyIHB5LTEyIHB4LW1hcmdpbi1tb2JpbGUgcmVsYXRpdmUgei0yMCB3LWZ1bGwiPjxkaXYgY2xhc3M9ImdsYXNzLXBhbmVsIHNvZnQtc2hhZG93IHJvdW5kZWQtM3hsIHJlbGF0aXZlIG92ZXJmbG93LWhpZGRlbiBweC04IHB5LTEwIHctZnVsbCBtYXgtdy1tZCBhbmltYXRlLWZhZGUtaW4tdXAiPjxkaXYgY2xhc3M9InRleHQtY2VudGVyIG1iLTggcmVsYXRpdmUgei0xMCI+PGgxIGNsYXNzPSJmb250LWhlYWRsaW5lLWxnLW1vYmlsZSB0ZXh0LWhlYWRsaW5lLWxnLW1vYmlsZSB0ZXh0LXByaW1hcnkgdHJhY2tpbmctdGlnaHQgdHJhbnNpdGlvbi1jb2xvcnMgZHVyYXRpb24tMzAwIiBpZD0ibW9kYWwtdGl0bGUiPk1hc3VrIGtlIE1pbmRQZWVrPC9oMT48cCBjbGFzcz0idGV4dC1vbi1zdXJmYWNlLXZhcmlhbnQgbXQtMiB0ZXh0LXNtIGZvbnQtYm9keS1tZCI+TWFzdWsgdW50dWsgbWVsYW5qdXRrYW4uPC9wPjwvZGl2PjxkaXYgY2xhc3M9ImhpZGRlbiBtYi00IHAtMyByb3VuZGVkLXhsIHRleHQtY2VudGVyIGZvbnQtbGFiZWwtbWQgdHJhbnNpdGlvbi1hbGwgZHVyYXRpb24tMzAwIiBpZD0iZm9ybS1mZWVkYmFjayI+PC9kaXY+PGRpdiBjbGFzcz0icmVsYXRpdmUgbWluLWgtWzMwMHB4XSI+PGZvcm0gY2xhc3M9ImZsZXggZmxleC1jb2wgZ2FwLTUgcmVsYXRpdmUgei0xMCBmb3JtLXRyYW5zaXRpb24gZm9ybS1hY3RpdmUiIGlkPSJsb2dpbi1mb3JtIj48ZGl2IGNsYXNzPSJyZWxhdGl2ZSI+PHNwYW4gY2xhc3M9Im1hdGVyaWFsLXN5bWJvbHMtb3V0bGluZWQgYWJzb2x1dGUgbGVmdC00IHRvcC0zLjUgdGV4dC1vdXRsaW5lLXZhcmlhbnQiPm1haWw8L3NwYW4+PGlucHV0IGNsYXNzPSJ3LWZ1bGwgcC0zIHBsLTEyIHJvdW5kZWQteGwgYmctc3VyZmFjZS1jb250YWluZXItbG93IGJvcmRlciBib3JkZXItdHJhbnNwYXJlbnQgZm9jdXM6Ym9yZGVyLXByaW1hcnkgZm9jdXM6Ymctc3VyZmFjZS1jb250YWluZXItbG93ZXN0IGZvY3VzOm91dGxpbmUtbm9uZSBmb2N1czpyaW5nLTEgZm9jdXM6cmluZy1wcmltYXJ5IGZvbnQtYm9keS1tZCB0cmFuc2l0aW9uLWFsbCBzaGFkb3ctc20iIGlkPSJsb2dpbi1lbWFpbCIgcGxhY2Vob2xkZXI9IkVtYWlsIiByZXF1aXJlZD0iIiB0eXBlPSJlbWFpbCI+PC9kaXY+PGRpdiBjbGFzcz0icmVsYXRpdmUiPjxzcGFuIGNsYXNzPSJtYXRlcmlhbC1zeW1ib2xzLW91dGxpbmVkIGFic29sdXRlIGxlZnQtNCB0b3AtMy41IHRleHQtb3V0bGluZS12YXJpYW50Ij5sb2NrPC9zcGFuPjxpbnB1dCBjbGFzcz0idy1mdWxsIHAtMyBwbC0xMiByb3VuZGVkLXhsIGJnLXN1cmZhY2UtY29udGFpbmVyLWxvdyBib3JkZXIgYm9yZGVyLXRyYW5zcGFyZW50IGZvY3VzOmJvcmRlci1wcmltYXJ5IGZvY3VzOmJnLXN1cmZhY2UtY29udGFpbmVyLWxvd2VzdCBmb2N1czpvdXRsaW5lLW5vbmUgZm9jdXM6cmluZy0xIGZvY3VzOnJpbmctcHJpbWFyeSBmb250LWJvZHktbWQgdHJhbnNpdGlvbi1hbGwgc2hhZG93LXNtIiBpZD0ibG9naW4tcGFzc3dvcmQiIHBsYWNlaG9sZGVyPSJQYXNzd29yZCIgcmVxdWlyZWQ9IiIgdHlwZT0icGFzc3dvcmQiPjwvZGl2PjxidXR0b24gY2xhc3M9Im10LTQgdy1mdWxsIHB5LTMuNSBiZy1wcmltYXJ5IHRleHQtb24tcHJpbWFyeSByb3VuZGVkLXhsIGZvbnQtbGFiZWwtbWQgaG92ZXI6YmctcHJpbWFyeS85MCBob3ZlcjpzaGFkb3ctbWQgdHJhbnNpdGlvbi1hbGwgYWN0aXZlOnNjYWxlLVswLjk4XSBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlciIgaWQ9ImxvZ2luLXN1Ym1pdCIgdHlwZT0ic3VibWl0Ij48c3Bhbj5NYXN1azwvc3Bhbj48L2J1dHRvbj48cCBjbGFzcz0idGV4dC1jZW50ZXIgdGV4dC1sYWJlbC1tZCB0ZXh0LW9uLXN1cmZhY2UtdmFyaWFudCBtdC0yIj5CZWx1bSBwdW55YSBha3VuPyA8YnV0dG9uIGNsYXNzPSJ0ZXh0LXNlY29uZGFyeSBmb250LWJvbGQgaG92ZXI6dGV4dC1zZWNvbmRhcnkvODAgaG92ZXI6dW5kZXJsaW5lIHVuZGVybGluZS1vZmZzZXQtNCBkZWNvcmF0aW9uLTIgdHJhbnNpdGlvbi1hbGwiIGlkPSJzaG93LXJlZ2lzdGVyIiB0eXBlPSJidXR0b24iPkRhZnRhcjwvYnV0dG9uPjwvcD48L2Zvcm0+PGZvcm0gY2xhc3M9ImZsZXggZmxleC1jb2wgZ2FwLTQgcmVsYXRpdmUgei0xMCBmb3JtLXRyYW5zaXRpb24gZm9ybS1oaWRkZW4iIGlkPSJyZWdpc3Rlci1mb3JtIj48ZGl2IGNsYXNzPSJyZWxhdGl2ZSI+PHNwYW4gY2xhc3M9Im1hdGVyaWFsLXN5bWJvbHMtb3V0bGluZWQgYWJzb2x1dGUgbGVmdC00IHRvcC0zLjUgdGV4dC1vdXRsaW5lLXZhcmlhbnQiPnBlcnNvbjwvc3Bhbj48aW5wdXQgY2xhc3M9InctZnVsbCBwLTMgcGwtMTIgcm91bmRlZC14bCBiZy1zdXJmYWNlLWNvbnRhaW5lci1sb3cgYm9yZGVyIGJvcmRlci10cmFuc3BhcmVudCBmb2N1czpib3JkZXItcHJpbWFyeSBmb2N1czpiZy1zdXJmYWNlLWNvbnRhaW5lci1sb3dlc3QgZm9jdXM6b3V0bGluZS1ub25lIGZvY3VzOnJpbmctMSBmb2N1czpyaW5nLXByaW1hcnkgZm9udC1ib2R5LW1kIHRyYW5zaXRpb24tYWxsIHNoYWRvdy1zbSIgaWQ9InJlZ2lzdGVyLW5hbWUiIHBsYWNlaG9sZGVyPSJOYW1hIExlbmdrYXAiIHJlcXVpcmVkPSIiIHR5cGU9InRleHQiPjwvZGl2PjxkaXYgY2xhc3M9InJlbGF0aXZlIj48c3BhbiBjbGFzcz0ibWF0ZXJpYWwtc3ltYm9scy1vdXRsaW5lZCBhYnNvbHV0ZSBsZWZ0LTQgdG9wLTMuNSB0ZXh0LW91dGxpbmUtdmFyaWFudCI+bWFpbDwvc3Bhbj48aW5wdXQgY2xhc3M9InctZnVsbCBwLTMgcGwtMTIgcm91bmRlZC14bCBiZy1zdXJmYWNlLWNvbnRhaW5lci1sb3cgYm9yZGVyIGJvcmRlci10cmFuc3BhcmVudCBmb2N1czpib3JkZXItcHJpbWFyeSBmb2N1czpiZy1zdXJmYWNlLWNvbnRhaW5lci1sb3dlc3QgZm9jdXM6b3V0bGluZS1ub25lIGZvY3VzOnJpbmctMSBmb2N1czpyaW5nLXByaW1hcnkgZm9udC1ib2R5LW1kIHRyYW5zaXRpb24tYWxsIHNoYWRvdy1zbSIgaWQ9InJlZ2lzdGVyLWVtYWlsIiBwbGFjZWhvbGRlcj0iRW1haWwiIHJlcXVpcmVkPSIiIHR5cGU9ImVtYWlsIj48L2Rpdj48ZGl2IGNsYXNzPSJyZWxhdGl2ZSI+PHNwYW4gY2xhc3M9Im1hdGVyaWFsLXN5bWJvbHMtb3V0bGluZWQgYWJzb2x1dGUgbGVmdC00IHRvcC0zLjUgdGV4dC1vdXRsaW5lLXZhcmlhbnQiPmNhbGVuZGFyX3RvZGF5PC9zcGFuPjxpbnB1dCBjbGFzcz0idy1mdWxsIHAtMyBwbC0xMiByb3VuZGVkLXhsIGJnLXN1cmZhY2UtY29udGFpbmVyLWxvdyBib3JkZXIgYm9yZGVyLXRyYW5zcGFyZW50IGZvY3VzOmJvcmRlci1wcmltYXJ5IGZvY3VzOmJnLXN1cmZhY2UtY29udGFpbmVyLWxvd2VzdCBmb2N1czpvdXRsaW5lLW5vbmUgZm9jdXM6cmluZy0xIGZvY3VzOnJpbmctcHJpbWFyeSBmb250LWJvZHktbWQgdGV4dC1vbi1zdXJmYWNlLXZhcmlhbnQgdHJhbnNpdGlvbi1hbGwgc2hhZG93LXNtIiBpZD0icmVnaXN0ZXItZG9iIiByZXF1aXJlZD0iIiB0aXRsZT0iVGFuZ2dhbCBMYWhpciIgdHlwZT0iZGF0ZSI+PC9kaXY+PGRpdiBjbGFzcz0icmVsYXRpdmUiPjxzcGFuIGNsYXNzPSJtYXRlcmlhbC1zeW1ib2xzLW91dGxpbmVkIGFic29sdXRlIGxlZnQtNCB0b3AtMy41IHRleHQtb3V0bGluZS12YXJpYW50Ij5zY2hvb2w8L3NwYW4+PHNlbGVjdCBjbGFzcz0idy1mdWxsIHAtMyBwbC0xMiByb3VuZGVkLXhsIGJnLXN1cmZhY2UtY29udGFpbmVyLWxvdyBib3JkZXIgYm9yZGVyLXRyYW5zcGFyZW50IGZvY3VzOmJvcmRlci1wcmltYXJ5IGZvY3VzOmJnLXN1cmZhY2UtY29udGFpbmVyLWxvd2VzdCBmb2N1czpvdXRsaW5lLW5vbmUgZm9jdXM6cmluZy0xIGZvY3VzOnJpbmctcHJpbWFyeSBmb250LWJvZHktbWQgdGV4dC1vbi1zdXJmYWNlLXZhcmlhbnQgdHJhbnNpdGlvbi1hbGwgc2hhZG93LXNtIGFwcGVhcmFuY2Utbm9uZSIgaWQ9InJlZ2lzdGVyLWVkdWNhdGlvbiIgcmVxdWlyZWQ9IiI+PG9wdGlvbiB2YWx1ZT0iIj5QaWxpaCBKZW5qYW5nIFBlbmRpZGlrYW48L29wdGlvbj48b3B0aW9uIHZhbHVlPSJzbXAiPlNNUCAvIFNlZGVyYWphdDwvb3B0aW9uPjxvcHRpb24gdmFsdWU9InNtYSI+U01BIC8gU2VkZXJhamF0PC9vcHRpb24+PG9wdGlvbiB2YWx1ZT0ia3VsaWFoIj5QZXJndXJ1YW4gVGluZ2dpPC9vcHRpb24+PC9zZWxlY3Q+PC9kaXY+PGRpdiBjbGFzcz0icmVsYXRpdmUiPjxzcGFuIGNsYXNzPSJtYXRlcmlhbC1zeW1ib2xzLW91dGxpbmVkIGFic29sdXRlIGxlZnQtNCB0b3AtMy41IHRleHQtb3V0bGluZS12YXJpYW50Ij5sb2NrPC9zcGFuPjxpbnB1dCBjbGFzcz0idy1mdWxsIHAtMyBwbC0xMiByb3VuZGVkLXhsIGJnLXN1cmZhY2UtY29udGFpbmVyLWxvdyBib3JkZXIgYm9yZGVyLXRyYW5zcGFyZW50IGZvY3VzOmJvcmRlci1wcmltYXJ5IGZvY3VzOmJnLXN1cmZhY2UtY29udGFpbmVyLWxvd2VzdCBmb2N1czpvdXRsaW5lLW5vbmUgZm9jdXM6cmluZy0xIGZvY3VzOnJpbmctcHJpbWFyeSBmb250LWJvZHktbWQgdHJhbnNpdGlvbi1hbGwgc2hhZG93LXNtIiBpZD0icmVnaXN0ZXItcGFzc3dvcmQiIHBsYWNlaG9sZGVyPSJCdWF0IFBhc3N3b3JkIiByZXF1aXJlZD0iIiB0eXBlPSJwYXNzd29yZCI+PC9kaXY+PGJ1dHRvbiBjbGFzcz0ibXQtNCB3LWZ1bGwgcHktMy41IGJnLXNlY29uZGFyeSB0ZXh0LW9uLXNlY29uZGFyeSByb3VuZGVkLXhsIGZvbnQtbGFiZWwtbWQgaG92ZXI6Ymctc2Vjb25kYXJ5LzkwIGhvdmVyOnNoYWRvdy1tZCB0cmFuc2l0aW9uLWFsbCBhY3RpdmU6c2NhbGUtWzAuOThdIGZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyIiBpZD0icmVnaXN0ZXItc3VibWl0IiB0eXBlPSJzdWJtaXQiPjxzcGFuPkRhZnRhcjwvc3Bhbj48L2J1dHRvbj48cCBjbGFzcz0idGV4dC1jZW50ZXIgdGV4dC1sYWJlbC1tZCB0ZXh0LW9uLXN1cmZhY2UtdmFyaWFudCBtdC0yIj5TdWRhaCBwdW55YSBha3VuPyA8YnV0dG9uIGNsYXNzPSJ0ZXh0LXByaW1hcnkgZm9udC1ib2xkIGhvdmVyOnRleHQtcHJpbWFyeS84MCBob3Zlcjp1bmRlcmxpbmUgdW5kZXJsaW5lLW9mZnNldC00IGRlY29yYXRpb24tMiB0cmFuc2l0aW9uLWFsbCIgaWQ9InNob3ctbG9naW4iIHR5cGU9ImJ1dHRvbiI+TWFzdWs8L2J1dHRvbj48L3A+PC9mb3JtPjwvZGl2PjwvZGl2PjwvbWFpbj48Zm9vdGVyIGNsYXNzPSJiZy1zdXJmYWNlLWNvbnRhaW5lci1sb3cgdy1mdWxsIj48ZGl2IGNsYXNzPSJmbGV4IGZsZXgtY29sIG1kOmZsZXgtcm93IGp1c3RpZnktYmV0d2VlbiBpdGVtcy1jZW50ZXIgdy1mdWxsIHB4LW1hcmdpbi1tb2JpbGUgbWQ6cHgtbWFyZ2luLWRlc2t0b3AgcHktMTAgbWF4LXctY29udGFpbmVyLW1heCBteC1hdXRvIGdhcC1ndXR0ZXIiPjxkaXYgY2xhc3M9ImZsZXggZmxleC1jb2wgaXRlbXMtY2VudGVyIG1kOml0ZW1zLXN0YXJ0IGdhcC0yIj48c3BhbiBjbGFzcz0iZm9udC1oZWFkbGluZS1tZCB0ZXh0LWhlYWRsaW5lLW1kIGZvbnQtYm9sZCB0ZXh0LXByaW1hcnkiPk1pbmRQZWVrPC9zcGFuPjxzcGFuIGNsYXNzPSJmb250LWxhYmVsLW1kIHRleHQtbGFiZWwtbWQgdGV4dC1zZWNvbmRhcnkiPsKpIDIwMjQgTWluZFBlZWsuIEhhayBjaXB0YSBkaWxpbmR1bmdpLjwvc3Bhbj48L2Rpdj48ZGl2IGNsYXNzPSJmbGV4IGZsZXgtY29sIG1kOmZsZXgtcm93IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlciBnYXAtNCBtZDpnYXAtNiI+PGEgY2xhc3M9ImZvbnQtbGFiZWwtbWQgdGV4dC1sYWJlbC1tZCB0ZXh0LW9uLXN1cmZhY2UtdmFyaWFudCBob3Zlcjp0ZXh0LXByaW1hcnkgdW5kZXJsaW5lIGRlY29yYXRpb24tMiB1bmRlcmxpbmUtb2Zmc2V0LTQgdHJhbnNpdGlvbi1hbGwgZHVyYXRpb24tMjAwIGVhc2UtaW4tb3V0IiBocmVmPSIjIj5TeWFyYXQgTGF5YW5hbjwvYT48YSBjbGFzcz0iZm9udC1sYWJlbC1tZCB0ZXh0LWxhYmVsLW1kIHRleHQtb24tc3VyZmFjZS12YXJpYW50IGhvdmVyOnRleHQtcHJpbWFyeSB1bmRlcmxpbmUgZGVjb3JhdGlvbi0yIHVuZGVybGluZS1vZmZzZXQtNCB0cmFuc2l0aW9uLWFsbCBkdXJhdGlvbi0yMDAgZWFzZS1pbi1vdXQiIGhyZWY9IiMiPktlYmlqYWthbiBQcml2YXNpPC9hPjxhIGNsYXNzPSJmb250LWxhYmVsLW1kIHRleHQtbGFiZWwtbWQgdGV4dC1vbi1zdXJmYWNlLXZhcmlhbnQgaG92ZXI6dGV4dC1wcmltYXJ5IHVuZGVybGluZSBkZWNvcmF0aW9uLTIgdW5kZXJsaW5lLW9mZnNldC00IHRyYW5zaXRpb24tYWxsIGR1cmF0aW9uLTIwMCBlYXNlLWluLW91dCIgaHJlZj0iIyI+SHVidW5naSBLYW1pPC9hPjxhIGNsYXNzPSJmb250LWxhYmVsLW1kIHRleHQtbGFiZWwtbWQgdGV4dC1vbi1zdXJmYWNlLXZhcmlhbnQgaG92ZXI6dGV4dC1wcmltYXJ5IHVuZGVybGluZSBkZWNvcmF0aW9uLTIgdW5kZXJsaW5lLW9mZnNldC00IHRyYW5zaXRpb24tYWxsIGR1cmF0aW9uLTIwMCBlYXNlLWluLW91dCIgaHJlZj0iIyI+UHVzYXQgQmFudHVhbjwvYT48L2Rpdj48L2Rpdj48L2Zvb3Rlcj48c2NyaXB0IHNyYz0iY3J5cHRvLXV0aWwuanMiPjwvc2NyaXB0PjxzY3JpcHQ+IGNvbnN0IEFQSV9VUkwgPSAnaHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J5OGtIOEVhWmpxWmp0ZkZMa3ViNEU2c3plUW80VGRJd3gwVHVnRjFVdHBiemlzQkF5OFJmR1Q5Z1pUN1doX0N0bkVCdy9leGVjJzsgZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGFzeW5jICgpID0+IHsgLy8gS2FsYXUgdGVybnlhdGEgc3VkYWggbG9naW4sIHRpZGFrIHBlcmx1IHRhbXBpbGthbiBmb3JtIGluaSBsYWdpIHRyeSB7IGNvbnN0IGV4aXN0aW5nUmF3ID0gbG9jYWxTdG9yYWdlLmdldEl0ZW0oJ3NwX3VzZXInKTsgY29uc3QgZXhpc3RpbmcgPSBhd2FpdCBNUENyeXB0by5kZWNyeXB0RnJvbVN0b3JhZ2UoZXhpc3RpbmdSYXcpOyBpZiAoZXhpc3RpbmcpIHsgd2luZG93LmxvY2F0aW9uLmhyZWYgPSAnbWFpbl9yZXZpc2lfdXkuaHRtbCc7IHJldHVybjsgfSB9IGNhdGNoIChlKSB7IC8qIGxvY2FsU3RvcmFnZSB0aWRhayB0ZXJzZWRpYSAobWlzLiBwcmF0aW5qYXUgQ2xhdWRlKSAqLyB9IC8vIFByZWZldGNoIGhhbmRzaGFrZSBESCBkaSBiYWNrZ3JvdW5kIHN1cGF5YSBzdWJtaXQgZm9ybSBsb2dpbi9yZWdpc3RlciAvLyB0aWRhayBwZXJsdSBtZW51bmdndSByb3VuZC10cmlwIGhhbmRzaGFrZSBsYWdpICh0aWRhayBtZW1ibG9raXIgVUkpLiBNUENyeXB0by5lbnN1cmVTZXNzaW9uKEFQSV9VUkwpLmNhdGNoKChlKSA9PiBjb25zb2xlLndhcm4oJ1tNaW5kUGVla10gUHJlZmV0Y2ggaGFuZHNoYWtlIERIIGdhZ2FsIChha2FuIGRpY29iYSBsYWdpIHNhYXQgc3VibWl0KTonLCBlKSk7IC8vIEZsb2F0aW5nIG5hdiBvbiBzY3JvbGwg4oCUIGlkZW50aWNhbCBiZWhhdmlvdXIgdG8gdGhlIG1haW4gcGFnZSBjb25zdCB0b3BOYXYgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgndG9wLW5hdicpOyB3aW5kb3cuYWRkRXZlbnRMaXN0ZW5lcignc2Nyb2xsJywgKCkgPT4geyBpZiAod2luZG93LnNjcm9sbFkgPiA2MCkgeyB0b3BOYXYuY2xhc3NMaXN0LmFkZCgnaXMtZmxvYXRpbmcnKTsgfSBlbHNlIHsgdG9wTmF2LmNsYXNzTGlzdC5yZW1vdmUoJ2lzLWZsb2F0aW5nJyk7IH0gfSk7IGNvbnN0IGxvZ2luRm9ybSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdsb2dpbi1mb3JtJyk7IGNvbnN0IHJlZ2lzdGVyRm9ybSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdyZWdpc3Rlci1mb3JtJyk7IGNvbnN0IHNob3dSZWdpc3RlckJ0biA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdzaG93LXJlZ2lzdGVyJyk7IGNvbnN0IHNob3dMb2dpbkJ0biA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdzaG93LWxvZ2luJyk7IGNvbnN0IG5hdlJlZ2lzdGVyQnRuID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ25hdi1yZWdpc3Rlci1idG4nKTsgY29uc3QgbmF2TG9naW5CdG4gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbmF2LWxvZ2luLWJ0bicpOyBjb25zdCBtb2RhbFRpdGxlID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ21vZGFsLXRpdGxlJyk7IGNvbnN0IGZlZWRiYWNrRWwgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZm9ybS1mZWVkYmFjaycpOyBmdW5jdGlvbiBzZXROYXZBY3RpdmUodGFyZ2V0KSB7IGlmICh0YXJnZXQgPT09ICdsb2dpbicpIHsgbmF2TG9naW5CdG4uY2xhc3NOYW1lID0gJ3B4LTYgcHktMiByb3VuZGVkLWZ1bGwgZm9udC1sYWJlbC1tZCB0ZXh0LWxhYmVsLW1kIHRyYW5zaXRpb24tYWxsIGR1cmF0aW9uLTMwMCBhY3RpdmU6c2NhbGUtOTUgc2hhZG93LXNtIHNvZnQtc2hhZG93IGJnLXByaW1hcnkgdGV4dC1vbi1wcmltYXJ5IGhvdmVyOmJnLXByaW1hcnkvOTAnOyBuYXZSZWdpc3RlckJ0bi5jbGFzc05hbWUgPSAncHgtNiBweS0yIHJvdW5kZWQtZnVsbCBmb250LWxhYmVsLW1kIHRleHQtbGFiZWwtbWQgdHJhbnNpdGlvbi1hbGwgZHVyYXRpb24tMzAwIGFjdGl2ZTpzY2FsZS05NSBib3JkZXIgYm9yZGVyLXByaW1hcnkgdGV4dC1wcmltYXJ5IGhvdmVyOmJnLXByaW1hcnkvNSc7IH0gZWxzZSB7IG5hdlJlZ2lzdGVyQnRuLmNsYXNzTmFtZSA9ICdweC02IHB5LTIgcm91bmRlZC1mdWxsIGZvbnQtbGFiZWwtbWQgdGV4dC1sYWJlbC1tZCB0cmFuc2l0aW9uLWFsbCBkdXJhdGlvbi0zMDAgYWN0aXZlOnNjYWxlLTk1IHNoYWRvdy1zbSBzb2Z0LXNoYWRvdyBiZy1zZWNvbmRhcnkgdGV4dC1vbi1zZWNvbmRhcnkgaG92ZXI6Ymctc2Vjb25kYXJ5LzkwJzsgbmF2TG9naW5CdG4uY2xhc3NOYW1lID0gJ3B4LTYgcHktMiByb3VuZGVkLWZ1bGwgZm9udC1sYWJlbC1tZCB0ZXh0LWxhYmVsLW1kIHRyYW5zaXRpb24tYWxsIGR1cmF0aW9uLTMwMCBhY3RpdmU6c2NhbGUtOTUgYm9yZGVyIGJvcmRlci1zZWNvbmRhcnkgdGV4dC1zZWNvbmRhcnkgaG92ZXI6Ymctc2Vjb25kYXJ5LzUnOyB9IH0gZnVuY3Rpb24gc2hvd0xvZ2luKCkgeyByZWdpc3RlckZvcm0uY2xhc3NMaXN0LnJlbW92ZSgnZm9ybS1hY3RpdmUnKTsgcmVnaXN0ZXJGb3JtLmNsYXNzTGlzdC5hZGQoJ2Zvcm0taGlkZGVuJyk7IGxvZ2luRm9ybS5jbGFzc0xpc3QucmVtb3ZlKCdmb3JtLWhpZGRlbicpOyBsb2dpbkZvcm0uY2xhc3NMaXN0LmFkZCgnZm9ybS1hY3RpdmUnKTsgbW9kYWxUaXRsZS50ZXh0Q29udGVudCA9ICdNYXN1ayBrZSBNaW5kUGVlayc7IG1vZGFsVGl0bGUuY2xhc3NOYW1lID0gJ2ZvbnQtaGVhZGxpbmUtbGctbW9iaWxlIHRleHQtaGVhZGxpbmUtbGctbW9iaWxlIHRleHQtcHJpbWFyeSB0cmFja2luZy10aWdodCB0cmFuc2l0aW9uLWNvbG9ycyBkdXJhdGlvbi0zMDAnOyBzZXROYXZBY3RpdmUoJ2xvZ2luJyk7IH0gZnVuY3Rpb24gc2hvd1JlZ2lzdGVyKCkgeyBsb2dpbkZvcm0uY2xhc3NMaXN0LnJlbW92ZSgnZm9ybS1hY3RpdmUnKTsgbG9naW5Gb3JtLmNsYXNzTGlzdC5hZGQoJ2Zvcm0taGlkZGVuJyk7IHJlZ2lzdGVyRm9ybS5jbGFzc0xpc3QucmVtb3ZlKCdmb3JtLWhpZGRlbicpOyByZWdpc3RlckZvcm0uY2xhc3NMaXN0LmFkZCgnZm9ybS1hY3RpdmUnKTsgbW9kYWxUaXRsZS50ZXh0Q29udGVudCA9ICdEYWZ0YXIgTWluZFBlZWsnOyBtb2RhbFRpdGxlLmNsYXNzTmFtZSA9ICdmb250LWhlYWRsaW5lLWxnLW1vYmlsZSB0ZXh0LWhlYWRsaW5lLWxnLW1vYmlsZSB0ZXh0LXNlY29uZGFyeSB0cmFja2luZy10aWdodCB0cmFuc2l0aW9uLWNvbG9ycyBkdXJhdGlvbi0zMDAnOyBzZXROYXZBY3RpdmUoJ3JlZ2lzdGVyJyk7IH0gZnVuY3Rpb24gdG9nZ2xlRm9ybXMoKSB7IGZlZWRiYWNrRWwuY2xhc3NMaXN0LmFkZCgnaGlkZGVuJyk7IGZlZWRiYWNrRWwuY2xhc3NOYW1lID0gJ2hpZGRlbiBtYi00IHAtMyByb3VuZGVkLXhsIHRleHQtY2VudGVyIGZvbnQtbGFiZWwtbWQgdHJhbnNpdGlvbi1hbGwgZHVyYXRpb24tMzAwJzsgY29uc3QgaXNMb2dpblZpc2libGUgPSBsb2dpbkZvcm0uY2xhc3NMaXN0LmNvbnRhaW5zKCdmb3JtLWFjdGl2ZScpOyBpZiAoaXNMb2dpblZpc2libGUpIHsgc2hvd1JlZ2lzdGVyKCk7IH0gZWxzZSB7IHNob3dMb2dpbigpOyB9IH0gc2hvd1JlZ2lzdGVyQnRuLmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgdG9nZ2xlRm9ybXMpOyBzaG93TG9naW5CdG4uYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCB0b2dnbGVGb3Jtcyk7IG5hdlJlZ2lzdGVyQnRuLmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgKCkgPT4geyBmZWVkYmFja0VsLmNsYXNzTGlzdC5hZGQoJ2hpZGRlbicpOyBzaG93UmVnaXN0ZXIoKTsgfSk7IG5hdkxvZ2luQnRuLmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgKCkgPT4geyBmZWVkYmFja0VsLmNsYXNzTGlzdC5hZGQoJ2hpZGRlbicpOyBzaG93TG9naW4oKTsgfSk7IC8vIEhhbmRsZSBpbml0aWFsIHN0YXRlIGZyb20gVVJMIGNvbnN0IHVybFBhcmFtcyA9IG5ldyBVUkxTZWFyY2hQYXJhbXMod2luZG93LmxvY2F0aW9uLnNlYXJjaCk7IGlmICh1cmxQYXJhbXMuZ2V0KCdzdGF0ZScpID09PSAncmVnaXN0ZXInIHx8IHdpbmRvdy5sb2NhdGlvbi5oYXNoID09PSAnI3JlZ2lzdGVyJykgeyBzaG93UmVnaXN0ZXIoKTsgfSBlbHNlIHsgc2V0TmF2QWN0aXZlKCdsb2dpbicpOyB9IGZ1bmN0aW9uIHNob3dGZWVkYmFjayhtZXNzYWdlLCB0eXBlKSB7IGZlZWRiYWNrRWwudGV4dENvbnRlbnQgPSBtZXNzYWdlOyBmZWVkYmFja0VsLmNsYXNzTGlzdC5yZW1vdmUoJ2hpZGRlbicsICdiZy1lcnJvci1jb250YWluZXInLCAndGV4dC1vbi1lcnJvci1jb250YWluZXInLCAnYmctcHJpbWFyeS1jb250YWluZXInLCAndGV4dC1vbi1wcmltYXJ5LWNvbnRhaW5lcicsICdiZy1zdXJmYWNlLWNvbnRhaW5lcicsICd0ZXh0LW9uLXN1cmZhY2UnKTsgaWYgKHR5cGUgPT09ICdzdWNjZXNzJykgeyBmZWVkYmFja0VsLmNsYXNzTGlzdC5hZGQoJ2JnLXByaW1hcnktY29udGFpbmVyJywgJ3RleHQtb24tcHJpbWFyeS1jb250YWluZXInKTsgfSBlbHNlIGlmICh0eXBlID09PSAnZXJyb3InKSB7IGZlZWRiYWNrRWwuY2xhc3NMaXN0LmFkZCgnYmctZXJyb3ItY29udGFpbmVyJywgJ3RleHQtb24tZXJyb3ItY29udGFpbmVyJyk7IH0gZWxzZSB7IGZlZWRiYWNrRWwuY2xhc3NMaXN0LmFkZCgnYmctc3VyZmFjZS1jb250YWluZXInLCAndGV4dC1vbi1zdXJmYWNlJyk7IH0gfSBmdW5jdGlvbiBzZXRMb2FkaW5nKGJ0biwgaXNMb2FkaW5nLCBvcmlnaW5hbFRleHQpIHsgaWYgKGlzTG9hZGluZykgeyBidG4uZGlzYWJsZWQgPSB0cnVlOyBidG4uaW5uZXJIVE1MID0gYDxzcGFuIGNsYXNzPSJsb2FkZXIiPjwvc3Bhbj4gTWVtdWF0Li4uYDsgYnRuLmNsYXNzTGlzdC5hZGQoJ29wYWNpdHktODAnLCAnY3Vyc29yLW5vdC1hbGxvd2VkJyk7IH0gZWxzZSB7IGJ0bi5kaXNhYmxlZCA9IGZhbHNlOyBidG4uaW5uZXJIVE1MID0gYDxzcGFuPiR7b3JpZ2luYWxUZXh0fTwvc3Bhbj5gOyBidG4uY2xhc3NMaXN0LnJlbW92ZSgnb3BhY2l0eS04MCcsICdjdXJzb3Itbm90LWFsbG93ZWQnKTsgfSB9IGxvZ2luRm9ybS5hZGRFdmVudExpc3RlbmVyKCdzdWJtaXQnLCAoZSkgPT4geyBlLnByZXZlbnREZWZhdWx0KCk7IGNvbnN0IGVtYWlsID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2xvZ2luLWVtYWlsJykudmFsdWUudHJpbSgpOyBjb25zdCBwYXNzd29yZCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdsb2dpbi1wYXNzd29yZCcpLnZhbHVlLnRyaW0oKTsgaWYgKCFlbWFpbCB8fCAhcGFzc3dvcmQpIHsgc2hvd0ZlZWRiYWNrKCdNb2hvbiBsZW5na2FwaSBzZW11YSBrb2xvbS4nLCAnZXJyb3InKTsgcmV0dXJuOyB9IGNvbnN0IGJ0biA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdsb2dpbi1zdWJtaXQnKTsgc2V0TG9hZGluZyhidG4sIHRydWUsICdNYXN1aycpOyBmZWVkYmFja0VsLmNsYXNzTGlzdC5hZGQoJ2hpZGRlbicpOyBNUENyeXB0by5zZWN1cmVGZXRjaChBUElfVVJMLCAnbG9naW4nLCB7IGVtYWlsLCBwYXNzd29yZCB9KSAudGhlbihhc3luYyAocmVzdWx0KSA9PiB7IHNldExvYWRpbmcoYnRuLCBmYWxzZSwgJ01hc3VrJyk7IGlmIChyZXN1bHQuc3VjY2VzcykgeyAvLyBLYWxhdSBha3VuIHlhbmcgbG9naW4gc2VrYXJhbmcgYmVyYmVkYSBkYXJpIGFrdW4gdGVyYWtoaXIgZGkgYnJvd3NlciAvLyBpbmksIGJlcnNpaGthbiBzaXNhIGRhdGEgdGVzIGxva2FsIChwcm9ncmVzL2hhc2lsIFBIUS05LCBQU1MtMTAsIFNWUykgLy8gc3VwYXlhIFRJREFLIGlrdXQgdGVyYmF3YS90ZXJ0YW1waWwga2UgYWt1biB5YW5nIGJhcnUgbG9naW4uIHRyeSB7IGNvbnN0IHByZXZVc2VyUmF3ID0gbG9jYWxTdG9yYWdlLmdldEl0ZW0oJ3NwX3VzZXInKTsgY29uc3QgcHJldlVzZXIgPSBhd2FpdCBNUENyeXB0by5kZWNyeXB0RnJvbVN0b3JhZ2UocHJldlVzZXJSYXcpOyBjb25zdCBwcmV2RW1haWwgPSBwcmV2VXNlciAmJiBwcmV2VXNlci5lbWFpbCA/IHByZXZVc2VyLmVtYWlsLnRvTG93ZXJDYXNlKCkgOiBudWxsOyBjb25zdCBuZXdFbWFpbCA9IHJlc3VsdC51c2VyICYmIHJlc3VsdC51c2VyLmVtYWlsID8gcmVzdWx0LnVzZXIuZW1haWwudG9Mb3dlckNhc2UoKSA6IG51bGw7IGlmIChwcmV2RW1haWwgIT09IG5ld0VtYWlsKSB7IFsnc3BfdGVzdF9waHE5JywgJ3NwX3Rlc3RfcHNzMTAnLCAnc3BfdGVzdF9zdnMnLCAnc3BfdGVzdF9maW5hbCddLmZvckVhY2goKGspID0+IGxvY2FsU3RvcmFnZS5yZW1vdmVJdGVtKGspKTsgfSB9IGNhdGNoIChlKSB7IC8qIGFiYWlrYW4gKi8gfSAvLyBTaW1wYW4gc3RhdHVzIGxvZ2luIHVudHVrIGRpYmFjYSBoYWxhbWFuIGxhaW4gKG5hdiAiSGksIHtuYW1hfSIsIGRzYi4pIHRyeSB7IGxvY2FsU3RvcmFnZS5zZXRJdGVtKCdzcF91c2VyJywgYXdhaXQgTVBDcnlwdG8uZW5jcnlwdEZvclN0b3JhZ2UocmVzdWx0LnVzZXIpKTsgfSBjYXRjaCAoZSkgeyAvKiBsb2NhbFN0b3JhZ2UgdGlkYWsgdGVyc2VkaWEgKG1pcy4gcHJhdGluamF1IENsYXVkZSkgKi8gfSBzaG93RmVlZGJhY2soJ0xvZ2luIGJlcmhhc2lsISBNZW5nYWxpaGthbi4uLicsICdzdWNjZXNzJyk7IHNldFRpbWVvdXQoKCkgPT4geyB3aW5kb3cubG9jYXRpb24uaHJlZiA9ICdtYWluX3JldmlzaV91eS5odG1sJzsgfSwgMTIwMCk7IH0gZWxzZSB7IHNob3dGZWVkYmFjayhyZXN1bHQubWVzc2FnZSB8fCAnRW1haWwgYXRhdSBwYXNzd29yZCBzYWxhaC4nLCAnZXJyb3InKTsgfSB9KSAuY2F0Y2goKGVycikgPT4geyBjb25zb2xlLmVycm9yKGVycik7IHNldExvYWRpbmcoYnRuLCBmYWxzZSwgJ01hc3VrJyk7IHNob3dGZWVkYmFjaygnR2FnYWwgdGVyaHVidW5nIGtlIHNlcnZlci4gUGVyaWtzYSBrb25la3NpIGF0YXUgVVJMIEFQSS4nLCAnZXJyb3InKTsgfSk7IH0pOyByZWdpc3RlckZvcm0uYWRkRXZlbnRMaXN0ZW5lcignc3VibWl0JywgKGUpID0+IHsgZS5wcmV2ZW50RGVmYXVsdCgpOyBjb25zdCBuYW1lID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3JlZ2lzdGVyLW5hbWUnKS52YWx1ZS50cmltKCk7IGNvbnN0IGVtYWlsID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3JlZ2lzdGVyLWVtYWlsJykudmFsdWUudHJpbSgpOyBjb25zdCBkb2IgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgncmVnaXN0ZXItZG9iJykudmFsdWUudHJpbSgpOyBjb25zdCBlZHVjYXRpb24gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgncmVnaXN0ZXItZWR1Y2F0aW9uJykudmFsdWUudHJpbSgpOyBjb25zdCBwYXNzd29yZCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdyZWdpc3Rlci1wYXNzd29yZCcpLnZhbHVlLnRyaW0oKTsgaWYgKCFuYW1lIHx8ICFlbWFpbCB8fCAhZG9iIHx8ICFlZHVjYXRpb24gfHwgIXBhc3N3b3JkKSB7IHNob3dGZWVkYmFjaygnTW9ob24gbGVuZ2thcGkgc2VtdWEga29sb20uJywgJ2Vycm9yJyk7IHJldHVybjsgfSBjb25zdCBidG4gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgncmVnaXN0ZXItc3VibWl0Jyk7IHNldExvYWRpbmcoYnRuLCB0cnVlLCAnRGFmdGFyJyk7IGZlZWRiYWNrRWwuY2xhc3NMaXN0LmFkZCgnaGlkZGVuJyk7IE1QQ3J5cHRvLnNlY3VyZUZldGNoKEFQSV9VUkwsICdyZWdpc3RlcicsIHsgbmFtZSwgZW1haWwsIGRvYiwgZWR1Y2F0aW9uLCBwYXNzd29yZCB9KSAudGhlbigocmVzdWx0KSA9PiB7IHNldExvYWRpbmcoYnRuLCBmYWxzZSwgJ0RhZnRhcicpOyBpZiAocmVzdWx0LnN1Y2Nlc3MpIHsgc2hvd0ZlZWRiYWNrKCdSZWdpc3RyYXNpIGJlcmhhc2lsISBTaWxha2FuIG1hc3VrLicsICdzdWNjZXNzJyk7IHJlZ2lzdGVyRm9ybS5yZXNldCgpOyBzZXRUaW1lb3V0KCgpID0+IHsgc2hvd0xvZ2luKCk7IH0sIDIwMDApOyB9IGVsc2UgeyBzaG93RmVlZGJhY2socmVzdWx0Lm1lc3NhZ2UgfHwgJ1JlZ2lzdHJhc2kgZ2FnYWwuIENvYmEgbGFnaS4nLCAnZXJyb3InKTsgfSB9KSAuY2F0Y2goKGVycikgPT4geyBjb25zb2xlLmVycm9yKGVycik7IHNldExvYWRpbmcoYnRuLCBmYWxzZSwgJ0RhZnRhcicpOyBzaG93RmVlZGJhY2soJ0dhZ2FsIHRlcmh1YnVuZyBrZSBzZXJ2ZXIuIFBlcmlrc2Ega29uZWtzaSBhdGF1IFVSTCBBUEkuJywgJ2Vycm9yJyk7IH0pOyB9KTsgfSk7IDwvc2NyaXB0PjwvYm9keT48L2h0bWw+"))));</script>
+<!DOCTYPE html><html lang="id"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>MindPeek - Authentication</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Quicksand:wght@600;700&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-on-surface": "#ebf2f4",
+                      "error-container": "#ffdad6",
+                      "on-surface": "#161d1f",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed": "#bee9ff",
+                      "secondary-fixed-dim": "#8ad0f1",
+                      "on-primary": "#ffffff",
+                      "inverse-primary": "#76d6d5",
+                      "secondary": "#0d6683",
+                      "surface-bright": "#f4fafd",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-container": "#056380",
+                      "on-primary-fixed": "#002020",
+                      "surface-dim": "#d4dbdd",
+                      "tertiary-container": "#657675",
+                      "on-background": "#161d1f",
+                      "on-surface-variant": "#3e4949",
+                      "on-tertiary-container": "#ebfdfc",
+                      "tertiary-fixed": "#d4e6e5",
+                      "on-primary-fixed-variant": "#004f4f",
+                      "on-tertiary-fixed": "#0e1e1e",
+                      "primary": "#006565",
+                      "error": "#ba1a1a",
+                      "on-tertiary": "#ffffff",
+                      "surface-variant": "#dde4e6",
+                      "primary-fixed": "#93f2f2",
+                      "surface-container": "#e8eff1",
+                      "inverse-surface": "#2b3234",
+                      "outline": "#6e7979",
+                      "secondary-container": "#98deff",
+                      "tertiary-fixed-dim": "#b8cac9",
+                      "on-secondary-fixed": "#001f2a",
+                      "on-primary-container": "#e3fffe",
+                      "tertiary": "#4d5d5d",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-fixed-dim": "#76d6d5",
+                      "surface-tint": "#006a6a",
+                      "background": "#f4fafd",
+                      "primary-container": "#008080",
+                      "on-error": "#ffffff",
+                      "surface-container-high": "#e2e9ec",
+                      "surface": "#f4fafd",
+                      "surface-container-highest": "#dde4e6",
+                      "surface-container-low": "#eef5f7",
+                      "on-secondary-fixed-variant": "#004d65",
+                      "outline-variant": "#bdc9c8",
+                      "on-tertiary-fixed-variant": "#3a4a49"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "2xl": "1rem",
+                      "3xl": "1.5rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "section-gap": "80px",
+                      "gutter": "24px",
+                      "margin-desktop": "48px",
+                      "margin-mobile": "16px",
+                      "container-max": "1200px",
+                      "unit": "8px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": ["Quicksand"],
+                      "label-md": ["Inter"],
+                      "headline-lg": ["Quicksand"],
+                      "headline-xl": ["Quicksand"],
+                      "headline-md": ["Quicksand"],
+                      "body-lg": ["Inter"],
+                      "body-md": ["Inter"],
+                      "label-sm": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                      "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                      "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                      "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                      "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                      "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                      "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                      "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+        /* --- shared with main page, keeps the two screens feeling like one product --- */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .soft-shadow {
+            box-shadow: 0 10px 30px rgba(0, 101, 101, 0.08);
+        }
+        .is-floating {
+            width: 92% !important;
+            top: 16px !important;
+            border-radius: 16px !important;
+            box-shadow: 0 10px 30px rgba(0, 101, 101, 0.15) !important;
+            background-color: rgba(244, 250, 253, 0.95) !important;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        .form-transition {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .form-hidden {
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+            position: absolute;
+            visibility: hidden;
+            width: 100%;
+        }
+        .form-active {
+            opacity: 1;
+            transform: translateY(0);
+            position: relative;
+            visibility: visible;
+            width: 100%;
+        }
+        .loader {
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-right: 2px solid currentColor;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased flex flex-col min-h-screen">
+<!-- TopNavBar (same floating behaviour as the main page) -->
+<nav class="bg-surface/80 backdrop-blur-xl w-full mx-auto top-0 sticky z-50 transition-all duration-300 ease-in-out border-transparent is-floating" id="top-nav">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="flex items-center gap-4">
+<a class="font-headline-md text-headline-md font-bold text-primary" href="main_revisi_uy.html">MindPeek</a>
+</div><button class="md:hidden text-primary"><span class="material-symbols-outlined text-3xl">menu</span></button>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md hover:bg-primary/5 transition-all duration-300" href="main_revisi_uy.html">Beranda</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md hover:bg-primary/5 transition-all duration-300" href="main_revisi_uy.html#stress-test">Deteksi Stress</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md hover:bg-primary/5 transition-all duration-300" href="#">Tentang Kami</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-6 py-2 rounded-full font-label-md text-label-md transition-all duration-300 active:scale-95 border border-primary text-primary hover:bg-primary/5" id="nav-register-btn" type="button">Daftar</button>
+<button class="px-6 py-2 rounded-full font-label-md text-label-md transition-all duration-300 active:scale-95 shadow-sm soft-shadow bg-primary text-on-primary hover:bg-primary/90" id="nav-login-btn" type="button">Masuk</button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow flex items-center justify-center py-12 px-margin-mobile relative z-20 w-full">
+<div class="glass-panel soft-shadow rounded-3xl relative overflow-hidden px-8 py-10 w-full max-w-md animate-fade-in-up">
+<div class="text-center mb-8 relative z-10">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight transition-colors duration-300" id="modal-title">Masuk ke MindPeek</h1>
+<p class="text-on-surface-variant mt-2 text-sm font-body-md">Masuk untuk melanjutkan.</p>
+</div>
+<div class="hidden mb-4 p-3 rounded-xl text-center font-label-md transition-all duration-300" id="form-feedback"></div>
+<div class="relative min-h-[300px]">
+<!-- Login Form -->
+<form class="flex flex-col gap-5 relative z-10 form-transition form-active" id="login-form">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-3.5 text-outline-variant">mail</span>
+<input class="w-full p-3 pl-12 rounded-xl bg-surface-container-low border border-transparent focus:border-primary focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary font-body-md transition-all shadow-sm" id="login-email" placeholder="Email" required="" type="email">
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-3.5 text-outline-variant">lock</span>
+<input class="w-full p-3 pl-12 rounded-xl bg-surface-container-low border border-transparent focus:border-primary focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary font-body-md transition-all shadow-sm" id="login-password" placeholder="Password" required="" type="password">
+</div>
+<button class="mt-4 w-full py-3.5 bg-primary text-on-primary rounded-xl font-label-md hover:bg-primary/90 hover:shadow-md transition-all active:scale-[0.98] flex items-center justify-center" id="login-submit" type="submit">
+<span>Masuk</span>
+</button>
+<p class="text-center text-label-md text-on-surface-variant mt-2">Belum punya akun? <button class="text-secondary font-bold hover:text-secondary/80 hover:underline underline-offset-4 decoration-2 transition-all" id="show-register" type="button">Daftar</button></p>
+</form>
+<!-- Register Form -->
+<form class="flex flex-col gap-4 relative z-10 form-transition form-hidden" id="register-form">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-3.5 text-outline-variant">person</span>
+<input class="w-full p-3 pl-12 rounded-xl bg-surface-container-low border border-transparent focus:border-primary focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary font-body-md transition-all shadow-sm" id="register-name" placeholder="Nama Lengkap" required="" type="text">
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-3.5 text-outline-variant">mail</span>
+<input class="w-full p-3 pl-12 rounded-xl bg-surface-container-low border border-transparent focus:border-primary focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary font-body-md transition-all shadow-sm" id="register-email" placeholder="Email" required="" type="email">
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-3.5 text-outline-variant">calendar_today</span>
+<input class="w-full p-3 pl-12 rounded-xl bg-surface-container-low border border-transparent focus:border-primary focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary font-body-md text-on-surface-variant transition-all shadow-sm" id="register-dob" required="" title="Tanggal Lahir" type="date">
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-3.5 text-outline-variant">school</span>
+<select class="w-full p-3 pl-12 rounded-xl bg-surface-container-low border border-transparent focus:border-primary focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary font-body-md text-on-surface-variant transition-all shadow-sm appearance-none" id="register-education" required="">
+<option value="">Pilih Jenjang Pendidikan</option>
+<option value="smp">SMP / Sederajat</option>
+<option value="sma">SMA / Sederajat</option>
+<option value="kuliah">Perguruan Tinggi</option>
+</select>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-3.5 text-outline-variant">lock</span>
+<input class="w-full p-3 pl-12 rounded-xl bg-surface-container-low border border-transparent focus:border-primary focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary font-body-md transition-all shadow-sm" id="register-password" placeholder="Buat Password" required="" type="password">
+</div>
+<button class="mt-4 w-full py-3.5 bg-secondary text-on-secondary rounded-xl font-label-md hover:bg-secondary/90 hover:shadow-md transition-all active:scale-[0.98] flex items-center justify-center" id="register-submit" type="submit">
+<span>Daftar</span>
+</button>
+<p class="text-center text-label-md text-on-surface-variant mt-2">Sudah punya akun? <button class="text-primary font-bold hover:text-primary/80 hover:underline underline-offset-4 decoration-2 transition-all" id="show-login" type="button">Masuk</button></p>
+</form>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low w-full">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-10 max-w-container-max mx-auto gap-gutter">
+<div class="flex flex-col items-center md:items-start gap-2">
+<span class="font-headline-md text-headline-md font-bold text-primary">MindPeek</span>
+<span class="font-label-md text-label-md text-secondary">© 2024 MindPeek. Hak cipta dilindungi.</span>
+</div>
+<div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 transition-all duration-200 ease-in-out" href="#">Syarat Layanan</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 transition-all duration-200 ease-in-out" href="#">Kebijakan Privasi</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 transition-all duration-200 ease-in-out" href="#">Hubungi Kami</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 transition-all duration-200 ease-in-out" href="#">Pusat Bantuan</a>
+</div>
+</div>
+</footer>
+<script src="crypto-util.js"></script>
+    <script>
+    const API_URL = 'https://script.google.com/macros/s/AKfycby8kH8EaZjqZjtfFLkub4E6szeQo4TdIwx0TugF1UtpbzisBAy8RfGT9gZT7Wh_CtnEBw/exec';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Kalau ternyata sudah login, tidak perlu tampilkan form ini lagi
+        try {
+            const existingRaw = localStorage.getItem('sp_user');
+            const existing = await MPCrypto.decryptFromStorage(existingRaw);
+            if (existing) {
+                window.location.href = 'main_revisi_uy.html';
+                return;
+            }
+        } catch (e) { /* localStorage tidak tersedia (mis. pratinjau Claude) */ }
+
+        // Prefetch handshake DH di background supaya submit form login/register
+        // tidak perlu menunggu round-trip handshake lagi (tidak memblokir UI).
+        MPCrypto.ensureSession(API_URL).catch((e) => console.warn('[MindPeek] Prefetch handshake DH gagal (akan dicoba lagi saat submit):', e));
+
+        // Floating nav on scroll — identical behaviour to the main page
+        const topNav = document.getElementById('top-nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 60) {
+                topNav.classList.add('is-floating');
+            } else {
+                topNav.classList.remove('is-floating');
+            }
+        });
+
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const showRegisterBtn = document.getElementById('show-register');
+        const showLoginBtn = document.getElementById('show-login');
+        const navRegisterBtn = document.getElementById('nav-register-btn');
+        const navLoginBtn = document.getElementById('nav-login-btn');
+        const modalTitle = document.getElementById('modal-title');
+        const feedbackEl = document.getElementById('form-feedback');
+
+        function setNavActive(target) {
+            if (target === 'login') {
+                navLoginBtn.className = 'px-6 py-2 rounded-full font-label-md text-label-md transition-all duration-300 active:scale-95 shadow-sm soft-shadow bg-primary text-on-primary hover:bg-primary/90';
+                navRegisterBtn.className = 'px-6 py-2 rounded-full font-label-md text-label-md transition-all duration-300 active:scale-95 border border-primary text-primary hover:bg-primary/5';
+            } else {
+                navRegisterBtn.className = 'px-6 py-2 rounded-full font-label-md text-label-md transition-all duration-300 active:scale-95 shadow-sm soft-shadow bg-secondary text-on-secondary hover:bg-secondary/90';
+                navLoginBtn.className = 'px-6 py-2 rounded-full font-label-md text-label-md transition-all duration-300 active:scale-95 border border-secondary text-secondary hover:bg-secondary/5';
+            }
+        }
+
+        function showLogin() {
+            registerForm.classList.remove('form-active');
+            registerForm.classList.add('form-hidden');
+            loginForm.classList.remove('form-hidden');
+            loginForm.classList.add('form-active');
+            modalTitle.textContent = 'Masuk ke MindPeek';
+            modalTitle.className = 'font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight transition-colors duration-300';
+            setNavActive('login');
+        }
+
+        function showRegister() {
+            loginForm.classList.remove('form-active');
+            loginForm.classList.add('form-hidden');
+            registerForm.classList.remove('form-hidden');
+            registerForm.classList.add('form-active');
+            modalTitle.textContent = 'Daftar MindPeek';
+            modalTitle.className = 'font-headline-lg-mobile text-headline-lg-mobile text-secondary tracking-tight transition-colors duration-300';
+            setNavActive('register');
+        }
+
+        function toggleForms() {
+            feedbackEl.classList.add('hidden');
+            feedbackEl.className = 'hidden mb-4 p-3 rounded-xl text-center font-label-md transition-all duration-300';
+
+            const isLoginVisible = loginForm.classList.contains('form-active');
+            if (isLoginVisible) {
+                showRegister();
+            } else {
+                showLogin();
+            }
+        }
+
+        showRegisterBtn.addEventListener('click', toggleForms);
+        showLoginBtn.addEventListener('click', toggleForms);
+        navRegisterBtn.addEventListener('click', () => {
+            feedbackEl.classList.add('hidden');
+            showRegister();
+        });
+        navLoginBtn.addEventListener('click', () => {
+            feedbackEl.classList.add('hidden');
+            showLogin();
+        });
+
+        // Handle initial state from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('state') === 'register' || window.location.hash === '#register') {
+            showRegister();
+        } else {
+            setNavActive('login');
+        }
+
+        function showFeedback(message, type) {
+            feedbackEl.textContent = message;
+            feedbackEl.classList.remove('hidden', 'bg-error-container', 'text-on-error-container', 'bg-primary-container', 'text-on-primary-container', 'bg-surface-container', 'text-on-surface');
+
+            if (type === 'success') {
+                feedbackEl.classList.add('bg-primary-container', 'text-on-primary-container');
+            } else if (type === 'error') {
+                feedbackEl.classList.add('bg-error-container', 'text-on-error-container');
+            } else {
+                feedbackEl.classList.add('bg-surface-container', 'text-on-surface');
+            }
+        }
+
+        function setLoading(btn, isLoading, originalText) {
+            if (isLoading) {
+                btn.disabled = true;
+                btn.innerHTML = `<span class="loader"></span> Memuat...`;
+                btn.classList.add('opacity-80', 'cursor-not-allowed');
+            } else {
+                btn.disabled = false;
+                btn.innerHTML = `<span>${originalText}</span>`;
+                btn.classList.remove('opacity-80', 'cursor-not-allowed');
+            }
+        }
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+
+            if (!email || !password) {
+                showFeedback('Mohon lengkapi semua kolom.', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('login-submit');
+            setLoading(btn, true, 'Masuk');
+            feedbackEl.classList.add('hidden');
+
+            MPCrypto.secureFetch(API_URL, 'login', { email, password })
+                .then(async (result) => {
+                    setLoading(btn, false, 'Masuk');
+                    if (result.success) {
+                        // Kalau akun yang login sekarang berbeda dari akun terakhir di browser
+                        // ini, bersihkan sisa data tes lokal (progres/hasil PHQ-9, PSS-10, SVS)
+                        // supaya TIDAK ikut terbawa/tertampil ke akun yang baru login.
+                        try {
+                            const prevUserRaw = localStorage.getItem('sp_user');
+                            const prevUser = await MPCrypto.decryptFromStorage(prevUserRaw);
+                            const prevEmail = prevUser && prevUser.email ? prevUser.email.toLowerCase() : null;
+                            const newEmail = result.user && result.user.email ? result.user.email.toLowerCase() : null;
+                            if (prevEmail !== newEmail) {
+                                ['sp_test_phq9', 'sp_test_pss10', 'sp_test_svs', 'sp_test_final'].forEach((k) => localStorage.removeItem(k));
+                            }
+                        } catch (e) { /* abaikan */ }
+
+                        // Simpan status login untuk dibaca halaman lain (nav "Hi, {nama}", dsb.)
+                        try {
+                            localStorage.setItem('sp_user', await MPCrypto.encryptForStorage(result.user));
+                        } catch (e) { /* localStorage tidak tersedia (mis. pratinjau Claude) */ }
+                        showFeedback('Login berhasil! Mengalihkan...', 'success');
+                        setTimeout(() => {
+                            window.location.href = 'main_revisi_uy.html';
+                        }, 1200);
+                    } else {
+                        showFeedback(result.message || 'Email atau password salah.', 'error');
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                    setLoading(btn, false, 'Masuk');
+                    showFeedback('Gagal terhubung ke server. Periksa koneksi atau URL API.', 'error');
+                });
+        });
+
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value.trim();
+            const email = document.getElementById('register-email').value.trim();
+            const dob = document.getElementById('register-dob').value.trim();
+            const education = document.getElementById('register-education').value.trim();
+            const password = document.getElementById('register-password').value.trim();
+
+            if (!name || !email || !dob || !education || !password) {
+                showFeedback('Mohon lengkapi semua kolom.', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('register-submit');
+            setLoading(btn, true, 'Daftar');
+            feedbackEl.classList.add('hidden');
+
+            MPCrypto.secureFetch(API_URL, 'register', { name, email, dob, education, password })
+                .then((result) => {
+                    setLoading(btn, false, 'Daftar');
+                    if (result.success) {
+                        showFeedback('Registrasi berhasil! Silakan masuk.', 'success');
+                        registerForm.reset();
+                        setTimeout(() => {
+                            showLogin();
+                        }, 2000);
+                    } else {
+                        showFeedback(result.message || 'Registrasi gagal. Coba lagi.', 'error');
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                    setLoading(btn, false, 'Daftar');
+                    showFeedback('Gagal terhubung ke server. Periksa koneksi atau URL API.', 'error');
+                });
+        });
+    });
+    </script>
+
+
+</body></html>
