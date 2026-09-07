@@ -212,7 +212,7 @@
 <input class="w-full p-3 pl-12 rounded-xl bg-surface-container-low border border-transparent focus:border-primary focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary font-body-md transition-all shadow-sm" id="login-password" placeholder="Password" required="" type="password">
 </div>
 <button class="mt-4 w-full py-3.5 bg-primary text-on-primary rounded-xl font-label-md hover:bg-primary/90 hover:shadow-md transition-all active:scale-[0.98] flex items-center justify-center" id="login-submit" type="submit">
-<span>Sign In</span>
+<span>Masuk</span>
 </button>
 <p class="text-center text-label-md text-on-surface-variant mt-2">Belum punya akun? <button class="text-secondary font-bold hover:text-secondary/80 hover:underline underline-offset-4 decoration-2 transition-all" id="show-register" type="button">Daftar</button></p>
 </form>
@@ -244,7 +244,7 @@
 <input class="w-full p-3 pl-12 rounded-xl bg-surface-container-low border border-transparent focus:border-primary focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary font-body-md transition-all shadow-sm" id="register-password" placeholder="Buat Password" required="" type="password">
 </div>
 <button class="mt-4 w-full py-3.5 bg-secondary text-on-secondary rounded-xl font-label-md hover:bg-secondary/90 hover:shadow-md transition-all active:scale-[0.98] flex items-center justify-center" id="register-submit" type="submit">
-<span>Sign Up</span>
+<span>Daftar</span>
 </button>
 <p class="text-center text-label-md text-on-surface-variant mt-2">Sudah punya akun? <button class="text-primary font-bold hover:text-primary/80 hover:underline underline-offset-4 decoration-2 transition-all" id="show-login" type="button">Masuk</button></p>
 </form>
@@ -256,13 +256,13 @@
 <div class="flex flex-col md:flex-row justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-10 max-w-container-max mx-auto gap-gutter">
 <div class="flex flex-col items-center md:items-start gap-2">
 <span class="font-headline-md text-headline-md font-bold text-primary">MindPeek</span>
-<span class="font-label-md text-label-md text-secondary">© 2024 MindPeek. All rights reserved.</span>
+<span class="font-label-md text-label-md text-secondary">© 2024 MindPeek. Hak cipta dilindungi.</span>
 </div>
 <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
-<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 transition-all duration-200 ease-in-out" href="#">Terms of Service</a>
-<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 transition-all duration-200 ease-in-out" href="#">Privacy Policy</a>
-<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 transition-all duration-200 ease-in-out" href="#">Contact Us</a>
-<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 transition-all duration-200 ease-in-out" href="#">Help Center</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 transition-all duration-200 ease-in-out" href="#">Syarat Layanan</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 transition-all duration-200 ease-in-out" href="#">Kebijakan Privasi</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 transition-all duration-200 ease-in-out" href="#">Hubungi Kami</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 transition-all duration-200 ease-in-out" href="#">Pusat Bantuan</a>
 </div>
 </div>
 </footer>
@@ -375,7 +375,7 @@
         function setLoading(btn, isLoading, originalText) {
             if (isLoading) {
                 btn.disabled = true;
-                btn.innerHTML = `<span class="loader"></span> Loading...`;
+                btn.innerHTML = `<span class="loader"></span> Memuat...`;
                 btn.classList.add('opacity-80', 'cursor-not-allowed');
             } else {
                 btn.disabled = false;
@@ -390,12 +390,12 @@
             const password = document.getElementById('login-password').value.trim();
 
             if (!email || !password) {
-                showFeedback('Please fill in all fields.', 'error');
+                showFeedback('Mohon lengkapi semua kolom.', 'error');
                 return;
             }
 
             const btn = document.getElementById('login-submit');
-            setLoading(btn, true, 'Sign In');
+            setLoading(btn, true, 'Masuk');
             feedbackEl.classList.add('hidden');
 
             fetch(API_URL, {
@@ -406,7 +406,7 @@
             })
                 .then((res) => res.json())
                 .then((result) => {
-                    setLoading(btn, false, 'Sign In');
+                    setLoading(btn, false, 'Masuk');
                     if (result.success) {
                         // Kalau akun yang login sekarang berbeda dari akun terakhir di browser
                         // ini, bersihkan sisa data tes lokal (progres/hasil PHQ-9, PSS-10, SVS)
@@ -435,7 +435,7 @@
                 })
                 .catch((err) => {
                     console.error(err);
-                    setLoading(btn, false, 'Sign In');
+                    setLoading(btn, false, 'Masuk');
                     showFeedback('Gagal terhubung ke server. Periksa koneksi atau URL API.', 'error');
                 });
         });
@@ -449,12 +449,12 @@
             const password = document.getElementById('register-password').value.trim();
 
             if (!name || !email || !dob || !education || !password) {
-                showFeedback('Please fill in all fields.', 'error');
+                showFeedback('Mohon lengkapi semua kolom.', 'error');
                 return;
             }
 
             const btn = document.getElementById('register-submit');
-            setLoading(btn, true, 'Sign Up');
+            setLoading(btn, true, 'Daftar');
             feedbackEl.classList.add('hidden');
 
             fetch(API_URL, {
@@ -464,7 +464,7 @@
             })
                 .then((res) => res.json())
                 .then((result) => {
-                    setLoading(btn, false, 'Sign Up');
+                    setLoading(btn, false, 'Daftar');
                     if (result.success) {
                         showFeedback('Registrasi berhasil! Silakan masuk.', 'success');
                         registerForm.reset();
@@ -477,7 +477,7 @@
                 })
                 .catch((err) => {
                     console.error(err);
-                    setLoading(btn, false, 'Sign Up');
+                    setLoading(btn, false, 'Daftar');
                     showFeedback('Gagal terhubung ke server. Periksa koneksi atau URL API.', 'error');
                 });
         });
