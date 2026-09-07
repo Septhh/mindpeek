@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="id"><head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>SerenityPath - Deteksi Stres Remaja</title>
+<title>MindPeek - Deteksi Stres Remaja</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Quicksand:wght@600;700&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
@@ -187,7 +187,7 @@
 <nav class="bg-surface/80 backdrop-blur-xl w-full mx-auto top-0 sticky z-50 transition-all duration-300 ease-in-out border-transparent is-floating" id="top-nav">
 <div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
 <div class="flex items-center gap-4">
-<a class="font-headline-md text-headline-md font-bold text-primary" href="#">SerenityPath</a>
+<a class="font-headline-md text-headline-md font-bold text-primary" href="#">MindPeek</a>
 </div><button class="md:hidden text-primary"><span class="material-symbols-outlined text-3xl">menu</span></button>
 <div class="hidden md:flex gap-8 items-center">
 <a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md text-label-md hover:bg-primary/5 transition-all duration-300 scale-95 transition-transform duration-200" href="#">Home</a>
@@ -297,8 +297,8 @@
 <footer class="bg-surface-container-low full-width bg-surface-container-low flat no shadows">
 <div class="flex flex-col md:flex-row justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-10 max-w-container-max mx-auto gap-gutter">
 <div class="flex flex-col items-center md:items-start gap-2">
-<span class="font-headline-md text-headline-md font-bold text-primary">SerenityPath</span>
-<span class="font-label-md text-label-md text-secondary">© 2024 SerenityPath. All rights reserved.</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">MindPeek</span>
+<span class="font-label-md text-label-md text-secondary">© 2024 MindPeek. All rights reserved.</span>
 </div>
 <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
 <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 Transition-all duration-200 ease-in-out" href="#">Terms of Service</a>
@@ -378,9 +378,9 @@
         }
 
         const interpretations = [];
-        if (hasPhq9 && r.phq9Interpretation) interpretations.push('PHQ-9: ' + r.phq9Interpretation);
-        if (hasPss && r.pssInterpretation) interpretations.push('PSS-10: ' + r.pssInterpretation);
-        if (hasSvs && r.svsInterpretation) interpretations.push('SVS: ' + r.svsInterpretation);
+        if (hasPhq9 && r.phq9Interpretation) interpretations.push(r.phq9Interpretation);
+        if (hasPss && r.pssInterpretation) interpretations.push(r.pssInterpretation);
+        if (hasSvs && r.svsInterpretation) interpretations.push(r.svsInterpretation);
 
         if (interpretations.length > 0) {
             interpretationText.innerHTML = interpretations.join('<br><br>');
@@ -396,17 +396,17 @@
         try {
             const raw = localStorage.getItem('sp_test_final');
             if (!raw) {
-                console.warn('[SerenityPath] Tidak ada cadangan lokal (sp_test_final) untuk ditampilkan.');
+                console.warn('[MindPeek] Tidak ada cadangan lokal (sp_test_final) untuk ditampilkan.');
                 return;
             }
             const data = JSON.parse(raw);
 
             if (!data.email || data.email.toLowerCase() !== String(currentEmail).toLowerCase()) {
-                console.warn('[SerenityPath] Cadangan lokal ditemukan tapi milik akun lain (' + data.email + '), bukan akun yang sedang login (' + currentEmail + '). Diabaikan agar tidak salah tampil.');
+                console.warn('[MindPeek] Cadangan lokal ditemukan tapi milik akun lain (' + data.email + '), bukan akun yang sedang login (' + currentEmail + '). Diabaikan agar tidak salah tampil.');
                 return;
             }
 
-            console.log('[SerenityPath] Menampilkan hasil dari cadangan lokal (server tidak terjangkau/gagal).');
+            console.log('[MindPeek] Menampilkan hasil dari cadangan lokal (server tidak terjangkau/gagal).');
             renderResults({
                 phq9Score: data.phq9 ? data.phq9.score : null,
                 phq9Interpretation: data.phq9 ? data.phq9.interpretation : '',
@@ -415,7 +415,7 @@
                 svsScore: data.svs ? data.svs.score : null,
                 svsInterpretation: data.svs ? data.svs.interpretation : ''
             });
-        } catch (e) { console.error('[SerenityPath] Gagal membaca cadangan lokal:', e); }
+        } catch (e) { console.error('[MindPeek] Gagal membaca cadangan lokal:', e); }
     }
 
     function loadTestResults(email) {
@@ -433,16 +433,16 @@
                 // BELUM di-deploy ulang dengan kode kode.gs versi terbaru (lihat catatan
                 // di kode.gs). Kalau errornya soal parsing/HTML, biasanya izin akses
                 // deployment Apps Script belum "Anyone".
-                console.log('[SerenityPath] Respons getResults dari server:', result);
+                console.log('[MindPeek] Respons getResults dari server:', result);
                 if (result.success && result.results) {
                     renderResults(result.results);
                 } else {
-                    console.error('[SerenityPath] getResults gagal:', result && result.message);
+                    console.error('[MindPeek] getResults gagal:', result && result.message);
                     loadResultsFromLocalFallback(email);
                 }
             })
             .catch((err) => {
-                console.error('[SerenityPath] Gagal menghubungi server saat getResults (network/CORS/deploy):', err);
+                console.error('[MindPeek] Gagal menghubungi server saat getResults (network/CORS/deploy):', err);
                 loadResultsFromLocalFallback(email);
             });
     }

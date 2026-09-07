@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="id"><head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>SerenityPath - Authentication</title>
+<title>MindPeek - Authentication</title>
 <!-- Material Symbols -->
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
 <!-- Google Fonts -->
@@ -179,7 +179,7 @@
 <nav class="bg-surface/80 backdrop-blur-xl w-full mx-auto top-0 sticky z-50 transition-all duration-300 ease-in-out border-transparent is-floating" id="top-nav">
 <div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
 <div class="flex items-center gap-4">
-<a class="font-headline-md text-headline-md font-bold text-primary" href="main_revisi_uy.html">SerenityPath</a>
+<a class="font-headline-md text-headline-md font-bold text-primary" href="main_revisi_uy.html">MindPeek</a>
 </div><button class="md:hidden text-primary"><span class="material-symbols-outlined text-3xl">menu</span></button>
 <div class="hidden md:flex gap-8 items-center">
 <a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md hover:bg-primary/5 transition-all duration-300" href="main_revisi_uy.html">Home</a>
@@ -196,7 +196,7 @@
 <main class="flex-grow flex items-center justify-center py-12 px-margin-mobile relative z-20 w-full">
 <div class="glass-panel soft-shadow rounded-3xl relative overflow-hidden px-8 py-10 w-full max-w-md animate-fade-in-up">
 <div class="text-center mb-8 relative z-10">
-<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight transition-colors duration-300" id="modal-title">Masuk ke SerenityPath</h1>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight transition-colors duration-300" id="modal-title">Masuk ke MindPeek</h1>
 <p class="text-on-surface-variant mt-2 text-sm font-body-md">Masuk untuk melanjutkan.</p>
 </div>
 <div class="hidden mb-4 p-3 rounded-xl text-center font-label-md transition-all duration-300" id="form-feedback"></div>
@@ -255,8 +255,8 @@
 <footer class="bg-surface-container-low w-full">
 <div class="flex flex-col md:flex-row justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-10 max-w-container-max mx-auto gap-gutter">
 <div class="flex flex-col items-center md:items-start gap-2">
-<span class="font-headline-md text-headline-md font-bold text-primary">SerenityPath</span>
-<span class="font-label-md text-label-md text-secondary">© 2024 SerenityPath. All rights reserved.</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">MindPeek</span>
+<span class="font-label-md text-label-md text-secondary">© 2024 MindPeek. All rights reserved.</span>
 </div>
 <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
 <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 transition-all duration-200 ease-in-out" href="#">Terms of Service</a>
@@ -313,7 +313,7 @@
             registerForm.classList.add('form-hidden');
             loginForm.classList.remove('form-hidden');
             loginForm.classList.add('form-active');
-            modalTitle.textContent = 'Masuk ke SerenityPath';
+            modalTitle.textContent = 'Masuk ke MindPeek';
             modalTitle.className = 'font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight transition-colors duration-300';
             setNavActive('login');
         }
@@ -323,7 +323,7 @@
             loginForm.classList.add('form-hidden');
             registerForm.classList.remove('form-hidden');
             registerForm.classList.add('form-active');
-            modalTitle.textContent = 'Daftar SerenityPath';
+            modalTitle.textContent = 'Daftar MindPeek';
             modalTitle.className = 'font-headline-lg-mobile text-headline-lg-mobile text-secondary tracking-tight transition-colors duration-300';
             setNavActive('register');
         }

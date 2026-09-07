@@ -11,7 +11,7 @@
     })();
 </script>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>SerenityPath - Tes Stres</title>
+<title>MindPeek - Tes Stres</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Quicksand:wght@600;700&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
@@ -241,7 +241,7 @@
 <nav class="bg-surface/80 backdrop-blur-xl w-full mx-auto top-0 sticky z-50 transition-all duration-300 ease-in-out border-transparent is-floating" id="top-nav">
 <div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
 <div class="flex items-center gap-4">
-<a class="font-headline-md text-headline-md font-bold text-primary" href="main_revisi_uy.html">SerenityPath</a>
+<a class="font-headline-md text-headline-md font-bold text-primary" href="main_revisi_uy.html">MindPeek</a>
 </div>
 <div class="hidden md:flex gap-8 items-center">
 <a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md hover:bg-primary/5 transition-all duration-300" href="main_revisi_uy.html">Home</a>
@@ -370,8 +370,8 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
 <footer class="bg-surface-container-low w-full mt-20">
 <div class="flex flex-col md:flex-row justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-10 max-w-container-max mx-auto gap-gutter">
 <div class="flex flex-col items-center md:items-start gap-2">
-<span class="font-headline-md text-headline-md font-bold text-primary">SerenityPath</span>
-<span class="font-label-md text-label-md text-secondary">© 2024 SerenityPath. All rights reserved.</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">MindPeek</span>
+<span class="font-label-md text-label-md text-secondary">© 2024 MindPeek. All rights reserved.</span>
 </div>
 <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
 <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary underline decoration-2 underline-offset-4 transition-all duration-200 ease-in-out" href="#">Terms of Service</a>
@@ -604,11 +604,11 @@ Lanjut <span class="material-symbols-outlined">arrow_forward</span>
 
     /* ---------- Interpretasi skor PHQ-9 (disimpan untuk hasil akhir nanti setelah SVS selesai) ---------- */
     function interpretPHQ9(score) {
-        if (score <= 4) return 'Minimal / tidak ada depresi';
-        if (score <= 9) return 'Depresi ringan';
-        if (score <= 14) return 'Depresi sedang';
-        if (score <= 19) return 'Depresi cukup berat';
-        return 'Depresi berat';
+        if (score <= 4) return 'Responsmu menunjukkan gejala yang sangat minim akhir-akhir ini — secara umum kamu tampak dalam kondisi yang cukup baik.';
+        if (score <= 9) return 'Responsmu mengindikasikan adanya beberapa gejala ringan akhir-akhir ini, yang mungkin wajar dialami sesekali.';
+        if (score <= 14) return 'Responsmu mengindikasikan gejala pada tingkat yang cukup terasa, dan bisa jadi baik untuk mulai diperhatikan.';
+        if (score <= 19) return 'Responsmu menunjukkan gejala yang cukup terasa dan cukup sering — ada baiknya kamu berbicara dengan seseorang yang kamu percaya atau tenaga profesional.';
+        return 'Responsmu mengindikasikan gejala pada tingkat yang berat dan cukup sering dialami — sangat dianjurkan untuk berbicara dengan tenaga profesional secepatnya.';
     }
 
     function finishTest() {
